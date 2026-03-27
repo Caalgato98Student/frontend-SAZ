@@ -1,0 +1,170 @@
+:root {
+  --bg-dark: #081226;
+  --bg-dark-2: #0f1e3c;
+  --surface: #ffffff;
+  --surface-alt: #f3f6fb;
+  --text-main: #14213d;
+  --text-light: #e8efff;
+  --accent: #4db6ff;
+  --accent-2: #7dd3fc;
+  --border-soft: #dce3ef;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: var(--text-main);
+  background: #f8fafc;
+}
+
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 16px;
+  background: #fff;
+  border: 1px solid #000;
+  padding: 0.5rem 0.75rem;
+  z-index: 1100;
+}
+
+.skip-link:focus {
+  top: 12px;
+}
+
+.topbar {
+  background: #ffffff;
+}
+
+.topbar-link {
+  color: #2c3e67;
+  text-decoration: none;
+  font-size: 0.92rem;
+}
+
+.topbar-link:hover,
+.topbar-link:focus-visible {
+  color: var(--accent);
+}
+
+.surface-nav {
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(6px);
+}
+
+.hero-section {
+  color: var(--text-light);
+  background: radial-gradient(circle at 15% 20%, #18356a, var(--bg-dark));
+}
+
+.text-accent {
+  color: var(--accent-2);
+  letter-spacing: 0.08em;
+  font-weight: 600;
+}
+
+.section-title {
+  font-weight: 700;
+  color: #0f1e3c;
+}
+
+.section-alt {
+  background: var(--surface-alt);
+}
+
+.surface-card {
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: 1rem;
+  padding: 1rem;
+  box-shadow: 0 8px 18px rgba(5, 20, 50, 0.06);
+}
+
+.placeholder-image {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  border: 2px dashed #8fb3d9;
+  border-radius: 0.75rem;
+  color: #1f3f72;
+  text-align: center;
+  font-weight: 600;
+  background: linear-gradient(135deg, #e8f3ff, #d7e8fb);
+  padding: 0.5rem;
+}
+
+.placeholder-hero {
+  aspect-ratio: 16 / 9;
+  min-height: 220px;
+}
+
+.placeholder-card {
+  aspect-ratio: 4 / 3;
+}
+
+.placeholder-mini {
+  aspect-ratio: 3 / 2;
+}
+
+.news-date {
+  font-size: 0.88rem;
+  color: #55729f;
+  font-weight: 600;
+}
+
+.link-accent {
+  color: #0b5ed7;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.link-accent:hover,
+.link-accent:focus-visible {
+  text-decoration: underline;
+}
+
+.notice-box {
+  background: #eaf3ff;
+  border: 1px solid #bfd7ff;
+  color: #103668;
+}
+
+footer {
+  background: linear-gradient(180deg, var(--bg-dark-2), #09162e);
+  color: var(--text-light);
+}
+
+.footer-link {
+  color: #cfe2ff;
+  text-decoration: none;
+}
+
+.footer-link:hover,
+.footer-link:focus-visible {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+.scroll-top-btn {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  display: none;
+  z-index: 1040;
+}
+
+.scroll-top-btn.show {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 575.98px) {
+  .hero-section .display-5 {
+    font-size: 1.8rem;
+  }
+}
