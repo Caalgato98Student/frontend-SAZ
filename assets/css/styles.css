@@ -16,7 +16,7 @@ html {
 
 body {
   color: var(--text-main);
-  background: #f8fafc;
+  background: #f8fafc url("../img/fondo-luna.jpg") center/cover no-repeat fixed;
 }
 
 .skip-link {
@@ -55,7 +55,7 @@ body {
 
 .hero-section {
   color: var(--text-light);
-  background: radial-gradient(circle at 15% 20%, #18356a, var(--bg-dark));
+  background: radial-gradient(circle at 15% 20%, rgba(24, 53, 106, 0.9), rgba(8, 18, 38, 0.9));
 }
 
 .text-accent {
@@ -66,15 +66,20 @@ body {
 
 .section-title {
   font-weight: 700;
+  color: #ffffff;
+}
+
+.section-alt .section-title,
+.surface-card .section-title {
   color: #0f1e3c;
 }
 
 .section-alt {
-  background: var(--surface-alt);
+  background: rgba(243, 246, 251, 0.9);
 }
 
 .surface-card {
-  background: var(--surface);
+  background: rgba(255, 255, 255, 0.92);
   border: 1px solid var(--border-soft);
   border-radius: 1rem;
   padding: 1rem;
