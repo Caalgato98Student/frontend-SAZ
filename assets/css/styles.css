@@ -16,7 +16,7 @@ html {
 
 body {
   color: var(--text-main);
-  background: #f8fafc url("../img/fondo-luna.jpg") center/cover no-repeat fixed;
+  background: #ffffff;
 }
 
 .skip-link {
