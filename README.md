@@ -2,6 +2,9 @@
 
 Sitio web de la Sociedad Astronomica de Zacatecas.
 
+## Requisitos:  
+- PHP instalado
+
 ## Ejecucion local
 
 ```bash
