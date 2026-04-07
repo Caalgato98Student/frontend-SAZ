@@ -1,0 +1,22 @@
+{
+  "titulo": "Noche de las Estrellas",
+  "slug": "noche-estrellas",
+  "descripcion": "Evento anual de divulgacion cientifica que se celebra simultaneamente en varias ciudades del pais. En Zacatecas, la SAZ organiza la edicion local con telescopios, charlas y actividades para todas las edades.",
+  "imagen_principal": "",
+  "ediciones": [
+    {
+      "anio": 2026,
+      "fecha": "2026-11-22",
+      "lugar": "Plaza de Armas, Centro de Zacatecas",
+      "imagen": "",
+      "resumen": "Edicion del XV Aniversario de la SAZ con mas de 20 telescopios y 5 conferencias magistrales."
+    },
+    {
+      "anio": 2025,
+      "fecha": "2025-11-29",
+      "lugar": "Explanada del Museo de Arte Abstracto",
+      "imagen": "",
+      "resumen": "Mas de 1,500 asistentes participaron en la observacion de Jupiter y Saturno."
+    }
+  ]
+}

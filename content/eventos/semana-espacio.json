@@ -1,0 +1,15 @@
+{
+  "titulo": "Semana Mundial del Espacio",
+  "slug": "semana-espacio",
+  "descripcion": "Celebracion internacional declarada por la ONU (4 al 10 de octubre) para difundir los beneficios de la exploracion espacial. La SAZ organiza actividades durante toda la semana.",
+  "imagen_principal": "",
+  "ediciones": [
+    {
+      "anio": 2026,
+      "fecha": "2026-10-04",
+      "lugar": "Museo de Ciencias de Zacatecas",
+      "imagen": "",
+      "resumen": "Programa de charlas, proyecciones y observacion nocturna durante toda la semana."
+    }
+  ]
+}

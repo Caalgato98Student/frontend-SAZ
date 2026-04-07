@@ -1,3 +1,38 @@
+/* ============================================================
+   assets/css/styles.css
+   Hoja de estilos personalizada — Sociedad Astronómica de Zacatecas
+   ============================================================
+
+   CONTENIDO:
+   1. Variables de color y tipografía (modo claro)
+   2. Variables de modo oscuro
+   3. Base y tipografía
+   4. Skip link (accesibilidad)
+   5. Topbar
+   6. Navbar / Surface de navegación
+   7. Hero
+   8. Títulos de sección y acentos
+   9. Secciones alternadas
+  10. Surface cards
+  11. Placeholders de imagen
+  12. Fechas de noticias
+  13. Links con acento
+  14. Aviso / notice box
+  15. Footer
+  16. Botón scroll-to-top
+  17. Tarjetas de miembro (foto circular)
+  18. Convocatorias activas/inactivas
+  19. Card hover
+  20. Responsive
+   ============================================================ */
+
+
+/* ─────────────────────────────────────────────────────────────
+   1. VARIABLES DE COLOR Y TIPOGRAFÍA — MODO CLARO
+   Para personalizar la paleta, modifica estos valores.
+   Los colores están basados en el logo de la SAZ
+   (azul profundo + acentos celestes).
+   ───────────────────────────────────────────────────────────── */
 :root {
   --bg-dark: #081226;
   --bg-dark-2: #0f1e3c;
@@ -8,17 +43,108 @@
   --accent: #4db6ff;
   --accent-2: #7dd3fc;
   --border-soft: #dce3ef;
+  --font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
+
+/* ─────────────────────────────────────────────────────────────
+   2. VARIABLES DE MODO OSCURO
+   Bootstrap 5.3 aplica [data-bs-theme="dark"] en <html>.
+   Aquí sobreescribimos nuestras variables custom.
+   ───────────────────────────────────────────────────────────── */
+[data-bs-theme="dark"] {
+  --surface: #15202b;
+  --surface-alt: #1a2a3a;
+  --text-main: #e0e8f5;
+  --border-soft: #2a3a4e;
+}
+
+[data-bs-theme="dark"] body {
+  background: #0d1520;
+  color: var(--text-main);
+}
+
+[data-bs-theme="dark"] .topbar {
+  background: #0f1a2a;
+}
+
+[data-bs-theme="dark"] .topbar-link {
+  color: #b0c4de;
+}
+
+[data-bs-theme="dark"] .surface-nav {
+  background: rgba(15, 26, 42, 0.96);
+}
+
+[data-bs-theme="dark"] .surface-card {
+  background: rgba(21, 32, 43, 0.95);
+  border-color: var(--border-soft);
+}
+
+[data-bs-theme="dark"] .section-alt {
+  background: rgba(20, 30, 45, 0.9);
+}
+
+[data-bs-theme="dark"] .section-title {
+  color: #e0e8f5;
+}
+
+[data-bs-theme="dark"] .section-alt .section-title,
+[data-bs-theme="dark"] .surface-card .section-title {
+  color: #e0e8f5;
+}
+
+[data-bs-theme="dark"] .news-date {
+  color: #7da7cc;
+}
+
+[data-bs-theme="dark"] .placeholder-image {
+  background: linear-gradient(135deg, #1a2a3a, #15202b);
+  border-color: #2a3a4e;
+  color: #7da7cc;
+}
+
+[data-bs-theme="dark"] .link-accent {
+  color: var(--accent);
+}
+
+[data-bs-theme="dark"] .notice-box {
+  background: #1a2a3a;
+  border-color: #2a4060;
+  color: #b0c4de;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   3. BASE Y TIPOGRAFÍA
+   Fuente principal: Inter (Google Fonts).
+   Para cambiar la fuente, modifique --font-family arriba
+   y el link en base.php.
+   ───────────────────────────────────────────────────────────── */
 html {
   scroll-behavior: smooth;
 }
 
 body {
+  font-family: var(--font-family);
   color: var(--text-main);
-  background: #ffffff;
+  background: rgba(243, 246, 251, 0.9);
+  /* Sticky footer: el body ocupa al menos toda la pantalla */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
+/* El main crece para empujar el footer al fondo */
+#contenido-principal {
+  flex: 1;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   4. SKIP LINK (ACCESIBILIDAD)
+   Enlace oculto que aparece al presionar Tab.
+   ───────────────────────────────────────────────────────────── */
 .skip-link {
   position: absolute;
   top: -40px;
@@ -33,6 +159,12 @@ body {
   top: 12px;
 }
 
+
+/* ─────────────────────────────────────────────────────────────
+   5. TOPBAR
+   Barra superior con accesos rápidos (Quiénes somos,
+   Suscribirse, Contacto, LavNet).
+   ───────────────────────────────────────────────────────────── */
 .topbar {
   background: #ffffff;
 }
@@ -40,7 +172,9 @@ body {
 .topbar-link {
   color: #2c3e67;
   text-decoration: none;
-  font-size: 0.92rem;
+  font-size: 0.88rem;
+  font-weight: 500;
+  transition: color 0.2s ease;
 }
 
 .topbar-link:hover,
@@ -48,16 +182,31 @@ body {
   color: var(--accent);
 }
 
+
+/* ─────────────────────────────────────────────────────────────
+   6. NAVBAR / SURFACE DE NAVEGACIÓN
+   Barra sticky con glassmorphism (blur + transparencia).
+   ───────────────────────────────────────────────────────────── */
 .surface-nav {
   background: rgba(255, 255, 255, 0.96);
   backdrop-filter: blur(6px);
 }
 
+
+/* ─────────────────────────────────────────────────────────────
+   7. HERO
+   Sección principal con gradiente radial oscuro y texto claro.
+   Para cambiar la imagen de fondo, agregue background-image.
+   ───────────────────────────────────────────────────────────── */
 .hero-section {
   color: var(--text-light);
   background: radial-gradient(circle at 15% 20%, rgba(24, 53, 106, 0.9), rgba(8, 18, 38, 0.9));
 }
 
+
+/* ─────────────────────────────────────────────────────────────
+   8. TÍTULOS DE SECCIÓN Y ACENTOS
+   ───────────────────────────────────────────────────────────── */
 .text-accent {
   color: var(--accent-2);
   letter-spacing: 0.08em;
@@ -66,7 +215,7 @@ body {
 
 .section-title {
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-main);
 }
 
 .section-alt .section-title,
@@ -74,18 +223,37 @@ body {
   color: #0f1e3c;
 }
 
+
+/* ─────────────────────────────────────────────────────────────
+   9. SECCIONES ALTERNADAS
+   Fondo ligeramente diferente para alternar visualmente
+   entre secciones contiguas.
+   ───────────────────────────────────────────────────────────── */
 .section-alt {
   background: rgba(243, 246, 251, 0.9);
 }
 
+
+/* ─────────────────────────────────────────────────────────────
+  10. SURFACE CARDS
+   Tarjetas con borde suave, sombra sutil y esquinas redondeadas.
+   Son el componente visual principal para agrupar contenido.
+   ───────────────────────────────────────────────────────────── */
 .surface-card {
   background: rgba(255, 255, 255, 0.92);
   border: 1px solid var(--border-soft);
   border-radius: 1rem;
-  padding: 1rem;
+  padding: 1.25rem;
   box-shadow: 0 8px 18px rgba(5, 20, 50, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+
+/* ─────────────────────────────────────────────────────────────
+  11. PLACEHOLDERS DE IMAGEN
+   Componentes visuales que indican dónde irá una imagen.
+   Tres tamaños: hero (16:9), card (4:3), mini (3:2).
+   ───────────────────────────────────────────────────────────── */
 .placeholder-image {
   display: grid;
   place-items: center;
@@ -112,16 +280,27 @@ body {
   aspect-ratio: 3 / 2;
 }
 
+
+/* ─────────────────────────────────────────────────────────────
+  12. FECHAS DE NOTICIAS
+   Formato compacto con color diferenciado para meta-datos.
+   ───────────────────────────────────────────────────────────── */
 .news-date {
-  font-size: 0.88rem;
+  font-size: 0.85rem;
   color: #55729f;
   font-weight: 600;
 }
 
+
+/* ─────────────────────────────────────────────────────────────
+  13. LINKS CON ACENTO
+   Para enlaces destacados (ver más, ver todas, etc.).
+   ───────────────────────────────────────────────────────────── */
 .link-accent {
   color: #0b5ed7;
   text-decoration: none;
   font-weight: 600;
+  transition: color 0.2s ease;
 }
 
 .link-accent:hover,
@@ -129,12 +308,26 @@ body {
   text-decoration: underline;
 }
 
+[data-bs-theme="dark"] .link-accent:hover {
+  color: var(--accent-2);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+  14. AVISO / NOTICE BOX
+   Para alertas institucionales o mensajes informativos.
+   ───────────────────────────────────────────────────────────── */
 .notice-box {
   background: #eaf3ff;
   border: 1px solid #bfd7ff;
   color: #103668;
 }
 
+
+/* ─────────────────────────────────────────────────────────────
+  15. FOOTER
+   Gradiente oscuro con texto claro.
+   ───────────────────────────────────────────────────────────── */
 footer {
   background: linear-gradient(180deg, var(--bg-dark-2), #09162e);
   color: var(--text-light);
@@ -143,6 +336,7 @@ footer {
 .footer-link {
   color: #cfe2ff;
   text-decoration: none;
+  transition: color 0.2s ease;
 }
 
 .footer-link:hover,
@@ -151,6 +345,11 @@ footer {
   text-decoration: underline;
 }
 
+
+/* ─────────────────────────────────────────────────────────────
+  16. BOTÓN SCROLL-TO-TOP
+   Flotante fijo en esquina inferior derecha.
+   ───────────────────────────────────────────────────────────── */
 .scroll-top-btn {
   position: fixed;
   right: 16px;
@@ -168,8 +367,130 @@ footer {
   justify-content: center;
 }
 
+
+/* ─────────────────────────────────────────────────────────────
+  17. TARJETAS DE MIEMBRO (FOTO CIRCULAR)
+   Placeholder circular para foto de perfil de miembros.
+   Tres tamaños: estándar, grande (perfil individual), pequeño.
+   ───────────────────────────────────────────────────────────── */
+.member-photo-placeholder {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #e8f3ff, #d7e8fb);
+  border: 2px dashed #8fb3d9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: #1f3f72;
+}
+
+.member-photo-placeholder-lg {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #e8f3ff, #d7e8fb);
+  border: 3px dashed #8fb3d9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3.5rem;
+  color: #1f3f72;
+}
+
+.member-photo-placeholder-sm {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #e8f3ff, #d7e8fb);
+  border: 2px dashed #8fb3d9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 1.3rem;
+  color: #1f3f72;
+}
+
+[data-bs-theme="dark"] .member-photo-placeholder,
+[data-bs-theme="dark"] .member-photo-placeholder-lg,
+[data-bs-theme="dark"] .member-photo-placeholder-sm {
+  background: linear-gradient(135deg, #1a2a3a, #15202b);
+  border-color: #2a3a4e;
+  color: #7da7cc;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+  18. CONVOCATORIAS ACTIVAS / INACTIVAS
+   Estilo visual diferenciado para estado de convocatorias.
+   ───────────────────────────────────────────────────────────── */
+.convocatoria-activa {
+  border-left: 4px solid #198754;
+}
+
+.convocatoria-inactiva {
+  border-left: 4px solid #adb5bd;
+  opacity: 0.75;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+  19. CARD HOVER
+   Efecto sutil de elevación al pasar el cursor.
+   Aplicar la clase .card-hover a cualquier .surface-card.
+   ───────────────────────────────────────────────────────────── */
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(5, 20, 50, 0.12);
+}
+
+.card-hover {
+  cursor: pointer;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+  20. GALERÍA RESPONSIVE (IMAGE GRID)
+   Grid tipo masonry con CSS columns.
+   Se adapta automáticamente: 1 col (móvil), 2 col (tablet), 3 col (desktop).
+   ───────────────────────────────────────────────────────────── */
+.gallery-grid {
+  columns: 3;
+  column-gap: 1.25rem;
+}
+
+.gallery-grid-item {
+  break-inside: avoid;
+  margin-bottom: 1.25rem;
+}
+
+@media (max-width: 991.98px) {
+  .gallery-grid {
+    columns: 2;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .gallery-grid {
+    columns: 1;
+  }
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+  21. RESPONSIVE
+   Ajustes para pantallas pequeñas.
+   ───────────────────────────────────────────────────────────── */
 @media (max-width: 575.98px) {
   .hero-section .display-5 {
     font-size: 1.8rem;
+  }
+
+  .member-photo-placeholder-lg {
+    width: 100px;
+    height: 100px;
+    font-size: 2.5rem;
   }
 }
