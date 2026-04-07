@@ -1,6 +1,6 @@
 # frontend-SAZ
 
-Sitio web de la Sociedad Astronomica de Zacatecas. Construido con PHP puro y Bootstrap 5.3.
+Sitio web de la Sociedad Astronomica de Zacatecas.
 
 ## Ejecucion local
 
