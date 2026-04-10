@@ -49,19 +49,24 @@ ob_start();
       <div class="col-lg-5">
         <div class="surface-card mb-4">
           <h2 class="h5 mb-3"><i class="bi bi-info-circle me-2"></i>Informacion de contacto</h2>
-          <p class="mb-2"><i class="bi bi-envelope me-2"></i><strong>Correo:</strong> contacto@saz.org.mx</p>
-          <p class="mb-2"><i class="bi bi-telephone me-2"></i><strong>Telefono:</strong> +52 492 000 0000</p>
+          <p class="mb-2"><i class="bi bi-envelope me-2"></i><strong>Correo:</strong> sazac2010@gmail.com</p>
+          <p class="mb-2"><i class="bi bi-telephone me-2"></i><strong>Telefono:</strong> 492 123 16 39 </p>
           <p class="mb-0"><i class="bi bi-geo-alt me-2"></i><strong>Direccion:</strong> Zacatecas, Zacatecas, Mexico</p>
         </div>
 
         <div class="surface-card mb-4">
-          <h2 class="h5 mb-3"><i class="bi bi-share me-2"></i>Redes sociales</h2>
-          <div class="d-flex gap-3">
-            <a href="#" class="btn btn-outline-primary" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-              <i class="bi bi-facebook me-1"></i>Facebook
+          <h2 class="h5 mb-3"><i class="bi bi-share me-2" aria-hidden="true"></i>Redes sociales</h2>
+          <div class="d-flex flex-wrap gap-3">
+            <a href="https://www.facebook.com/SAZacatecas" class="btn btn-outline-primary" target="_blank" rel="noopener noreferrer" aria-label="Visitar el Facebook de la Sociedad Astronómica de Zacatecas">
+              <i class="bi bi-facebook me-1" aria-hidden="true"></i>Facebook
             </a>
-            <a href="#" class="btn btn-outline-danger" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-              <i class="bi bi-instagram me-1"></i>Instagram
+            
+            <a href="https://www.instagram.com/sazacatecas/" class="btn btn-outline-danger" target="_blank" rel="noopener noreferrer" aria-label="Visitar el Instagram de la Sociedad Astronómica de Zacatecas">
+              <i class="bi bi-instagram me-1" aria-hidden="true"></i>Instagram
+            </a>
+
+            <a href="https://x.com/ndezacmx" class="btn btn-outline-dark" target="_blank" rel="noopener noreferrer" aria-label="Visitar el perfil de X de la Sociedad Astronómica de Zacatecas">
+              <i class="bi bi-twitter-x me-1" aria-hidden="true"></i>X
             </a>
           </div>
         </div>
