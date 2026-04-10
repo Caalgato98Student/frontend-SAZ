@@ -14,23 +14,25 @@ ob_start();
   <div class="container">
     <h1 class="section-title mb-4">Directorio</h1>
     <p class="mb-4">Informacion de contacto de los miembros y coordinadores de la Sociedad Astronomica de Zacatecas.</p>
-    <div class="table-responsive">
+    <div class="table-responsive" tabindex="0" role="group" aria-labelledby="caption-id">
       <table class="table table-striped table-hover align-middle">
+        <caption>Directorio oficial de los miembros y coordinadores de la SAZ</caption>
         <thead class="table-light">
           <tr>
-            <th>Nombre</th>
-            <th>Cargo</th>
-            <th>Especialidad</th>
-            <th>Contacto</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Cargo</th>
+              <th scope="col">Especialidad</th>
+              <th scope="col">Contacto</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td>Dr. Carlos Mendez Ramirez</td><td>Presidente</td><td>Astrofisica estelar</td><td>cmendez@saz.org.mx</td></tr>
-          <tr><td>Mtra. Ana Lucia Fernandez</td><td>Secretaria</td><td>Divulgacion cientifica</td><td>afernandez@saz.org.mx</td></tr>
-          <tr><td>Ing. Roberto Salazar Nunez</td><td>Tesorero</td><td>Instrumentacion optica</td><td>rsalazar@saz.org.mx</td></tr>
-          <tr><td>Lic. Patricia Herrera Gomez</td><td>Vocal de vinculacion</td><td>Gestion cultural</td><td>pherrera@saz.org.mx</td></tr>
-          <tr><td>Mtro. Fernando Alanis Torres</td><td>Coord. de observaciones</td><td>Astronomia observacional</td><td>falanis@saz.org.mx</td></tr>
-          <tr><td>Ing. Laura Patricia Vega</td><td>Coord. de astrofotografia</td><td>Imagen astronomica</td><td>lvega@saz.org.mx</td></tr>
+          <tr><td>M.C. Iván Santamaría Najar</td><td>Presidente</td><td>Maestro en Ciencias</td><td>sazac2010@gmail.com</td></tr>
+          <tr><td>M.C. Ciro Robles Berumen</td><td>Secretario</td><td>Maestro en Ciencias</td><td>cirorobles2405@gmail.com</td></tr>
+          <tr><td>L.E. Armando García Castillo</td><td>Tesorero</td><td>Licenciado en Economía</td><td>garcia.a.castillo@gmail.com</td></tr>
+          <tr><td>Dr. Alejandro González Sánchez</td><td>Consejo Consultivo</td><td>Doctor en Astronomía</td><td>alejandro.gonzalez@uaz.edu.mx</td></tr>
+          <tr><td>Berenice Gómez Martínez</td><td>Consejo Consultivo</td><td>Divulgadora</td><td>Berebankrobber@gmail.com</td></tr>
+          <tr><td>Ing. Víctor Alejandro Rafael Muñoz Suárez</td><td>Consejo Consultiva</td><td>Ingeniero </td><td>geovector2010@gmail.com</td></tr>
+          <tr><td>M.L.M. Corina Bobadilla Larios</td><td>Consejo de Vigilancia</td><td>Maestro en Lengua Materna</td><td>sazac2010@gmail.com</td></tr>
         </tbody>
       </table>
     </div>
