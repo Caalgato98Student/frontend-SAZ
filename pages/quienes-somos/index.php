@@ -77,7 +77,7 @@ ob_start();
 
           <div class="mt-auto">
             <button class="btn btn-outline-primary btn-sm w-100 mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseObjetivos" aria-expanded="false" aria-controls="collapseObjetivos">
-              Ver Objetivos Particulares
+              Objetivos Particulares
             </button>
             
             <div class="collapse" id="collapseObjetivos">

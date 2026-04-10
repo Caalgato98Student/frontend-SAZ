@@ -45,7 +45,7 @@ if (!$evento) {
 
     <!-- Ediciones anuales -->
     <?php if (!empty($evento['ediciones'])): ?>
-      <h2 class="h4 mb-4">Ediciones</h2>
+      <h2 class="h4 mb-4">Información</h2>
       <div class="row g-4">
         <?php foreach ($evento['ediciones'] as $ed): ?>
           <div class="col-md-6">
@@ -62,10 +62,43 @@ if (!$evento) {
                 </p>
               <?php endif; ?>
               <p class="mb-0"><?= htmlspecialchars($ed['resumen']) ?></p>
-              <?php if (!empty($ed['imagen'])): ?>
+
+              <?php if (!empty($ed['pdf'])): ?>
+                <div class="mt-4">
+                  <a href="<?= $basePath ?>assets/pdf/eventos/<?= htmlspecialchars($ed['pdf']) ?>" 
+                    target="_blank" 
+                    class="btn btn-danger d-flex align-items-center justify-content-center gap-2 mb-3">
+                    <i class="bi bi-file-earmark-pdf-fill fs-4"></i>
+                    <span>Descargar Programa Completo (PDF)</span>
+                  </a>
+
+                  <div class="d-none d-md-block">
+                    <div class="ratio ratio-16x9 border rounded shadow-sm">
+                      <embed src="<?= $basePath ?>assets/pdf/eventos/<?= htmlspecialchars($ed['pdf']) ?>" type="application/pdf" />
+                    </div>
+                    <p class="small text-muted text-center mt-2">¿No puedes ver el archivo? Usa el botón de descarga.</p>
+                  </div>
+                </div>
+              <?php endif; ?>
+
+              <?php if (!empty($ed['imagenes'])): ?>
+                <div class="row g-2 mt-3">
+                  <?php foreach ($ed['imagenes'] as $img): ?>
+                    <div class="col-sm-6">
+                      <figure class="mb-0">
+                        <img src="<?= $basePath ?>assets/img/eventos/<?= htmlspecialchars($img['archivo']) ?>"
+                            alt="<?= htmlspecialchars($img['label']) ?>"
+                            class="img-fluid rounded border shadow-sm">
+                        <figcaption class="small text-center mt-1 text-muted">
+                          <?= htmlspecialchars($img['label']) ?>
+                        </figcaption>
+                      </figure>
+                    </div>
+                  <?php endforeach; ?>
+                </div>
+              <?php elseif (!empty($ed['imagen'])): ?>
                 <img src="<?= $basePath ?>assets/img/eventos/<?= htmlspecialchars($ed['imagen']) ?>"
-                     alt="Edicion <?= htmlspecialchars($ed['anio']) ?>"
-                     class="img-fluid rounded mt-3">
+                    class="img-fluid rounded mt-3">
               <?php endif; ?>
             </div>
           </div>

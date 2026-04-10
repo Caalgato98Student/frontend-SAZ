@@ -10,7 +10,7 @@
     <div class="container d-flex flex-wrap align-items-center justify-content-between">
       <a class="navbar-brand fw-bold d-inline-flex align-items-center gap-2 mb-0" href="<?= $basePath ?>index.php">
         <img src="<?= $basePath ?>assets/img/logo-SAZ.png" alt="Logo SAZ" height="40">
-        Sociedad Astronomica de Zacatecas
+        Sociedad Astronómica de Zacatecas
       </a>
       <div class="d-flex flex-wrap gap-3">
         <a href="<?= $basePath ?>pages/quienes-somos/index.php" class="topbar-link">Quienes somos</a>
@@ -40,7 +40,7 @@
           <!-- Conócenos ▼ -->
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-              aria-expanded="false">Conocenos</a>
+              aria-expanded="false">Conócenos</a>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="<?= $basePath ?>pages/quienes-somos/directorio.php">Directorio</a></li>
               <li><a class="dropdown-item" href="<?= $basePath ?>pages/quienes-somos/mesa-directiva.php">Mesa directiva</a></li>
@@ -53,12 +53,12 @@
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
               aria-expanded="false">Eventos</a>
             <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="<?= $basePath ?>pages/eventos/semanadelaastronomia.php">Semana de la Astronomía</a></li>
               <li><a class="dropdown-item" href="<?= $basePath ?>pages/eventos/noche-estrellas.php">Noche de las Estrellas</a></li>
               <li><a class="dropdown-item" href="<?= $basePath ?>pages/eventos/semana-espacio.php">Semana Mundial del Espacio</a></li>
               <li><a class="dropdown-item" href="<?= $basePath ?>pages/eventos/maraton-messier.php">Maraton Messier</a></li>
               <li><a class="dropdown-item" href="<?= $basePath ?>pages/eventos/equinoccio.php">Equinoccio de Primavera</a></li>
               <li><a class="dropdown-item" href="<?= $basePath ?>pages/eventos/olimpiadas.php">Olimpiadas de Astronomía</a></li>
-              <li><a class="dropdown-item" href="<?= $basePath ?>pages/eventos/semanadelaastronomia.php">Semana de la Astronomía</a></li>
             </ul>
           </li>
 
@@ -94,7 +94,7 @@
             <a class="nav-link" href="<?= $basePath ?>pages/noticias/index.php">Archivo de noticias</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="<?= $basePath ?>pages/astrofotografia/index.php">Astrofotografia</a>
+            <a class="nav-link" href="<?= $basePath ?>pages/astrofotografia/index.php">Astrofotografía</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="<?= $basePath ?>pages/colaboradores/index.php">Colaboradores</a>

@@ -1,14 +1,18 @@
 {
   "titulo": "Semana de la Astronomía",
   "descripcion": "Celebramos 15 años de pasión por el cosmos con el evento de divulgación científica más importante de la región. Una semana intensiva de aprendizaje y exploración estelar.",
-  "imagen_principal": "semana-aniversario-banner.jpg",
+  "imagen_principal": "banner_SA.png",
   "ediciones": [
     {
       "anio": "2026",
       "fecha": "Del 21 al 25 de abril",
       "lugar": "Sedes: Consulta el Programa General",
       "resumen": "Nuestra edición de aniversario contará con: Conferencias Magistrales con ponentes de la UNAM, UdeG e IRyA; Talleres de ciencia práctica para niños; y Mesas Redondas de debate astronómico.",
-      "imagen": "aniversarioXV.png"
+      "pdf": "IN.PROGRAMA_XV_ANIVERSARIO_SAZ3.pdf",
+      "_imagenes": [
+        { "archivo": "InstaHOMat.png", "label": "Horario Matutino" },
+        { "archivo": "InstaHOVes.png", "label": "Horario Vespertino" }
+      ]
     }
   ]
 }
