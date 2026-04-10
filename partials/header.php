@@ -57,7 +57,8 @@
               <li><a class="dropdown-item" href="<?= $basePath ?>pages/eventos/semana-espacio.php">Semana Mundial del Espacio</a></li>
               <li><a class="dropdown-item" href="<?= $basePath ?>pages/eventos/maraton-messier.php">Maraton Messier</a></li>
               <li><a class="dropdown-item" href="<?= $basePath ?>pages/eventos/equinoccio.php">Equinoccio de Primavera</a></li>
-              <li><a class="dropdown-item" href="<?= $basePath ?>pages/eventos/olimpiadas.php">Olimpiadas de Astronomia</a></li>
+              <li><a class="dropdown-item" href="<?= $basePath ?>pages/eventos/olimpiadas.php">Olimpiadas de Astronomía</a></li>
+              <li><a class="dropdown-item" href="<?= $basePath ?>pages/eventos/semanadelaastronomia.php">Semana de la Astronomía</a></li>
             </ul>
           </li>
 
