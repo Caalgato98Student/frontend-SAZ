@@ -421,6 +421,19 @@ footer {
   color: #7da7cc;
 }
 
+/* Clase para la imagen real dentro del contenedor */
+.member-photo-img-lg {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover; /* Evita que la foto se deforme */
+  border: 3px solid #8fb3d9; /* Mismo color que tu placeholder para consistencia */
+}
+
+[data-bs-theme="dark"] .member-photo-img-lg {
+  border-color: #2a3a4e;
+}
+
 
 /* ─────────────────────────────────────────────────────────────
   18. CONVOCATORIAS ACTIVAS / INACTIVAS

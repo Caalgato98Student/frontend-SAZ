@@ -19,32 +19,24 @@ ob_start();
         <div class="surface-card h-100 text-center">
           <div class="mb-3"><i class="bi bi-person-circle text-primary" style="font-size: 3rem;"></i></div>
           <h3 class="h6">Presidencia</h3>
-          <p class="mb-1 fw-semibold">Dr. Carlos Mendez Ramirez</p>
-          <p class="text-muted small mb-0">Astrofisica estelar</p>
+          <p class="mb-1 fw-semibold">M.C. Iván Santamaría Najar</p>
+          <p class="text-muted small mb-0">Maestria en Ciencias</p>
         </div>
       </div>
       <div class="col">
         <div class="surface-card h-100 text-center">
           <div class="mb-3"><i class="bi bi-person-circle text-primary" style="font-size: 3rem;"></i></div>
-          <h3 class="h6">Secretaria</h3>
-          <p class="mb-1 fw-semibold">Mtra. Ana Lucia Fernandez</p>
-          <p class="text-muted small mb-0">Divulgacion cientifica</p>
+          <h3 class="h6">Secretaría</h3>
+          <p class="mb-1 fw-semibold">M.C. Ciro Robles Berumen</p>
+          <p class="text-muted small mb-0">Maestro en Ciencias</p>
         </div>
       </div>
       <div class="col">
         <div class="surface-card h-100 text-center">
           <div class="mb-3"><i class="bi bi-person-circle text-primary" style="font-size: 3rem;"></i></div>
-          <h3 class="h6">Tesoreria</h3>
-          <p class="mb-1 fw-semibold">Ing. Roberto Salazar Nunez</p>
-          <p class="text-muted small mb-0">Instrumentacion optica</p>
-        </div>
-      </div>
-      <div class="col">
-        <div class="surface-card h-100 text-center">
-          <div class="mb-3"><i class="bi bi-person-circle text-primary" style="font-size: 3rem;"></i></div>
-          <h3 class="h6">Vocalia</h3>
-          <p class="mb-1 fw-semibold">Lic. Patricia Herrera Gomez</p>
-          <p class="text-muted small mb-0">Gestion cultural</p>
+          <h3 class="h6">Tesorería</h3>
+          <p class="mb-1 fw-semibold">L.E. Armando García Castillo</p>
+          <p class="text-muted small mb-0">Licenciado en Economía</p>
         </div>
       </div>
     </div>
