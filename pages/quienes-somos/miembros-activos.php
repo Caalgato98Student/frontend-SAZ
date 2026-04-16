@@ -15,12 +15,14 @@ $miembros = [
         'especialidad' => 'Dinámica Galáctica, Astronomía Extragaláctica y Cosmología',
         'correo'       => 'alejandro.gonzalez@uaz.edu.mx',
         'slug'         => 'alejandro-gonzalez-sanchez',
+        'imagen'       => 'agonzalez.png'
     ],
     [
         'nombre'       => 'Pendiente',
         'especialidad' => '',
         'correo'       => '',
         'slug'         => 'ejemplo',
+        'imagen'       => 'cmendez.jpg'
     ],
 ];
 
@@ -36,9 +38,20 @@ ob_start();
       <?php foreach ($miembros as $m): ?>
         <article class="col">
           <div class="surface-card h-100 text-center">
-            <div class="member-photo-placeholder mx-auto mb-3" aria-hidden="true">
-              <i class="bi bi-person-fill"></i>
-            </div>
+
+            <div class="mx-auto mb-3">
+              <?php 
+              $fotoPath = 'assets/img/miembros/' . ($m['imagen'] ?? '');
+              if (!empty($m['imagen']) && file_exists($basePath . $fotoPath)): ?>
+                <img src="<?= $basePath . $fotoPath ?>" 
+                     alt="Foto de <?= htmlspecialchars($m['nombre']) ?>" 
+                     class="member-photo-img-sm" shadow-sm"> <?php else: ?>
+
+                <div class="member-photo-placeholder mx-auto mb-3" aria-hidden="true">
+                  <i class="bi bi-person-fill"></i>
+                </div>
+              <?php endif; ?>
+            </div>  
             
             <h2 class="h6 mb-1"><?= htmlspecialchars($m['nombre']) ?></h2>
             <p class="text-muted small mb-3"><?= htmlspecialchars($m['especialidad']) ?></p>

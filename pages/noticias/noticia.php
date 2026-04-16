@@ -72,8 +72,8 @@ ob_start();
           <p class="lead mb-4"><?= htmlspecialchars($noticia['resumen']) ?></p>
         <?php endif; ?>
 
-        <div class="surface-card">
-          <p class="mb-0"><?= nl2br(htmlspecialchars($noticia['contenido'] ?? '')) ?></p>
+        <div class="surface-card">  
+          <p class="mb-0">  <?= $noticia['contenido'] ?> </p>
         </div>
 
         <div class="mt-4">

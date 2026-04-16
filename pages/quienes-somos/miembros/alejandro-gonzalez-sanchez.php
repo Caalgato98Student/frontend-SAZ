@@ -28,7 +28,7 @@ ob_start();
             
             if (file_exists($basePath . $fotoPath)): ?>
                 <img src="<?= $basePath . $fotoPath ?>" 
-                    alt="Fotografía del <?= htmlspecialchars($m['nombre'] ?? 'Dr. Alejandro González Sánchez') ?>" 
+                    alt="Fotografía del Dr. Alejandro González Sánchez" 
                     class="member-photo-img-lg">
             <?php else: ?>
                 <div class="member-photo-placeholder-lg mx-auto" aria-hidden="true">
