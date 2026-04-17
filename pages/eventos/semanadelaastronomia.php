@@ -320,7 +320,7 @@ include __DIR__ . '/../../templates/evento.php';
                     </tr>
 
                     <tr>
-                        <td><a href="link (Talleres Dr. Juan Martínez Ortiz)" class="link-accent">Talleres</a></td>
+                        <td><a href="https://www.facebook.com/share/p/1BKg81ND6d/">Talleres</a></td>
                         <td>Dr. Juan Martínez Ortiz</td>
                         <td><span class="badge bg-primary bg-opacity-10 text-primary"><i class="bi bi-building me-1"></i>U.A. de Matemáticas</span></td>
                         <td><span class="text-nowrap">16:00 – 18:00</span></td>
@@ -427,7 +427,7 @@ include __DIR__ . '/../../templates/evento.php';
                     </tr>
 
                     <tr>
-                        <td><a href="link (Talleres y Observación Astronómica Viernes)" class="link-accent"><i class="bi bi-telescope me-1"></i>Talleres y Observación Astronómica</a></td>
+                        <td><a href="https://www.facebook.com/share/p/1BKg81ND6d/" class="link-accent"><i class="bi bi-telescope me-1"></i>Talleres y Observación Astronómica</a></td>
                         <td>Dr. Juan Martínez Ortiz · M.C. Iván Santamaría Najar</td>
                         <td>
                             <a href="https://maps.app.goo.gl/shpJHisKQVCo89pe7" target="_blank" rel="noopener noreferrer" class="text-decoration-none">
