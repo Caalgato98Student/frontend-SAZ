@@ -1,0 +1,15 @@
+{
+  "titulo": "Olimpiadas de Astronomia",
+  "slug": "olimpiadas",
+  "descripcion": "Competencia estatal de conocimientos astronomicos dirigida a estudiantes de bachillerato. Los ganadores representan a Zacatecas en la etapa nacional.",
+  "imagen_principal": "",
+  "ediciones": [
+    {
+      "anio": 2026,
+      "fecha": "2026-05-10",
+      "lugar": "Universidad Autonoma de Zacatecas",
+      "imagen": "",
+      "resumen": "Registro abierto para equipos de hasta 3 estudiantes. Incluye prueba teorica y practica."
+    }
+  ]
+}

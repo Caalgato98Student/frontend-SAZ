@@ -1,0 +1,15 @@
+{
+  "titulo": "Maraton Messier",
+  "slug": "maraton-messier",
+  "descripcion": "Reto observacional que consiste en localizar los 110 objetos del catalogo Messier en una sola noche. Se realiza tradicionalmente entre marzo y abril, cuando las condiciones de visibilidad son optimas.",
+  "imagen_principal": "",
+  "ediciones": [
+    {
+      "anio": 2026,
+      "fecha": "2026-03-21",
+      "lugar": "Cerro de la Bufa, Zacatecas",
+      "imagen": "",
+      "resumen": "Participacion de 30 observadores con registro de hasta 87 objetos localizados."
+    }
+  ]
+}

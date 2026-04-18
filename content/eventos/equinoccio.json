@@ -1,0 +1,15 @@
+{
+  "titulo": "Equinoccio de Primavera",
+  "slug": "equinoccio",
+  "descripcion": "Evento de divulgacion que marca el inicio astronomico de la primavera. Se explican los fenomenos asociados al equinoccio y se realizan observaciones solares seguras.",
+  "imagen_principal": "",
+  "ediciones": [
+    {
+      "anio": 2026,
+      "fecha": "2026-03-20",
+      "lugar": "Jardin Independencia, Zacatecas",
+      "imagen": "",
+      "resumen": "Observacion solar con filtros certificados y charla sobre el movimiento aparente del Sol."
+    }
+  ]
+}
