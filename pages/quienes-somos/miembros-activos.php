@@ -8,23 +8,22 @@ $pageTitle       = 'Miembros activos — Sociedad Astronomica de Zacatecas';
 $pageDescription = 'Conoce a los científicos, divulgadores y entusiastas que forman parte de la SAZ.';
 $basePath        = '../../';
 
-// Datos ficticios de 6 miembros
-$miembros = [
-    [
-        'nombre'       => 'Dr. Alejandro González Sánchez',
-        'especialidad' => 'Dinámica Galáctica, Astronomía Extragaláctica y Cosmología',
-        'correo'       => 'alejandro.gonzalez@uaz.edu.mx',
-        'slug'         => 'alejandro-gonzalez-sanchez',
-        'imagen'       => 'agonzalez.png'
-    ],
-    [
-        'nombre'       => 'Pendiente',
-        'especialidad' => '',
-        'correo'       => '',
-        'slug'         => 'ejemplo',
-        'imagen'       => 'cmendez.jpg'
-    ],
-];
+// Leer todos los miembros
+$miembros = [];
+$dirMiembros = __DIR__ . '/../../content/miembros/';
+if (is_dir($dirMiembros)) {
+    foreach (glob($dirMiembros . '*.json') as $archivo) {
+        $datos = json_decode(file_get_contents($archivo), true);
+        if ($datos) {
+            if (empty($datos['id'])) {
+                $datos['id'] = basename($archivo, '.json');
+            }
+            $miembros[] = $datos;
+        }
+    }
+    // Ordenar alfabéticamente por nombre
+    usort($miembros, fn($a, $b) => strcmp($a['nombre'], $b['nombre']));
+}
 
 ob_start();
 ?>
@@ -64,8 +63,8 @@ ob_start();
               </a>
             </div>
 
-            <?php if (!empty($m['slug'])): ?>
-              <a href="<?= $basePath ?>pages/quienes-somos/miembros/<?= htmlspecialchars($m['slug']) ?>.php" 
+            <?php if (!empty($m['id'])): ?>
+              <a href="<?= $basePath ?>pages/quienes-somos/miembros/<?= htmlspecialchars($m['id']) ?>.php" 
                  class="btn btn-sm btn-outline-primary"
                  aria-label="Ver perfil completo de <?= htmlspecialchars($m['nombre']) ?>">
                 Más información <i class="bi bi-arrow-right ms-1" aria-hidden="true"></i>
