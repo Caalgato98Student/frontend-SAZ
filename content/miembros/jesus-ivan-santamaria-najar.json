@@ -1,0 +1,23 @@
+{
+  "id": "jesus-ivan-santamaria-najar",
+  "nombre": "c. a Dr. Jesús Iván Santamaría Najar",
+  "especialidad": "Investigador en Clima espacial, Física Solar y Ciencias Nucleares",
+  "correo": "sannji86@gmail.com",
+  "ubicacion": "Zacatecas, México",
+  "distincion": "Candidato a Doctor en Estudios Nucleares",
+  "imagen": "ivan-santamaria.png",
+  "cv": "",
+  "perfil_detallado": {
+    "formacion": [
+      "Candidato a Doctor en Estudios Nucleares — Universidad Autónoma de Zacatecas.",
+      "Maestría en Ciencias Nucleares (Esp. Ingeniería Nuclear) — Universidad Autónoma de Zacatecas.",
+      "Ingeniería Química — Universidad Autónoma de Zacatecas."
+    ],
+    "divulgacion": [
+      "Fundador y Presidente de la Sociedad Astronómica de Zacatecas A.C.",
+      "Fundador de la Red Mexicana de Talleristas y coordinador de múltiples festivales de ciencia a nivel estatal",
+      "Autor del libro 'Física Solar: Detección de Tormentas Radioeléctricas del Sol en una banda de 20.1 MHz'."
+    ],
+    "generalidades": "Investigador especializado en rayos cósmicos y clima espacial. Ha participado en colaboraciones internacionales de alto nivel como el Observatorio HAWC de rayos gamma, proyectos de la NASA (RADIO JOVE) y la Red Latinoamericana LAVNet[cite: 95, 96, 143]."
+  }
+}

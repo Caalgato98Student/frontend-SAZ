@@ -11,8 +11,11 @@ $basePath        = '../../';
 // Leer todos los miembros
 $miembros = [];
 $dirMiembros = __DIR__ . '/../../content/miembros/';
+
 if (is_dir($dirMiembros)) {
     foreach (glob($dirMiembros . '*.json') as $archivo) {
+        if (basename($archivo) === 'ejemplo.json') continue;
+
         $datos = json_decode(file_get_contents($archivo), true);
         if ($datos) {
             if (empty($datos['id'])) {
@@ -21,7 +24,6 @@ if (is_dir($dirMiembros)) {
             $miembros[] = $datos;
         }
     }
-    // Ordenar alfabéticamente por nombre
     usort($miembros, fn($a, $b) => strcmp($a['nombre'], $b['nombre']));
 }
 
@@ -36,7 +38,7 @@ ob_start();
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
       <?php foreach ($miembros as $m): ?>
         <article class="col">
-          <div class="surface-card h-100 text-center">
+          <div class="surface-card h-100 text-center shadow-sm p-4">
 
             <div class="mx-auto mb-3">
               <?php 
@@ -44,10 +46,12 @@ ob_start();
               if (!empty($m['imagen']) && file_exists($basePath . $fotoPath)): ?>
                 <img src="<?= $basePath . $fotoPath ?>" 
                      alt="Foto de <?= htmlspecialchars($m['nombre']) ?>" 
-                     class="member-photo-img-sm" shadow-sm"> <?php else: ?>
+                     class="member-photo-img-sm shadow-sm"
+                     style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%;">
+                     <?php else: ?>
 
                 <div class="member-photo-placeholder mx-auto mb-3" aria-hidden="true">
-                  <i class="bi bi-person-fill"></i>
+                  <i class="bi bi-person-fill" style="font-size: 3rem;"></i>
                 </div>
               <?php endif; ?>
             </div>  
@@ -55,23 +59,25 @@ ob_start();
             <h2 class="h6 mb-1"><?= htmlspecialchars($m['nombre']) ?></h2>
             <p class="text-muted small mb-3"><?= htmlspecialchars($m['especialidad']) ?></p>
             
-            <div class="mb-3">
+            <div class="mb-4">
               <span class="visually-hidden">Correo electrónico: </span>
-              <a href="mailto:<?= htmlspecialchars($m['correo']) ?>" class="link-accent small">
+              <a href="mailto:<?= htmlspecialchars($m['correo']) ?>" class="link-accent small text-decoration-none">
                 <i class="bi bi-envelope me-1" aria-hidden="true"></i>
-                <?= htmlspecialchars($m['correo']) ?>
+                <?= !empty($m['correo']) ? htmlspecialchars($m['correo']) : 'contacto@sazac.com.mx' ?>
               </a>
             </div>
 
-            <?php if (!empty($m['id'])): ?>
-              <a href="<?= $basePath ?>pages/quienes-somos/miembros/<?= htmlspecialchars($m['id']) ?>.php" 
-                 class="btn btn-sm btn-outline-primary"
-                 aria-label="Ver perfil completo de <?= htmlspecialchars($m['nombre']) ?>">
-                Más información <i class="bi bi-arrow-right ms-1" aria-hidden="true"></i>
-              </a>
-            <?php else: ?>
-              <span class="text-muted small italic">Perfil en actualización</span>
-            <?php endif; ?>
+            <div class="d-grid gap-2">
+              <?php if (!empty($m['id'])): ?>
+                <a href="perfil-miembro.php?id=<?= htmlspecialchars($m['id']) ?>"
+                   class="btn btn-sm btn-outline-primary"
+                   aria-label="Ver perfil completo de <?= htmlspecialchars($m['nombre']) ?>">
+                  Más información <i class="bi bi-arrow-right ms-1" aria-hidden="true"></i>
+                </a>
+              <?php endif; ?>
+
+              
+
           </div>
         </article>
       <?php endforeach; ?>

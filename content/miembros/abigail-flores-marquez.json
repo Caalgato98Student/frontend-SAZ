@@ -1,0 +1,25 @@
+{
+  "id": "abigail-flores-marquez",
+  "nombre": "MIHE. Abigail Flores Márquez",
+  "especialidad": "Psicóloga, Investigadora y Divulgadora de la Ciencia",
+  "correo": "aby_psique@hotmail.com",
+  "ubicacion": "Zacatecas, México",
+  "distincion": "Directora de ExpoCiencias Zacatecas",
+  "imagen": "abigail-flores.png",
+  "cv": "https://orcid.org/0000-0002-0559-7550",
+  "perfil_detallado": {
+    "formacion": [
+      "Candidata a Doctora en Estudios Contemporáneos: Política Territorio y Sociedad — UAZ.",
+      "Maestra en Investigaciones Humanísticas y Educativas — UAZ.",
+      "Licenciada en Psicología — Instituto Universitario Carl Rogers de Puebla[.",
+      "Diplomados en Astronomía (SAZ) y Astrofísica (Universidad Anáhuac de Puebla)."
+    ],
+    "divulgacion": [
+      "Directora de ExpoCiencias Zacatecas y miembro activa de la Sociedad Astronómica de Zacatecas (SAZ).",
+      "Directora en México de la Asociación Educativa Global México (AEG).",
+      "Organizadora de actividades académicas y científicas a nivel nacional e internacional.",
+      "Tallerista y conferencista con enfoque en la enseñanza-aprendizaje de las ciencias."
+    ],
+    "generalidades": "Cuenta con más de 15 años de experiencia profesional. Su labor se centra en la intersección de la psicología, las neurociencias y la Astronomía, abordándolas desde la interdisciplinariedad, la didáctica y la gestión educativa comunitaria."
+  }
+}

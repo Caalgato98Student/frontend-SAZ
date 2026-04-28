@@ -3,6 +3,21 @@
   "nombre": "Dr. Alejandro González Sánchez",
   "especialidad": "Dinámica Galáctica, Astronomía Extragaláctica y Cosmología",
   "correo": "alejandro.gonzalez@uaz.edu.mx",
+  "ubicacion": "Zacatecas, México",
+  "distincion": "SNI Nivel I",
   "imagen": "agonzalez.png",
-  "cv": ""
+  "cv": "https://lumat.uaz.edu.mx/alejandro-gonzalez/",
+  "perfil_detallado": {
+    "formacion": [
+      "Doctor en Astrofísica — Universidad de Sussex, Inglaterra.",
+      "Maestría en Física — Facultad de Ciencias, UNAM.",
+      "Licenciatura en Física — Facultad de Ciencias, UNAM."
+    ],
+    "divulgacion": [
+      "Cofundador de la SAZAC y organizador de 15 ediciones de la Noche de las Estrellas en Zacatecas.",
+      "Líder nacional en Olimpiadas de Astronomía y responsable de proyectos SECIHTI-CONACYT.",
+      "Autor de más de <b>150 artículos</b> de divulgación científica en medios impresos."
+    ],
+    "generalidades": "<p>Especialista en Dinámica Galáctica y Cosmología. Su trabajo actual se centra en la estructura filamentaria del Universo, el estudio de la materia obscura y la evolución de agujeros negros."
+  }
 }
