@@ -1,9 +1,10 @@
 # frontend-SAZ
 
-Sitio web de la Sociedad Astronomica de Zacatecas.
+Sitio web institucional de la Sociedad Astronomica de Zacatecas. PHP procedural con datos en JSON.
 
-## Requisitos:  
-- PHP instalado
+## Requisitos
+
+- PHP 8.x instalado.
 
 ## Ejecucion local
 
@@ -18,22 +19,22 @@ Abre `http://localhost:8000` en el navegador.
 ## Estructura de carpetas
 
 **`content/`**
-Archivos JSON con el contenido del sitio. Aqui se publican noticias, eventos, convocatorias y astrofotografias. Cada subcarpeta corresponde a una seccion.
+Archivos JSON con el contenido del sitio (noticias, eventos, convocatorias, astrofotografia, miembros).
 
 **`assets/`**
-Recursos estaticos del sitio: estilos CSS, imagenes e iconos, y archivos JavaScript.
+Recursos estaticos del sitio: CSS, JS, imagenes y PDF.
 
 **`pages/`**
-Paginas individuales del sitio organizadas por seccion. Cada subcarpeta agrupa las paginas de una seccion (eventos, noticias, quienes-somos, etc.).
+Paginas PHP organizadas por seccion (eventos, noticias, quienes-somos, etc.).
 
 **`partials/`**
-Fragmentos de interfaz que se reutilizan en multiples paginas, como el header, el footer y las secciones de la pagina de inicio.
+Fragmentos reutilizables (header, footer, portada).
 
 **`templates/`**
-Estructuras de pagina reutilizables. Definen como se organiza el contenido de una pagina antes de enviarlo al navegador.
+Plantillas reutilizables para eventos y actividades.
 
 ---
 
 ## Como publicar contenido
 
-Para agregar una noticia, evento, convocatoria o astrofotografia, crea un archivo `.json` nuevo en la subcarpeta correspondiente dentro de `content/`. Usa los archivos existentes como referencia de estructura.
+Para agregar una noticia, evento, convocatoria, astrofotografia o miembro, crea/edita un archivo `.json` en `content/` y agrega los recursos asociados en `assets/`.
