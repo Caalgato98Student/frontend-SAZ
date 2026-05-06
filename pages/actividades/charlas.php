@@ -5,6 +5,7 @@ $basePath        = '../../';
 $actividadTitulo = 'Charlas';
 $actividadIcono  = 'bi bi-chat-left-text';
 $actividadDesc   = 'Sesiones informales de conversacion e intercambio de conocimientos entre miembros de la SAZ y el publico interesado.';
+$actividadImagen = 'assets/img/actividades/charlas.png';
 $actividadItems  = [
     ['titulo' => 'Charlas de cafe astronomico', 'descripcion' => 'Reuniones informales donde se discuten noticias recientes de astronomia en un ambiente relajado.'],
     ['titulo' => 'Noches de preguntas', 'descripcion' => 'Sesiones abiertas donde el publico puede hacer preguntas a los miembros sobre cualquier tema astronomico.'],

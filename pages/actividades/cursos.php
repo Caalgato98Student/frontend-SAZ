@@ -5,6 +5,7 @@ $basePath        = '../../';
 $actividadTitulo = 'Cursos';
 $actividadIcono  = 'bi bi-book';
 $actividadDesc   = 'Programas de formacion estructurados con duracion de varias semanas, dirigidos a diferentes niveles de conocimiento.';
+$actividadImagen = 'assets/img/actividades/cursos.png';
 $actividadItems  = [
     ['titulo' => 'Astronomia basica', 'descripcion' => 'Curso introductorio de 8 semanas que cubre el sistema solar, estrellas, galaxias y cosmologia.'],
     ['titulo' => 'Mecanica celeste', 'descripcion' => 'Estudio del movimiento de cuerpos celestes. Requiere conocimientos basicos de fisica y matematicas.'],
