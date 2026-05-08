@@ -2,7 +2,6 @@
 /**
  * templates/actividad.php
  * Template reutilizable para páginas de actividades.
- * Páginas estáticas informativas.
  *
  * Variables requeridas:
  *   $actividadTitulo  — nombre de la actividad
@@ -12,12 +11,34 @@
  *   $basePath         — ruta relativa a la raíz
  *
  * Variables opcionales:
- *   $actividadImagen  — ruta relativa a la imagen (desde $basePath).
- *                       Si está vacía o no se define, se muestra un placeholder.
- *   $actividadImagenAlt — texto alternativo para la imagen (accesibilidad).
+ *   $actividadImagenesDir — carpeta relativa a la raíz que contiene las imágenes
+ *                           (ej. 'assets/img/actividades/charlas/'). Se escanea
+ *                           automáticamente: basta con agregar imágenes a la carpeta.
  */
-$actividadImagen    = $actividadImagen    ?? null;
-$actividadImagenAlt = $actividadImagenAlt ?? htmlspecialchars($actividadTitulo) . ' — Sociedad Astronómica de Zacatecas';
+
+$actividadImagenesDir = $actividadImagenesDir ?? null;
+
+$imagenes = [];
+
+if ($actividadImagenesDir !== null) {
+    $rootPath = realpath(__DIR__ . '/..') . DIRECTORY_SEPARATOR;
+    $scanPath = $rootPath . str_replace('/', DIRECTORY_SEPARATOR, rtrim($actividadImagenesDir, '/'));
+
+    if (is_dir($scanPath)) {
+        $allowedExt = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
+        foreach (scandir($scanPath) as $file) {
+            if ($file === '.' || $file === '..') continue;
+            if (in_array(strtolower(pathinfo($file, PATHINFO_EXTENSION)), $allowedExt)) {
+                $imagenes[] = rtrim($actividadImagenesDir, '/') . '/' . $file;
+            }
+        }
+        sort($imagenes);
+    }
+}
+
+$actividadImagenAlt = htmlspecialchars($actividadTitulo) . ' — Sociedad Astronómica de Zacatecas';
+$carouselId         = 'carousel-' . preg_replace('/[^a-z0-9]+/', '-', strtolower($actividadTitulo));
+$totalImagenes      = count($imagenes);
 ?>
 
 <section class="py-5">
@@ -41,26 +62,76 @@ $actividadImagenAlt = $actividadImagenAlt ?? htmlspecialchars($actividadTitulo) 
         <p class="lead text-muted mb-0"><?= htmlspecialchars($actividadDesc) ?></p>
       </div>
 
-      <!-- Columna de imagen -->
+      <!-- Columna de imagen / carousel -->
       <div class="col-lg-7">
-        <?php if (!empty($actividadImagen)): ?>
-          <img
-            src="<?= $basePath . htmlspecialchars($actividadImagen) ?>"
-            alt="<?= $actividadImagenAlt ?>"
-            class="img-fluid rounded-3 shadow-sm w-100"
-            style="object-fit: cover; max-height: 360px;"
-            loading="lazy"
-          >
-        <?php else: ?>
-          <!-- Placeholder: reemplazar src con la imagen real cuando esté disponible -->
-          <div class="placeholder-image placeholder-hero d-flex flex-column align-items-center justify-content-center gap-2" role="img" aria-label="Imagen de <?= htmlspecialchars($actividadTitulo) ?> — próximamente">
+
+        <?php if ($totalImagenes === 0): ?>
+          <!-- Sin imágenes: placeholder -->
+          <div class="placeholder-image placeholder-hero d-flex flex-column align-items-center justify-content-center gap-2"
+               role="img"
+               aria-label="Imagen de <?= htmlspecialchars($actividadTitulo) ?> — próximamente">
             <i class="<?= $actividadIcono ?>" style="font-size: 2.5rem; opacity: 0.5;"></i>
             <span class="small fw-semibold">Imagen próximamente</span>
-            <code class="small opacity-50">assets/img/actividades/<?= strtolower(htmlspecialchars($actividadTitulo)) ?>.png</code>
           </div>
-        <?php endif; ?>
-      </div>
 
+        <?php elseif ($totalImagenes === 1): ?>
+          <!-- Una sola imagen: sin chrome de carousel -->
+          <img
+            src="<?= $basePath . htmlspecialchars($imagenes[0]) ?>"
+            alt="<?= $actividadImagenAlt ?>"
+            class="img-fluid rounded-3 shadow-sm w-100 actividad-carousel-img"
+            loading="lazy"
+          >
+
+        <?php else: ?>
+          <!-- Múltiples imágenes: Bootstrap Carousel con auto-play -->
+          <div id="<?= $carouselId ?>"
+               class="carousel slide rounded-3 shadow-sm overflow-hidden"
+               data-bs-ride="carousel"
+               data-bs-interval="4000">
+
+            <!-- Indicadores -->
+            <div class="carousel-indicators">
+              <?php foreach ($imagenes as $idx => $src): ?>
+                <button type="button"
+                        data-bs-target="#<?= $carouselId ?>"
+                        data-bs-slide-to="<?= $idx ?>"
+                        <?= $idx === 0 ? 'class="active" aria-current="true"' : '' ?>
+                        aria-label="Imagen <?= $idx + 1 ?>">
+                </button>
+              <?php endforeach; ?>
+            </div>
+
+            <!-- Slides -->
+            <div class="carousel-inner">
+              <?php foreach ($imagenes as $idx => $src): ?>
+                <div class="carousel-item <?= $idx === 0 ? 'active' : '' ?>">
+                  <img
+                    src="<?= $basePath . htmlspecialchars($src) ?>"
+                    alt="<?= $actividadImagenAlt ?>"
+                    class="d-block w-100 actividad-carousel-img"
+                    loading="lazy"
+                  >
+                </div>
+              <?php endforeach; ?>
+            </div>
+
+            <!-- Controles -->
+            <button class="carousel-control-prev" type="button"
+                    data-bs-target="#<?= $carouselId ?>" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Anterior</span>
+            </button>
+            <button class="carousel-control-next" type="button"
+                    data-bs-target="#<?= $carouselId ?>" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Siguiente</span>
+            </button>
+
+          </div><!-- /carousel -->
+        <?php endif; ?>
+
+      </div>
     </div><!-- /row hero -->
 
     <?php if (!empty($actividadItems)): ?>
