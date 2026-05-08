@@ -5,7 +5,7 @@ $basePath        = '../../';
 $actividadTitulo = 'Diplomados';
 $actividadIcono  = 'bi bi-mortarboard';
 $actividadDesc   = 'Programas academicos de mayor profundidad y duracion, con reconocimiento institucional, dirigidos a profesionales y docentes.';
-$actividadImagen = 'assets/img/actividades/diplomados.png';
+$actividadImagen = 'assets/img/actividades/diplomados.jpeg';
 $actividadItems  = [
     ['titulo' => 'Diplomado en astronomia general', 'descripcion' => 'Programa de 6 meses que abarca fundamentos de astrofisica, instrumentacion y divulgacion cientifica.'],
     ['titulo' => 'Diplomado en didactica de la astronomia', 'descripcion' => 'Orientado a docentes. Estrategias y recursos para ensenar astronomia en el aula.'],
