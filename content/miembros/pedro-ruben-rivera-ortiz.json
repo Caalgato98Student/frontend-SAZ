@@ -1,0 +1,23 @@
+{
+  "id": "pedro-ruben-rivera-ortiz",
+  "nombre": "Dr. Pedro R. Rivera-Ortiz",
+  "especialidad": "Astrofísico, especialista en Hidrodinámica y Astroquímica",
+  "correo": "p.rivera@irya.unam.mx",
+  "ubicacion": "Morelia, México",
+  "distincion": "Investigador Nacional Nivel 1 (SNI)",
+  "imagen": "pedro-rivera.png",
+  "cv": "",
+  "perfil_detallado": {
+    "formacion": [
+      "Doctorado en Astrofísica (Mención Honorífica) — Universidad Nacional Autónoma de México (UNAM).",
+      "Maestría en Astrofísica (Mención Honorífica) — Universidad Nacional Autónoma de México (UNAM).",
+      "Licenciatura en Física — Universidad Autónoma de Zacatecas (UAZ)."
+    ],
+    "divulgacion": [
+      "Miembro fundador de la Sociedad Astronómica de Zacatecas y participante activo en múltiples ediciones de la Noche de las Estrellas.",
+      "Ha impartido más de 80 charlas públicas de divulgación científica en diversos niveles educativos.",
+      "Asesor científico en proyectos de renovación de museos interactivos y capacitación de olímpicos de física y matemáticas."
+    ],
+    "generalidades": "Su investigación se centra en la hidrodinámica del medio interestelar, la formación estelar y la astroquímica. Ha realizado estancias postdoctorales internacionales, como en la Université Grenoble Alpes en Francia, participando en el proyecto europeo 'Dawn of Organic Chemistry'."
+  }
+}
