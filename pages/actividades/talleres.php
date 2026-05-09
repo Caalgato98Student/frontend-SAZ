@@ -5,6 +5,7 @@ $basePath        = '../../';
 $actividadTitulo = 'Talleres';
 $actividadIcono  = 'bi bi-tools';
 $actividadDesc   = 'Actividades practicas orientadas a desarrollar habilidades en observacion, instrumentacion y procesamiento de datos astronomicos.';
+$actividadImagenesDir = 'assets/img/actividades/talleres/';
 $actividadItems  = [
     ['titulo' => 'Construccion de telescopios', 'descripcion' => 'Taller practico para construir un telescopio refractor basico con materiales accesibles.'],
     ['titulo' => 'Fotografia nocturna', 'descripcion' => 'Introduccion a la captura de imagenes del cielo con camaras DSLR y smartphones.'],

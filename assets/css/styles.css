@@ -282,7 +282,32 @@ body {
 
 
 /* ─────────────────────────────────────────────────────────────
-  12. FECHAS DE NOTICIAS
+  12. CAROUSEL DE ACTIVIDADES
+   Imágenes y placeholders del carousel en páginas de actividades.
+   ───────────────────────────────────────────────────────────── */
+.actividad-carousel-img {
+  object-fit: cover;
+  height: 360px;
+}
+
+.actividad-carousel-placeholder {
+  height: 360px;
+  background: linear-gradient(135deg, #e8f3ff, #d7e8fb);
+  border: 2px dashed #8fb3d9;
+  color: #1f3f72;
+  font-weight: 600;
+}
+
+@media (max-width: 576px) {
+  .actividad-carousel-img,
+  .actividad-carousel-placeholder {
+    height: 220px;
+  }
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+  13. FECHAS DE NOTICIAS
    Formato compacto con color diferenciado para meta-datos.
    ───────────────────────────────────────────────────────────── */
 .news-date {
@@ -293,7 +318,7 @@ body {
 
 
 /* ─────────────────────────────────────────────────────────────
-  13. LINKS CON ACENTO
+  14. LINKS CON ACENTO
    Para enlaces destacados (ver más, ver todas, etc.).
    ───────────────────────────────────────────────────────────── */
 .link-accent {

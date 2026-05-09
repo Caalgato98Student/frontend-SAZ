@@ -5,6 +5,7 @@ $basePath        = '../../';
 $actividadTitulo = 'Conferencias';
 $actividadIcono  = 'bi bi-easel';
 $actividadDesc   = 'Sesiones magistrales impartidas por especialistas en astronomia, astrofisica y ciencias afines. Abiertas al publico general.';
+$actividadImagenesDir = 'assets/img/actividades/conferencias/';
 $actividadItems  = [
     ['titulo' => 'Conferencias de divulgacion', 'descripcion' => 'Charlas accesibles para publico no especializado sobre temas de actualidad en astronomia y ciencias del espacio.'],
     ['titulo' => 'Conferencias especializadas', 'descripcion' => 'Presentaciones tecnicas dirigidas a estudiantes y profesionales del area con temas de investigacion avanzada.'],
