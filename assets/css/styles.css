@@ -725,3 +725,285 @@ footer {
     font-size: 2.5rem;
   }
 }
+
+
+/* ─────────────────────────────────────────────────────────────
+  23. ASTROFOTOGRAFÍA — MENÚ DE CATEGORÍAS (índice)
+   Lista vertical con icono circular, título y flecha de acceso.
+   ───────────────────────────────────────────────────────────── */
+
+/* Lista contenedora */
+.astro-menu-list {
+  border-radius: 1rem;
+  overflow: hidden;
+  border: 1px solid var(--border-soft);
+  box-shadow: 0 8px 24px rgba(5, 20, 50, 0.07);
+}
+
+/* Cada fila de categoría */
+.astro-menu-row {
+  color: var(--text-main);
+  transition: background 0.2s ease, transform 0.15s ease;
+  border-color: var(--border-soft) !important;
+  min-height: 80px;
+}
+
+.astro-menu-row:hover {
+  background: rgba(77, 182, 255, 0.04) !important;
+  transform: translateX(4px);
+}
+
+.astro-menu-row:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+/* Icono circular temático */
+.astro-menu-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.astro-menu-row:hover .astro-menu-icon {
+  transform: scale(1.1);
+}
+
+/* Badge contador de fotos */
+.astro-menu-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 0.3em 0.75em;
+}
+
+/* Flecha de acceso */
+.astro-menu-arrow {
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  opacity: 0.6;
+}
+
+.astro-menu-row:hover .astro-menu-arrow {
+  transform: translateX(4px);
+  opacity: 1;
+}
+
+/* Modo oscuro — menú */
+[data-bs-theme="dark"] .astro-menu-list {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+[data-bs-theme="dark"] .astro-menu-row:hover {
+  background: rgba(77, 182, 255, 0.06) !important;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+  24. ASTROFOTOGRAFÍA — GALERÍA DINÁMICA
+   Cuadrícula masonry, imágenes y placeholder de categoría.
+   ───────────────────────────────────────────────────────────── */
+
+/* Badge de categoría en encabezado de galería */
+.astro-cat-badge {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  flex-shrink: 0;
+}
+
+/* Imagen dentro de la tarjeta de galería */
+.astro-gallery-img {
+  display: block;
+  object-fit: cover;
+  aspect-ratio: 4 / 3;
+  transition: transform 0.3s ease;
+}
+
+.card-hover:hover .astro-gallery-img {
+  transform: scale(1.03);
+}
+
+/* Placeholder cuando no hay imagen */
+.astro-placeholder-img {
+  aspect-ratio: 4 / 3;
+  background: linear-gradient(135deg, #0d1a2e, #0f2040);
+  min-height: 180px;
+}
+
+[data-bs-theme="dark"] .astro-placeholder-img {
+  background: linear-gradient(135deg, #08101e, #0a1628);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+  25. ASTROFOTOGRAFÍA — MODAL FICHA TÉCNICA
+   Modal de pantalla completa con imagen a la izquierda
+   y metadatos astronómicos a la derecha.
+   ───────────────────────────────────────────────────────────── */
+
+.astro-modal .modal-content {
+  border: 1px solid var(--border-soft);
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
+}
+
+.astro-modal-header {
+  background: var(--surface);
+  padding: 1rem 1.5rem;
+}
+
+/* Imagen en el modal: cubre toda la columna izquierda */
+.astro-modal-img {
+  display: block;
+  object-fit: cover;
+  min-height: 300px;
+  max-height: 70vh;
+}
+
+/* Placeholder cuando no hay imagen en el modal */
+.astro-modal-placeholder {
+  background: linear-gradient(135deg, #0a1628, #0d1e38);
+  min-height: 300px;
+}
+
+/* Columna de la ficha técnica */
+.astro-ficha {
+  background: var(--surface-alt);
+  overflow-y: auto;
+  max-height: 70vh;
+}
+
+/* Separador de sección dentro de la ficha */
+.astro-ficha-section {
+  border-bottom: 1px solid var(--border-soft);
+  padding-bottom: 1rem;
+}
+
+.astro-ficha-section:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+/* Encabezado de grupo de metadatos */
+.astro-ficha-heading {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-bottom: 0.6rem;
+}
+
+/* Lista clave-valor de metadatos */
+.astro-ficha-dl {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 0.25rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+.astro-ficha-dl dt {
+  color: var(--text-main);
+  font-weight: 600;
+  opacity: 0.7;
+  align-self: start;
+}
+
+.astro-ficha-dl dd {
+  color: var(--text-main);
+  margin: 0;
+  word-break: break-word;
+}
+
+/* Footer del modal con descripción */
+.astro-modal-footer {
+  background: var(--surface);
+  border-top: 1px solid var(--border-soft);
+  padding: 0.75rem 1.5rem;
+}
+
+/* Modo oscuro — modal */
+[data-bs-theme="dark"] .astro-modal .modal-content {
+  background: #111d2e;
+  border-color: #1e3050;
+}
+
+[data-bs-theme="dark"] .astro-modal-header,
+[data-bs-theme="dark"] .astro-modal-footer {
+  background: #0e1828;
+}
+
+[data-bs-theme="dark"] .astro-ficha {
+  background: #0d1825;
+}
+
+[data-bs-theme="dark"] .astro-ficha-section {
+  border-color: #1e3050;
+}
+
+[data-bs-theme="dark"] .astro-modal-img {
+  filter: brightness(0.95);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+  26. ASTROFOTOGRAFÍA — PAGINACIÓN
+   Paginación con estado activo usando el color de la categoría.
+   Usa las variables CSS de Bootstrap para integrarse bien.
+   ───────────────────────────────────────────────────────────── */
+.astro-pagination .page-link {
+  border-radius: 0.5rem !important;
+  margin: 0 2px;
+  border: 1px solid var(--border-soft);
+  color: var(--text-main);
+  font-weight: 500;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  min-width: 38px;
+  text-align: center;
+}
+
+.astro-pagination .page-link:hover {
+  background: rgba(77, 182, 255, 0.1);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.astro-pagination .page-item.active .page-link {
+  background: linear-gradient(135deg, var(--bg-dark-2), #1e3a6e);
+  border-color: var(--accent);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(77, 182, 255, 0.25);
+}
+
+.astro-pagination .page-item.disabled .page-link {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+[data-bs-theme="dark"] .astro-pagination .page-link {
+  background: #0e1828;
+  border-color: #1e3050;
+  color: #b0c8e8;
+}
+
+[data-bs-theme="dark"] .astro-pagination .page-link:hover {
+  background: rgba(77, 182, 255, 0.12);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+[data-bs-theme="dark"] .astro-pagination .page-item.active .page-link {
+  background: linear-gradient(135deg, #0d1e38, #132a55);
+  border-color: var(--accent);
+  color: #e0f0ff;
+}
