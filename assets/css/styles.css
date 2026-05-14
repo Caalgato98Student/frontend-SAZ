@@ -1006,4 +1006,19 @@ footer {
   background: linear-gradient(135deg, #0d1e38, #132a55);
   border-color: var(--accent);
   color: #e0f0ff;
-}
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+  HONEYPOT ANTI-BOT
+  Campo trampa invisible para detectar bots automáticos.
+  No mover, no modificar, no quitar.
+  ───────────────────────────────────────────────────────────── */
+.saz-honeypot {
+  display: none !important;
+  position: absolute;
+  left: -9999px;
+  visibility: hidden;
+  pointer-events: none;
+}
+

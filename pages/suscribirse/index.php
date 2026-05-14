@@ -143,7 +143,7 @@ ob_start();
           <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrfToken) ?>">
 
           <!-- Honeypot: invisible para humanos, visible para bots -->
-          <div style="display:none;" aria-hidden="true">
+          <div class="saz-honeypot" aria-hidden="true">
             <label for="sub-website">Página web (no rellenar)</label>
             <input type="text" id="sub-website" name="website" tabindex="-1" autocomplete="off" value="">
           </div>
@@ -238,22 +238,6 @@ ob_start();
   </div>
 </section>
 
-<script>
-// Contador de caracteres para el campo mensaje
-(function () {
-  const textarea = document.getElementById('sub-mensaje');
-  const counter  = document.getElementById('sub-contador');
-  if (!textarea || !counter) return;
-
-  function updateCount() {
-    const len = textarea.value.length;
-    counter.textContent = len + ' / 1000';
-    counter.style.color = len > 900 ? 'var(--bs-danger)' : '';
-  }
-  textarea.addEventListener('input', updateCount);
-  updateCount();
-})();
-</script>
 
 <?php
 $content = ob_get_clean();
