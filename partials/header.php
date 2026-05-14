@@ -16,7 +16,7 @@
         <a href="<?= $basePath ?>pages/quienes-somos/index.php" class="topbar-link">Quienes somos</a>
         <a href="<?= $basePath ?>pages/suscribirse/index.php" class="topbar-link">Suscribirse</a>
         <a href="<?= $basePath ?>pages/contacto/index.php" class="topbar-link">Contacto</a>
-        <a href="#" class="topbar-link" target="_blank" rel="noopener noreferrer">LavNet-Zac-Mx</a>
+        <a href="http://gipimo.ddns.net:8000/lavnet-zac/" class="topbar-link" target="_blank" rel="noopener noreferrer">LavNet-Zac-Mx</a>
       </div>
     </div>
   </div>
