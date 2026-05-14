@@ -13,6 +13,12 @@ $fotosMesa = [
   'tesoreria' => 'armando-garcia.png'
 ];
 
+$fotosMesa = [
+  'presidencia' => 'ivan-santamaria.png',
+  'secretaria' => 'ciro-robles.png',
+  'tesoreria' => 'armando-garcia.png'
+];
+
 ob_start();
 ?>
 
@@ -21,7 +27,10 @@ ob_start();
     <h1 class="section-title mb-4">Mesa directiva</h1>
     <p class="mb-4">Periodo 2024–2026</p>
 
+
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+
+      <!-- Presidencia -->
 
       <!-- Presidencia -->
       <div class="col">
@@ -31,7 +40,7 @@ ob_start();
             $fotoPath = 'assets/img/miembros/' . $fotosMesa['presidencia'];
             if (file_exists($basePath . $fotoPath)): ?>
               <img src="<?= $basePath . $fotoPath ?>" 
-                   alt="Iván Santamaría Najar" 
+                   alt="M.C. Iván Santamaría Najar" 
                    class="member-photo-img-sm shadow-sm"
                    style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%;">
             <?php else: ?>
@@ -39,10 +48,12 @@ ob_start();
             <?php endif; ?>
           </div>
           <h2 class="h6 mb-1">Presidencia</h2>
-          <p class="mb-1 fw-semibold">Iván Santamaría Najar</p>
-          <p class="text-muted small mb-0">c. a Dr. en Ciencias</p>
+          <p class="mb-1 fw-semibold">M.C. Iván Santamaría Najar</p>
+          <p class="text-muted small mb-0">Maestría en Ciencias</p>
         </div>
       </div>
+
+      <!-- Secretaría -->
 
       <!-- Secretaría -->
       <div class="col">
@@ -60,10 +71,12 @@ ob_start();
             <?php endif; ?>
           </div>
           <h2 class="h6 mb-1">Secretaría</h2>
-          <p class="mb-1 fw-semibold">Ciro Robles Berumen</p>
+          <p class="mb-1 fw-semibold">M.C. Ciro Robles Berumen</p>
           <p class="text-muted small mb-0">Maestro en Ciencias</p>
         </div>
       </div>
+
+      <!-- Tesorería -->
 
       <!-- Tesorería -->
       <div class="col">
@@ -81,10 +94,11 @@ ob_start();
             <?php endif; ?>
           </div>
           <h2 class="h6 mb-1">Tesorería</h2>
-          <p class="mb-1 fw-semibold">Armando García Castillo</p>
+          <p class="mb-1 fw-semibold">L.E. Armando García Castillo</p>
           <p class="text-muted small mb-0">Licenciado en Economía</p>
         </div>
       </div>
+
 
     </div>
   </div>
