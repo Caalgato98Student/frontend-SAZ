@@ -63,6 +63,17 @@ ob_start();
                   <i class="bi bi-calendar-x me-1"></i>Fecha de cierre: <?= htmlspecialchars($conv['cierre']) ?>
                 </p>
               <?php endif; ?>
+              
+              <?php if (!empty($conv['pdf'])): ?>
+                <div class="mt-3">
+                  <a href="<?= $basePath . 'assets/pdf/convocatorias/' . htmlspecialchars($conv['pdf']) ?>" 
+                     class="btn btn-primary btn-sm" 
+                     target="_blank">
+                    <i class="bi bi-file-earmark-pdf me-1"></i> Descargar Convocatoria (PDF)
+                  </a>
+                </div>
+              <?php endif; ?>
+
             </div>
           </div>
         <?php endforeach; ?>
