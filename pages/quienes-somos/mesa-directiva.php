@@ -13,6 +13,12 @@ $fotosMesa = [
   'tesoreria' => 'armando-garcia.png'
 ];
 
+$fotosMesa = [
+  'presidencia' => 'ivan-santamaria.png',
+  'secretaria' => 'ciro-robles.png',
+  'tesoreria' => 'armando-garcia.png'
+];
+
 ob_start();
 ?>
 
@@ -21,7 +27,10 @@ ob_start();
     <h1 class="section-title mb-4">Mesa directiva</h1>
     <p class="mb-4">Periodo 2024–2026</p>
 
+
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+
+      <!-- Presidencia -->
 
       <!-- Presidencia -->
       <div class="col">
@@ -45,6 +54,8 @@ ob_start();
       </div>
 
       <!-- Secretaría -->
+
+      <!-- Secretaría -->
       <div class="col">
         <div class="surface-card h-100 text-center p-4 shadow-sm">
           <div class="mx-auto mb-3">
@@ -66,6 +77,8 @@ ob_start();
       </div>
 
       <!-- Tesorería -->
+
+      <!-- Tesorería -->
       <div class="col">
         <div class="surface-card h-100 text-center p-4 shadow-sm">
           <div class="mx-auto mb-3">
@@ -85,6 +98,7 @@ ob_start();
           <p class="text-muted small mb-0">Licenciado en Economía</p>
         </div>
       </div>
+
 
     </div>
   </div>
