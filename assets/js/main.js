@@ -70,3 +70,31 @@ if (themeToggle) {
     localStorage.setItem("saz-tema", nuevoTema);
   });
 }
+
+// ── 4. Contadores de caracteres para formularios ──
+/**
+ * Inicializa un contador de caracteres para un textarea.
+ * @param {string} textareaId  ID del textarea
+ * @param {string} counterId   ID del elemento donde mostrar el conteo
+ * @param {number} max         Límite máximo de caracteres
+ * @param {number} warnAt      Umbral a partir del cual cambiar a color rojo
+ */
+function initCharCounter(textareaId, counterId, max, warnAt) {
+  const textarea = document.getElementById(textareaId);
+  const counter  = document.getElementById(counterId);
+  if (!textarea || !counter) return;
+
+  function updateCount() {
+    const len = textarea.value.length;
+    counter.textContent = len + " / " + max;
+    counter.style.color = len > warnAt ? "var(--bs-danger)" : "";
+  }
+  textarea.addEventListener("input", updateCount);
+  updateCount();
+}
+
+// Formulario suscribirse
+initCharCounter("sub-mensaje", "sub-contador", 1000, 900);
+
+// Formulario contacto
+initCharCounter("ct-mensaje", "ct-contador", 2000, 1800);
