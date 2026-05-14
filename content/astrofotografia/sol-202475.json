@@ -1,0 +1,20 @@
+{
+  "id": "sol-202475",
+  "titulo": "Manchas Solares — Region Activa AR3590",
+  "fotografo": "Dr. Carlos Mendez Ramirez",
+  "lugar": "Zacatecas, Zac.",
+  "fecha": "2024-07-05",
+  "hardware": {
+    "telescopio": "Lunt 50mm Ha",
+    "montura": "EQ6-R Pro",
+    "camara": "ZWO ASI174MM"
+  },
+  "parametros": {
+    "integracion": "1000 frames (best 15%)",
+    "iso_gain": "Gain 150",
+    "filtros": "H-alpha"
+  },
+  "post_procesamiento": "AutoStakkert 3, ImPPG, Photoshop",
+  "descripcion": "Region activa AR3590 con prominencias solares capturada en longitud de onda H-alpha.",
+  "imagen": ""
+}

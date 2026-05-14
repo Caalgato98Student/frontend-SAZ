@@ -1,0 +1,20 @@
+{
+  "id": "profundo-m42-2024",
+  "titulo": "Nebulosa de Orion M42",
+  "fotografo": "Dr. Carlos Mendez Ramirez",
+  "lugar": "Cerro de la Bufa, Zacatecas",
+  "fecha": "2024-01-20",
+  "hardware": {
+    "telescopio": "Refractor APO 80mm f/6",
+    "montura": "Sky-Watcher EQ6-R",
+    "camara": "ZWO ASI2600MC Pro"
+  },
+  "parametros": {
+    "integracion": "120 exposiciones × 30s = 60 min",
+    "iso_gain": "Gain 100 / Offset 50",
+    "filtros": "L-eNhance"
+  },
+  "post_procesamiento": "PixInsight (WBPP, Stretching), StarNet++",
+  "descripcion": "Nebulosa de Orion (M42) con estructura del Trapecio y nubes moleculares circundantes.",
+  "imagen": ""
+}
