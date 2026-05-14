@@ -465,7 +465,7 @@ footer {
   height: 140px;
   border-radius: 50%;
   object-fit: cover; /* Evita que la foto se deforme */
-  border: 3px solid #8fb3d9; /* Mismo color que tu placeholder para consistencia */
+  border: 3px solid #8fb3d9; /* Mismo color que placeholder*/
 }
 
 [data-bs-theme="dark"] .member-photo-img-lg {
@@ -824,6 +824,7 @@ footer {
 /* Imagen dentro de la tarjeta de galería */
 .astro-gallery-img {
   display: block;
+  width: 100%;
   object-fit: cover;
   aspect-ratio: 4 / 3;
   transition: transform 0.3s ease;
@@ -1021,4 +1022,3 @@ footer {
   visibility: hidden;
   pointer-events: none;
 }
-

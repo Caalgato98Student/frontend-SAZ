@@ -15,5 +15,5 @@ $root = __DIR__ . '/../';
 <?php include $root . 'partials/hero.php'; ?>
 <?php include $root . 'partials/noticias-portada.php'; ?>
 <?php include $root . 'partials/astrofotografia.php'; ?>
-<?php include $root . 'partials/instituciones.php'; ?>
+<?php //include $root . 'partials/instituciones.php'; ?>
 <?php include $root . 'partials/convocatorias.php'; ?>

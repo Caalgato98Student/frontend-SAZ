@@ -1,0 +1,16 @@
+{
+  "id": "sol-eclipse",
+  "titulo": "Eclipse Solar | 08 de abril 2024",
+  "fotografo": "M. en C. Jesús Iván Sanatamaría Najar",
+  "lugar": "Plaza Bicentenario, Zacatecas, Zac.",
+  "fecha": "2024-04-08",
+  "hardware": {
+    "telescopio": "Hidrogeno Alfa",
+    "montura": "Ecuatorial",
+    "camara": "Celular Honor X7"
+  },
+  "parametros": {},
+  "post_procesamiento": "",
+  "descripcion": "Registro del máximo del eclipse solar total (fase parcial en Zacatecas) capturado mediante telescopio solar especializado en la línea H-alpha, resaltando detalles de la cromosfera solar durante la interposición lunar.",
+  "imagen": "sol.eclipse.png"
+}

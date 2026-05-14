@@ -1,0 +1,12 @@
+{
+  "id": "luna-llena",
+  "titulo": "Luna Llena",
+  "fotografo": "M. en C. Jesús Iván Santamaría Najar",
+  "lugar": "Zacatecas, Zac.",
+  "fecha": "2024-05-20",
+  "hardware": {},
+  "parametros": {},
+  "post_procesamiento": "",
+  "descripcion": "Detalle de la Luna en fase llena capturada en una noche de alta visibilidad. Se aprecian con gran nitidez los mares lunares y la diferencia de albedo en la superficie del disco lunar.",
+  "imagen": "luna.png"
+}
