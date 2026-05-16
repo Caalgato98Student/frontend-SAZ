@@ -96,9 +96,9 @@
           <li class="nav-item">
             <a class="nav-link" href="<?= $basePath ?>pages/astrofotografia/index.php">Astrofotografía</a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link" href="<?= $basePath ?>pages/colaboradores/index.php">Colaboradores</a>
-          </li>
+          </li> -->
           
 
           <!-- Toggle modo claro/oscuro -->
