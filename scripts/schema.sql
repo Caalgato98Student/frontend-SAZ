@@ -836,4 +836,75 @@ CREATE TABLE observacion_items (
 -- WHERE observacion_id = X ORDER BY orden
 CREATE INDEX idx_observacion_items ON observacion_items (observacion_id, orden);
 
+
+-- ============================================================
+-- TABLA: suscriptores
+-- ============================================================
+-- Personas que envían el formulario de pages/suscribirse/.
+-- Separada del directorio de miembros porque un suscriptor
+-- es un interesado externo, no un miembro formal de la SAZ.
+--
+-- CAMPOS
+--   id        Clave primaria numérica.
+--   nombre    Nombre completo del interesado.
+--   correo    Email de contacto. UNIQUE: evita duplicados.
+--             INSERT IGNORE en PHP para manejar el caso
+--             "ya estoy suscrito" sin mostrar error al usuario.
+--   telefono  Teléfono opcional.
+--   interes   Área de interés seleccionada en el formulario.
+--             Nullable: el campo es opcional en el form.
+--   mensaje   Texto libre opcional del formulario.
+--   activo    1 = activo, 0 = baja de la lista (GDPR/LFPDPPP).
+--             No se borran registros; se desactivan.
+--   creado_en Fecha de registro. No cambia.
+-- ============================================================
+CREATE TABLE suscriptores (
+    id        INT          AUTO_INCREMENT PRIMARY KEY,
+    nombre    VARCHAR(100) NOT NULL,
+    correo    VARCHAR(254) NOT NULL,
+    telefono  VARCHAR(20),
+    interes   ENUM('Divulgacion','Astrofotografia','Observacion','Investigacion','Educacion'),
+    mensaje   TEXT,
+    activo    TINYINT(1)   NOT NULL DEFAULT 1,
+    creado_en TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT uq_suscriptor_correo UNIQUE (correo)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- WHERE activo=1 ORDER BY creado_en DESC
+CREATE INDEX idx_suscriptores_activo ON suscriptores (activo, creado_en);
+
+
+-- ============================================================
+-- TABLA: mensajes_contacto
+-- ============================================================
+-- Mensajes recibidos desde pages/contacto/. Se guardan en DB
+-- como respaldo permanente, independientemente de si el email
+-- se entregó o no. El admin puede marcar cada mensaje como
+-- leído desde el panel.
+--
+-- CAMPOS
+--   id        Clave primaria numérica.
+--   nombre    Nombre del remitente.
+--   correo    Email del remitente para poder responder.
+--   asunto    Asunto del mensaje. Nullable (campo opcional).
+--   mensaje   Cuerpo del mensaje. NOT NULL.
+--   leido     0 = sin leer, 1 = leído. El admin lo actualiza.
+--             Permite mostrar un contador de no leídos en el panel.
+--   creado_en Fecha de recepción. No cambia.
+-- ============================================================
+CREATE TABLE mensajes_contacto (
+    id        INT          AUTO_INCREMENT PRIMARY KEY,
+    nombre    VARCHAR(100) NOT NULL,
+    correo    VARCHAR(254) NOT NULL,
+    asunto    VARCHAR(150),
+    mensaje   TEXT         NOT NULL,
+    leido     TINYINT(1)   NOT NULL DEFAULT 0,
+    creado_en TIMESTAMP    DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- WHERE leido=0 ORDER BY creado_en DESC  (bandeja del panel)
+CREATE INDEX idx_mensajes_leido ON mensajes_contacto (leido, creado_en);
+
+
 SET FOREIGN_KEY_CHECKS = 1;
+

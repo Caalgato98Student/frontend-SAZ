@@ -19,8 +19,16 @@ if (!function_exists('generate_csrf_token')) {
     require_once __DIR__ . '/../../includes/security.php';
 }
 
-// ── Flag: formulario activo (false = sin backend conectado aún) ─
-$formActivo = false;
+// ── Conexión a la base de datos (si config.php ya existe) ───────
+$dbDisponible = false;
+if (file_exists(__DIR__ . '/../../config.php')) {
+    require_once __DIR__ . '/../../config.php';
+    require_once __DIR__ . '/../../includes/db.php';
+    $dbDisponible = true;
+}
+
+// ── Flag: formulario activo cuando la DB está configurada ───────
+$formActivo = $dbDisponible;
 
 // ── Variables de estado del formulario ──────────────────────────
 $success  = false;
@@ -75,11 +83,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ];
 
             if (empty($errors)) {
-                // ── TODO: Conectar con backend / enviar email ──────────────
-                // Cuando el backend esté listo, descomentar y conectar:
-                // enviar_email_contacto($nombre, $correo, $asunto, $mensaje);
-                // $success = true;
-                // $formData = array_fill_keys(array_keys($formData), '');
+                try {
+                    $pdo  = get_pdo();
+                    $stmt = $pdo->prepare(
+                        'INSERT INTO mensajes_contacto
+                         (nombre, correo, asunto, mensaje)
+                         VALUES (?, ?, ?, ?)'
+                    );
+                    $stmt->execute([
+                        $nombre,
+                        $correo,
+                        $asunto  ?: null,
+                        $mensaje,
+                    ]);
+                    $success  = true;
+                    $formData = array_fill_keys(array_keys($formData), '');
+                } catch (\PDOException $e) {
+                    $errors[] = 'Ocurrió un error al enviar tu mensaje. Por favor intenta de nuevo.';
+                }
             }
         }
     }
@@ -125,6 +146,17 @@ ob_start();
               <li><?= $err ?></li>
               <?php endforeach; ?>
             </ul>
+          </div>
+          <?php endif; ?>
+
+          <!-- Confirmación de éxito -->
+          <?php if ($success): ?>
+          <div class="alert alert-success d-flex align-items-center gap-2 mb-4" role="alert" id="ct-alerta-exito">
+            <i class="bi bi-check-circle-fill flex-shrink-0" aria-hidden="true"></i>
+            <div>
+              <strong>¡Mensaje enviado!</strong> Hemos recibido tu mensaje y te responderemos pronto
+              a <strong><?= htmlspecialchars($formData['correo'] ?? '') ?></strong>.
+            </div>
           </div>
           <?php endif; ?>
 
