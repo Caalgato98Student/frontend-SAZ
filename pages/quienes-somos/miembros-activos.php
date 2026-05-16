@@ -8,24 +8,10 @@ $pageTitle       = 'Miembros activos — Sociedad Astronomica de Zacatecas';
 $pageDescription = 'Conoce a los científicos, divulgadores y entusiastas que forman parte de la SAZ.';
 $basePath        = '../../';
 
-// Leer todos los miembros
-$miembros = [];
-$dirMiembros = __DIR__ . '/../../content/miembros/';
-
-if (is_dir($dirMiembros)) {
-    foreach (glob($dirMiembros . '*.json') as $archivo) {
-        if (basename($archivo) === 'ejemplo.json') continue;
-
-        $datos = json_decode(file_get_contents($archivo), true);
-        if ($datos) {
-            if (empty($datos['id'])) {
-                $datos['id'] = basename($archivo, '.json');
-            }
-            $miembros[] = $datos;
-        }
-    }
-    usort($miembros, fn($a, $b) => strcmp($a['nombre'], $b['nombre']));
-}
+require_once __DIR__ . '/../../config.php';
+require_once __DIR__ . '/../../includes/db.php';
+require_once __DIR__ . '/../../includes/repositories/miembros.php';
+$miembros = get_miembros_activos();
 
 ob_start();
 ?>
