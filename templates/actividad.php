@@ -18,21 +18,23 @@
 
 $actividadImagenesDir = $actividadImagenesDir ?? null;
 
-$imagenes = [];
+if (!isset($imagenes) || empty($imagenes)) {
+    $imagenes = [];
 
-if ($actividadImagenesDir !== null) {
-    $rootPath = realpath(__DIR__ . '/..') . DIRECTORY_SEPARATOR;
-    $scanPath = $rootPath . str_replace('/', DIRECTORY_SEPARATOR, rtrim($actividadImagenesDir, '/'));
+    if ($actividadImagenesDir !== null) {
+        $rootPath = realpath(__DIR__ . '/..') . DIRECTORY_SEPARATOR;
+        $scanPath = $rootPath . str_replace('/', DIRECTORY_SEPARATOR, rtrim($actividadImagenesDir, '/'));
 
-    if (is_dir($scanPath)) {
-        $allowedExt = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
-        foreach (scandir($scanPath) as $file) {
-            if ($file === '.' || $file === '..') continue;
-            if (in_array(strtolower(pathinfo($file, PATHINFO_EXTENSION)), $allowedExt)) {
-                $imagenes[] = rtrim($actividadImagenesDir, '/') . '/' . $file;
+        if (is_dir($scanPath)) {
+            $allowedExt = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
+            foreach (scandir($scanPath) as $file) {
+                if ($file === '.' || $file === '..') continue;
+                if (in_array(strtolower(pathinfo($file, PATHINFO_EXTENSION)), $allowedExt)) {
+                    $imagenes[] = rtrim($actividadImagenesDir, '/') . '/' . $file;
+                }
             }
+            sort($imagenes);
         }
-        sort($imagenes);
     }
 }
 
