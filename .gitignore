@@ -1,0 +1,8 @@
+# Credenciales de base de datos (cada dev/servidor tiene las suyas)
+config.php
+
+# TinyMCE self-hosted (cada dev lo descarga, ~3 MB de código de terceros)
+assets/js/tinymce/
+
+# Scripts temporales de desarrollo
+test_db.php
