@@ -1,29 +1,15 @@
 <?php
 /**
  * partials/noticias-portada.php
- * Muestra las 5 noticias más recientes en la página de inicio.
+ * Muestra las noticias más recientes en la página de inicio.
  * Cada tarjeta es clickeable y enlaza a la noticia completa.
- * Lee contenido desde content/noticias/*.json
+ * Lee contenido desde la base de datos vía repositorio.
  */
 
-$noticias = [];
-$dirNoticias = __DIR__ . '/../content/noticias/';
-if (is_dir($dirNoticias)) {
-    foreach (glob($dirNoticias . '*.json') as $archivo) {
-        $datos = json_decode(file_get_contents($archivo), true);
-        if ($datos) {
-            // Usar el nombre del archivo como ID si no viene en el JSON
-            if (empty($datos['id'])) {
-                $datos['id'] = basename($archivo, '.json');
-            }
-            $noticias[] = $datos;
-        }
-    }
-    usort($noticias, fn($a, $b) => strtotime($b['fecha']) - strtotime($a['fecha']));
-}
-
-// 5 más recientes para la portada
-$noticiasCinco = array_slice($noticias, 0, 5);
+require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/../includes/db.php';
+require_once __DIR__ . '/../includes/repositories/noticias.php';
+$noticiasCinco = get_noticias_home();
 ?>
 
 <section class="py-5" id="noticias-recientes">

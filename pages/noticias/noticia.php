@@ -8,16 +8,13 @@
 $basePath = '../../';
 $id = $_GET['id'] ?? '';
 
-// Buscar el archivo JSON
-$noticia = null;
-if ($id) {
-    // Sanitizar: solo permitir alfanuméricos, guiones y guiones bajos
-    $idLimpio = preg_replace('/[^a-zA-Z0-9_-]/', '', $id);
-    $archivoJson = __DIR__ . '/../../content/noticias/' . $idLimpio . '.json';
-    if (file_exists($archivoJson)) {
-        $noticia = json_decode(file_get_contents($archivoJson), true);
-    }
-}
+// Buscar la noticia en la base de datos
+require_once __DIR__ . '/../../config.php';
+require_once __DIR__ . '/../../includes/db.php';
+require_once __DIR__ . '/../../includes/repositories/noticias.php';
+
+$noticia = $id ? get_noticia_por_slug($id) : null;
+
 
 $pageTitle = $noticia
     ? htmlspecialchars($noticia['titulo']) . ' — SAZ'
