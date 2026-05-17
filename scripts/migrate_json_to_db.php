@@ -499,6 +499,151 @@ echo "\n";
 
 
 // ════════════════════════════════════════════════════════════════
+// 9. MESA DIRECTIVA — Actualizar cargo y en_mesa_directiva
+// ════════════════════════════════════════════════════════════════
+echo "9. Mesa directiva (actualizar cargos)\n";
+
+// Datos que estaban hardcodeados en pages/quienes-somos/directorio.php
+// y pages/quienes-somos/mesa-directiva.php
+$cargos = [
+    'jesus-ivan-santamaria-najar' => ['Presidente', 1],
+    // Los siguientes miembros no tienen JSON — se crean directamente
+];
+
+// Miembros que NO tienen JSON pero estaban hardcodeados en directorio.php
+$miembrosExtra = [
+    ['ciro-robles-berumen',   'M.C. Ciro Robles Berumen',                     'Maestro en Ciencias',     'Secretario',          1, 'cirorobles2405@gmail.com',      'ciro-robles.png'],
+    ['armando-garcia-castillo','L.E. Armando García Castillo',                 'Licenciado en Economía',  'Tesorero',            1, 'garcia.a.castillo@gmail.com',   'armando-garcia.png'],
+    ['alejandro-gonzalez-sanchez','Dr. Alejandro González Sánchez',            'Doctor en Astronomía',    'Consejo Consultivo',  0, 'alejandro.gonzalez@uaz.edu.mx', null],
+    ['berenice-gomez-martinez','Berenice Gómez Martínez',                      'Divulgadora',             'Consejo Consultivo',  0, 'Berebankrobber@gmail.com',       null],
+    ['victor-munoz-suarez',   'Ing. Víctor Alejandro Rafael Muñoz Suárez',    'Ingeniero',               'Consejo Consultivo',  0, 'geovector2010@gmail.com',       null],
+    ['corina-bobadilla-larios','M.L.M. Corina Bobadilla Larios',              'Maestro en Lengua Materna','Consejo de Vigilancia',0,'sazac2010@gmail.com',           null],
+];
+
+// Actualizar el miembro que ya existe (Iván Santamaría)
+foreach ($cargos as $slug => [$cargo, $enMesa]) {
+    $stmt = $pdo->prepare("UPDATE miembros SET cargo = ?, en_mesa_directiva = ? WHERE slug = ?");
+    $stmt->execute([$cargo, $enMesa, $slug]);
+    if ($stmt->rowCount() > 0) {
+        echo "  🔄 Actualizado: $slug → $cargo\n";
+    } else {
+        echo "  ⏭ No encontrado o sin cambio: $slug\n";
+    }
+}
+
+// Insertar miembros que solo existían hardcodeados
+$stmtMiembroExtra = $pdo->prepare(
+    "INSERT IGNORE INTO miembros (slug, nombre, especialidad, cargo, en_mesa_directiva, correo, imagen, activo, orden)
+     VALUES (?, ?, ?, ?, ?, ?, ?, 1, ?)"
+);
+
+foreach ($miembrosExtra as $idx => [$slug, $nombre, $espec, $cargo, $enMesa, $correo, $imagen]) {
+    $stmtMiembroExtra->execute([$slug, $nombre, $espec, $cargo, $enMesa, $correo, $imagen, $idx + 1]);
+    if ($stmtMiembroExtra->rowCount() > 0) {
+        echo "  ✅ $nombre [$cargo]\n";
+        $stats['miembros']++;
+    } else {
+        // Ya existe, actualizar cargo
+        $stmtUpd = $pdo->prepare("UPDATE miembros SET cargo = ?, en_mesa_directiva = ? WHERE slug = ?");
+        $stmtUpd->execute([$cargo, $enMesa, $slug]);
+        echo "  🔄 Actualizado: $slug → $cargo\n";
+    }
+}
+
+echo "\n";
+
+
+// ════════════════════════════════════════════════════════════════
+// 10. OBSERVACIONES — Contenido que era HTML estático
+// ════════════════════════════════════════════════════════════════
+echo "10. Observaciones\n";
+
+$observacionesData = [
+    [
+        'slug'  => 'diurna',
+        'titulo' => 'Observacion Diurna',
+        'icono' => 'bi bi-brightness-high text-info',
+        'descripcion_intro' => 'Sesiones educativas para publico general donde se exploran fenomenos astronomicos visibles durante el dia.',
+        'recomendaciones' => null,
+        'orden' => 1,
+        'items' => [
+            ['La Luna de dia',        'bi bi-moon-stars me-2',       'Observacion de la Luna cuando es visible durante el dia. Se explican las fases lunares y la mecanica orbital.',   1],
+            ['Planetas visibles',     'bi bi-globe me-2',            'En condiciones favorables, Venus puede observarse a plena luz del dia. Se explica por que y como localizarlo.', 2],
+            ['Gnomonica',             'bi bi-compass me-2',          'Uso de relojes de sol y proyeccion de sombras para comprender el movimiento aparente del Sol y las estaciones del ano.', 3],
+            ['Meteorologia basica',   'bi bi-cloud-sun me-2',        'Introduccion a la atmosfera terrestre: como afecta la observacion astronomica y como interpretar condiciones del cielo.', 4],
+        ],
+    ],
+    [
+        'slug'  => 'nocturna',
+        'titulo' => 'Observacion Nocturna',
+        'icono' => 'bi bi-moon-stars-fill text-primary',
+        'descripcion_intro' => 'Sesiones de observacion de planetas, nebulosas, cumulos estelares y galaxias con telescopios de diferentes tipos y aperturas.',
+        'recomendaciones' => '<ul><li>Llegar 15 minutos antes para adaptacion visual a la oscuridad.</li><li>Llevar ropa abrigadora; las noches zacatecanas pueden ser frias.</li><li>Evitar el uso de luces blancas; se recomienda linterna roja.</li><li>No se requiere telescopio propio; la SAZ proporciona equipo.</li></ul>',
+        'orden' => 2,
+        'items' => [
+            ['Planetas',         'bi bi-globe2 me-2 text-warning',    'Observacion de los planetas visibles: Jupiter con sus lunas galileanas, Saturno y sus anillos, Marte y Venus.', 1],
+            ['Cielo profundo',   'bi bi-cloud-haze2 me-2 text-info',  'Nebulosas de emision y reflexion, cumulos abiertos y globulares, galaxias cercanas como Andromeda y el Triangulo.', 2],
+            ['Estrellas dobles', 'bi bi-stars me-2 text-warning',     'Sistemas estelares multiples con contrastes de color y brillo. Ideales para telescopios de cualquier apertura.', 3],
+        ],
+    ],
+    [
+        'slug'  => 'solar',
+        'titulo' => 'Observacion Solar',
+        'icono' => 'bi bi-sun text-warning',
+        'descripcion_intro' => 'Jornadas de observacion segura del Sol con filtros solares certificados y telescopios especializados.',
+        'recomendaciones' => null,
+        'orden' => 3,
+        'items' => [
+            ['Seguridad',      'bi bi-shield-check me-2 text-success', 'Todas las observaciones solares se realizan con filtros certificados ISO 12312-2. Nunca se debe observar el Sol directamente sin proteccion adecuada.', 1],
+            ['Equipo',         'bi bi-telescope me-2 text-primary',    'Utilizamos telescopios solares con filtro H-alpha que permiten observar protuberancias, manchas solares y filamentos en la cromosfera.', 2],
+            ['Programacion',   'bi bi-calendar-event me-2 text-info',  'Las sesiones se realizan generalmente los sabados por la manana en plazas publicas de Zacatecas. Consulta el calendario de eventos para fechas especificas.', 3],
+            ['Publico',        'bi bi-people me-2 text-primary',       'Actividad abierta a todas las edades. No se requiere experiencia previa ni inscripcion. Solo acude al punto de observacion en la fecha indicada.', 4],
+        ],
+    ],
+];
+
+$stmtObs = $pdo->prepare(
+    "INSERT IGNORE INTO observaciones (slug, titulo, icono, descripcion_intro, recomendaciones, activo, orden)
+     VALUES (?, ?, ?, ?, ?, 1, ?)"
+);
+
+$stmtObsItem = $pdo->prepare(
+    "INSERT INTO observacion_items (observacion_id, titulo, icono, descripcion, orden)
+     VALUES (?, ?, ?, ?, ?)"
+);
+
+$obsCount = 0;
+$obsItemCount = 0;
+
+foreach ($observacionesData as $obs) {
+    $stmtObs->execute([
+        $obs['slug'],
+        $obs['titulo'],
+        $obs['icono'],
+        $obs['descripcion_intro'],
+        $obs['recomendaciones'],
+        $obs['orden'],
+    ]);
+
+    if ($stmtObs->rowCount() > 0) {
+        $obsId = (int) $pdo->lastInsertId();
+        echo "  ✅ {$obs['titulo']}\n";
+        $obsCount++;
+
+        foreach ($obs['items'] as [$titulo, $icono, $desc, $orden]) {
+            $stmtObsItem->execute([$obsId, $titulo, $icono, $desc, $orden]);
+            $obsItemCount++;
+        }
+        echo "     + " . count($obs['items']) . " ítems\n";
+    } else {
+        echo "  ⏭ Ya existe: {$obs['slug']}\n";
+    }
+}
+
+echo "\n";
+
+
+// ════════════════════════════════════════════════════════════════
 // RESUMEN
 // ════════════════════════════════════════════════════════════════
 echo "╔══════════════════════════════════════════════════════╗\n";
@@ -514,7 +659,9 @@ printf("║  Astrofotografía: %3d                              ║\n", $stats['
 printf("║  Miembros:        %3d                              ║\n", $stats['miembros']);
 printf("║  Formación:       %3d                              ║\n", $stats['formacion']);
 printf("║  Divulgación:     %3d                              ║\n", $stats['divulgacion']);
+printf("║  Observaciones:   %3d (%d ítems)                   ║\n", $obsCount, $obsItemCount);
 printf("║  Admin:           %3d                              ║\n", $stats['admin']);
 printf("║  Config:          %3d                              ║\n", $stats['config']);
 printf("║  Saltados:        %3d                              ║\n", $stats['saltados']);
 echo "╚══════════════════════════════════════════════════════╝\n";
+

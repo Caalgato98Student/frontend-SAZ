@@ -1,14 +1,18 @@
 <?php
 $basePath = '../../';
 $idMiembro = $_GET['id'] ?? '';
-$rutaJson  = __DIR__ . "/../../content/miembros/{$idMiembro}.json";
 
-if (!file_exists($rutaJson)) {
+require_once __DIR__ . '/../../config.php';
+require_once __DIR__ . '/../../includes/db.php';
+require_once __DIR__ . '/../../includes/repositories/miembros.php';
+
+$m = $idMiembro ? get_miembro_por_slug($idMiembro) : null;
+
+if (!$m) {
     header("Location: miembros-activos.php");
     exit;
 }
 
-$m = json_decode(file_get_contents($rutaJson), true);
 $pageTitle = $m['nombre'] . ' — SAZ';
 ob_start();
 ?>
