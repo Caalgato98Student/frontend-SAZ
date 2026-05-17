@@ -6,3 +6,6 @@ assets/js/tinymce/
 
 # Scripts temporales de desarrollo
 test_db.php
+
+# Documentación del proyecto
+Docs/
