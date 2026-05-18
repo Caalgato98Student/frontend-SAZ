@@ -94,7 +94,7 @@
             <a class="nav-link" href="<?= $basePath ?>pages/noticias/index.php">Archivo de noticias</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="<?= $basePath ?>pages/galeria/index.php">Astrofotografía</a>
+            <a class="nav-link" href="<?= $basePath ?>pages/astrofotografia/index.php">Astrofotografía</a>
           </li>
           <!-- <li class="nav-item">
             <a class="nav-link" href="<?= $basePath ?>pages/colaboradores/index.php">Colaboradores</a>

@@ -1,6 +1,6 @@
 <?php
 /**
- * pages/galeria/index.php
+ * pages/astrofotografia/galeria/index.php
  * Galería dinámica de astrofotografía.
  *
  * Vista por defecto: todas las fotos.
@@ -50,12 +50,12 @@ $catConfig = $config[$categoriaSlug];
 
 $pageTitle       = $catConfig['titulo'] . ' — Astrofotografía SAZ';
 $pageDescription = $catConfig['descripcion'] . '. Galería de la Sociedad Astronómica de Zacatecas.';
-$basePath        = '../../';
+$basePath        = '../../../';
 
 // ── 3. Leer fotos desde la base de datos ─────────────────────
-require_once __DIR__ . '/../../config.php';
-require_once __DIR__ . '/../../includes/db.php';
-require_once __DIR__ . '/../../includes/repositories/astrofotografia.php';
+require_once __DIR__ . '/../../../config.php';
+require_once __DIR__ . '/../../../includes/db.php';
+require_once __DIR__ . '/../../../includes/repositories/astrofotografia.php';
 
 // Mapeo slug → ENUM de la DB
 $categoriaDB = match($categoriaSlug) {
@@ -99,8 +99,11 @@ ob_start();
         <li class="breadcrumb-item">
           <a href="<?= $basePath ?>index.php" class="link-accent">Inicio</a>
         </li>
+        <li class="breadcrumb-item">
+          <a href="<?= $basePath ?>pages/astrofotografia/index.php" class="link-accent">Astrofotografía</a>
+        </li>
         <li class="breadcrumb-item active" aria-current="page">
-          Astrofotografía
+          <?= htmlspecialchars($catConfig['titulo']) ?>
         </li>
       </ol>
     </nav>
@@ -330,4 +333,4 @@ ob_start();
 
 <?php
 $content = ob_get_clean();
-include __DIR__ . '/../../base.php';
+include __DIR__ . '/../../../base.php';

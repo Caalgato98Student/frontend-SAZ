@@ -12,13 +12,16 @@ require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/repositories/astrofotografia.php';
 $astroTres = get_astrofotos_home(3);
 
+if (!isset($basePath)) {
+    $basePath = '../'; // Fallback por si se accede al partial directamente
+}
 ?>
 
 <section id="astrofotografia" class="py-5 section-alt">
   <div class="container">
     <div class="d-flex justify-content-between align-items-end mb-4">
       <h2 class="section-title mb-0">Astrofotografia</h2>
-      <a href="<?= $basePath ?>pages/galeria/index.php" class="link-accent">Ver galeria completa <i class="bi bi-arrow-right"></i></a>
+      <a href="<?= $basePath ?>pages/astrofotografia/index.php" class="link-accent">Ver galeria completa <i class="bi bi-arrow-right"></i></a>
     </div>
     <div class="row row-cols-1 row-cols-md-3 g-4">
       <?php if (!empty($astroTres)): ?>

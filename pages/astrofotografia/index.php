@@ -3,7 +3,7 @@
  * pages/astrofotografia/index.php
  * Portal de entrada — Selección de categorías de astrofotografía.
  * Muestra lista vertical: Icono ● Título ● Flecha de acceso.
- * Cada fila enlaza a pages/galeria/index.php?categoria=XXX
+ * Cada fila enlaza a pages/astrofotografia/galeria/index.php?categoria=XXX
  */
 $pageTitle       = 'Astrofotografía — Sociedad Astronómica de Zacatecas';
 $pageDescription = 'Explora la galería de astrofotografía de la SAZ organizada por categoría: Sol, Luna y Espacio Profundo.';
@@ -78,7 +78,7 @@ ob_start();
     <!-- Lista de categorías -->
     <div class="astro-menu-list surface-card p-0 overflow-hidden">
       <?php foreach ($categorias as $i => $cat): ?>
-        <a href="<?= $basePath ?>pages/galeria/index.php?categoria=<?= $cat['slug'] ?>"
+        <a href="<?= $basePath ?>pages/astrofotografia/galeria/index.php?categoria=<?= $cat['slug'] ?>"
            class="astro-menu-row d-flex align-items-center gap-3 text-decoration-none px-4 py-3
                   <?= $i < count($categorias) - 1 ? 'border-bottom' : '' ?>"
            id="cat-<?= $cat['slug'] ?>">
