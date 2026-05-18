@@ -7,14 +7,10 @@ $pageTitle       = 'Colaboradores — Sociedad Astronomica de Zacatecas';
 $pageDescription = 'Colaboradores de la Sociedad Astronomica de Zacatecas.';
 $basePath        = '../../';
 
-$colaboradores = [
-    ['nombre' => 'Dr. Carlos Mendez Ramirez',    'profesion' => 'Astronomo',                  'red' => '#', 'red_nombre' => 'ResearchGate'],
-    ['nombre' => 'Mtra. Ana Lucia Fernandez',     'profesion' => 'Divulgadora cientifica',     'red' => '#', 'red_nombre' => 'Twitter'],
-    ['nombre' => 'Ing. Roberto Salazar Nunez',    'profesion' => 'Ingeniero optico',           'red' => '#', 'red_nombre' => 'LinkedIn'],
-    ['nombre' => 'Lic. Patricia Herrera Gomez',   'profesion' => 'Gestora cultural',           'red' => '#', 'red_nombre' => 'Instagram'],
-    ['nombre' => 'Mtro. Fernando Alanis Torres',  'profesion' => 'Astronomo observacional',    'red' => '#', 'red_nombre' => 'Facebook'],
-    ['nombre' => 'Ing. Laura Patricia Vega',      'profesion' => 'Astrofotografa',             'red' => '#', 'red_nombre' => 'Instagram'],
-];
+require_once __DIR__ . '/../../config.php';
+require_once __DIR__ . '/../../includes/db.php';
+require_once __DIR__ . '/../../includes/repositories/colaboradores.php';
+$colaboradores = get_colaboradores_activos();
 
 ob_start();
 ?>

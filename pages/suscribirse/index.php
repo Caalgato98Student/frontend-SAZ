@@ -20,8 +20,16 @@ if (!function_exists('generate_csrf_token')) {
     require_once __DIR__ . '/../../includes/security.php';
 }
 
-// ── Flag: formulario activo (false = sin backend conectado aún) ─
-$formActivo = false;
+// ── Conexión a la base de datos (si config.php ya existe) ───────
+$dbDisponible = false;
+if (file_exists(__DIR__ . '/../../config.php')) {
+    require_once __DIR__ . '/../../config.php';
+    require_once __DIR__ . '/../../includes/db.php';
+    $dbDisponible = true;
+}
+
+// ── Flag: formulario activo cuando la DB está configurada ───────
+$formActivo = $dbDisponible;
 
 // ── Variables de estado del formulario ──────────────────────────
 $success  = false;
@@ -81,11 +89,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ];
 
             if (empty($errors)) {
-                // ── TODO: Conectar con base de datos / enviar email ──────────
-                // Cuando el backend esté listo, descomentar y conectar:
-                // guardar_suscriptor($nombre, $correo, $telefono, $interesRaw, $mensaje);
-                // $success = true;
-                // $formData = array_fill_keys(array_keys($formData), '');
+                try {
+                    $pdo  = get_pdo();
+                    $stmt = $pdo->prepare(
+                        'INSERT IGNORE INTO suscriptores
+                         (nombre, correo, telefono, interes, mensaje)
+                         VALUES (?, ?, ?, ?, ?)'
+                    );
+                    $stmt->execute([
+                        $nombre,
+                        $correo,
+                        $telefono ?: null,
+                        $interesRaw ?: null,
+                        $mensaje    ?: null,
+                    ]);
+
+                    if ($stmt->rowCount() === 0) {
+                        // El correo ya estaba registrado (UNIQUE silencioso)
+                        $errors[] = 'Este correo electrónico ya está registrado. ¡Gracias por tu interés!';
+                    } else {
+                        $success  = true;
+                        $formData = array_fill_keys(array_keys($formData), '');
+                    }
+                } catch (\PDOException $e) {
+                    $errors[] = 'Ocurrió un error al guardar tu solicitud. Por favor intenta de nuevo.';
+                }
             }
         }
     }
@@ -132,6 +160,17 @@ ob_start();
           <li><?= $err /* Ya está escapado por sanitize_text */ ?></li>
           <?php endforeach; ?>
         </ul>
+      </div>
+      <?php endif; ?>
+
+      <!-- Confirmación de éxito -->
+      <?php if ($success): ?>
+      <div class="alert alert-success d-flex align-items-center gap-2 mb-4" role="alert" id="sub-alerta-exito">
+        <i class="bi bi-check-circle-fill flex-shrink-0" aria-hidden="true"></i>
+        <div>
+          <strong>¡Solicitud recibida!</strong> Te hemos registrado correctamente.
+          Pronto recibirás información sobre las actividades de la SAZ.
+        </div>
       </div>
       <?php endif; ?>
 

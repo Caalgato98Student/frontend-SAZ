@@ -9,24 +9,10 @@ $pageTitle       = 'Convocatorias — Sociedad Astronomica de Zacatecas';
 $pageDescription = 'Convocatorias abiertas y cerradas de la Sociedad Astronomica de Zacatecas.';
 $basePath        = '../../';
 
-$convocatorias = [];
-$dirConvocatorias = __DIR__ . '/../../content/convocatorias/';
-if (is_dir($dirConvocatorias)) {
-    foreach (glob($dirConvocatorias . '*.json') as $archivo) {
-        $datos = json_decode(file_get_contents($archivo), true);
-        if ($datos) {
-            $convocatorias[] = $datos;
-        }
-    }
-    usort($convocatorias, function ($a, $b) {
-        $aActiva = !empty($a['activa']);
-        $bActiva = !empty($b['activa']);
-        if ($aActiva !== $bActiva) {
-            return $bActiva <=> $aActiva;
-        }
-        return strtotime($b['fecha']) - strtotime($a['fecha']);
-    });
-}
+require_once __DIR__ . '/../../config.php';
+require_once __DIR__ . '/../../includes/db.php';
+require_once __DIR__ . '/../../includes/repositories/convocatorias.php';
+$convocatorias = get_convocatorias_publicas();
 
 ob_start();
 ?>

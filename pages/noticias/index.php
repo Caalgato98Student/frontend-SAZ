@@ -8,29 +8,19 @@ $pageTitle       = 'Archivo de noticias — Sociedad Astronomica de Zacatecas';
 $pageDescription = 'Todas las noticias publicadas por la Sociedad Astronomica de Zacatecas.';
 $basePath        = '../../';
 
-// Leer todas las noticias
-$noticias = [];
-$dirNoticias = __DIR__ . '/../../content/noticias/';
-if (is_dir($dirNoticias)) {
-    foreach (glob($dirNoticias . '*.json') as $archivo) {
-        $datos = json_decode(file_get_contents($archivo), true);
-        if ($datos) {
-            if (empty($datos['id'])) {
-                $datos['id'] = basename($archivo, '.json');
-            }
-            $noticias[] = $datos;
-        }
-    }
-    usort($noticias, fn($a, $b) => strtotime($b['fecha']) - strtotime($a['fecha']));
-}
+// Leer noticias desde la base de datos
+require_once __DIR__ . '/../../config.php';
+require_once __DIR__ . '/../../includes/db.php';
+require_once __DIR__ . '/../../includes/repositories/noticias.php';
 
-// Paginación
-$porPagina  = 9;
-$totalItems = count($noticias);
-$totalPags  = max(1, ceil($totalItems / $porPagina));
-$pagActual  = max(1, min($totalPags, intval($_GET['pag'] ?? 1)));
-$offset     = ($pagActual - 1) * $porPagina;
-$noticiasPag = array_slice($noticias, $offset, $porPagina);
+$porPagina   = 9;
+$pagActual   = max(1, intval($_GET['pag'] ?? 1));
+$resultado   = get_noticias_archivo($pagActual, $porPagina);
+$noticiasPag = $resultado['noticias'];
+$totalItems  = $resultado['total'];
+$totalPags   = max(1, ceil($totalItems / $porPagina));
+$pagActual   = min($pagActual, $totalPags);
+
 
 ob_start();
 ?>

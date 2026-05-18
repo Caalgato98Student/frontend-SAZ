@@ -3,30 +3,13 @@
  * partials/convocatorias.php
  * Muestra las 3 convocatorias más recientes en la página de inicio.
  * Activas con estilo prominente, inactivas con texto tenue.
- * Lee contenido desde content/convocatorias/*.json
+ * Lee contenido desde la base de datos mediante el repositorio de convocatorias.
  */
 
-$convocatorias = [];
-$dirConvocatorias = __DIR__ . '/../content/convocatorias/';
-if (is_dir($dirConvocatorias)) {
-    foreach (glob($dirConvocatorias . '*.json') as $archivo) {
-        $datos = json_decode(file_get_contents($archivo), true);
-        if ($datos) {
-            $convocatorias[] = $datos;
-        }
-    }
-    // Ordenar: activas primero, luego por fecha descendente
-    usort($convocatorias, function ($a, $b) {
-        $aActiva = !empty($a['activa']);
-        $bActiva = !empty($b['activa']);
-        if ($aActiva !== $bActiva) {
-            return $bActiva <=> $aActiva;
-        }
-        return strtotime($b['fecha']) - strtotime($a['fecha']);
-    });
-}
-
-$convocatoriasTres = array_slice($convocatorias, 0, 3);
+require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/../includes/db.php';
+require_once __DIR__ . '/../includes/repositories/convocatorias.php';
+$convocatoriasTres = get_convocatorias_home(3);
 ?>
 
 <section class="py-5" id="convocatorias">

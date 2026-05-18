@@ -3,30 +3,21 @@
  * pages/astrofotografia/index.php
  * Portal de entrada — Selección de categorías de astrofotografía.
  * Muestra lista vertical: Icono ● Título ● Flecha de acceso.
- * Cada fila enlaza a pages/galeria/index.php?categoria=XXX
+ * Cada fila enlaza a pages/astrofotografia/galeria/index.php?categoria=XXX
  */
 $pageTitle       = 'Astrofotografía — Sociedad Astronómica de Zacatecas';
 $pageDescription = 'Explora la galería de astrofotografía de la SAZ organizada por categoría: Sol, Luna y Espacio Profundo.';
 $basePath        = '../../';
 
-// Contar fotos por categoría leyendo los JSON
-$prefijos = [
-    'sol'      => 0,
-    'luna'     => 0,
-    'profundo' => 0,
+require_once __DIR__ . '/../../config.php';
+require_once __DIR__ . '/../../includes/db.php';
+require_once __DIR__ . '/../../includes/repositories/astrofotografia.php';
+
+$conteos = [
+    'sol'      => count(get_astrofotos_por_categoria('sol')),
+    'luna'     => count(get_astrofotos_por_categoria('luna')),
+    'profundo' => count(get_astrofotos_por_categoria('espacio_profundo')),
 ];
-$dirAstro = __DIR__ . '/../../content/astrofotografia/';
-if (is_dir($dirAstro)) {
-    foreach (glob($dirAstro . '*.json') as $archivo) {
-        $nombre = strtolower(basename($archivo));
-        foreach (array_keys($prefijos) as $p) {
-            if (str_starts_with($nombre, $p . '-')) {
-                $prefijos[$p]++;
-                break;
-            }
-        }
-    }
-}
 
 $categorias = [
     [
@@ -36,7 +27,7 @@ $categorias = [
         'icon_bi'   => 'bi-sun-fill',
         'color'     => '#f59e0b',
         'bg'        => 'rgba(245,158,11,0.12)',
-        'count'     => $prefijos['sol'],
+        'count'     => $conteos['sol'],
     ],
     [
         'slug'      => 'luna',
@@ -45,7 +36,7 @@ $categorias = [
         'icon_bi'   => 'bi-moon-stars-fill',
         'color'     => '#7dd3fc',
         'bg'        => 'rgba(125,211,252,0.12)',
-        'count'     => $prefijos['luna'],
+        'count'     => $conteos['luna'],
     ],
     [
         'slug'      => 'profundo',
@@ -54,7 +45,7 @@ $categorias = [
         'icon_bi'   => 'bi-stars',
         'color'     => '#a78bfa',
         'bg'        => 'rgba(167,139,250,0.12)',
-        'count'     => $prefijos['profundo'],
+        'count'     => $conteos['profundo'],
     ],
 ];
 
@@ -78,7 +69,7 @@ ob_start();
     <!-- Lista de categorías -->
     <div class="astro-menu-list surface-card p-0 overflow-hidden">
       <?php foreach ($categorias as $i => $cat): ?>
-        <a href="<?= $basePath ?>pages/galeria/index.php?categoria=<?= $cat['slug'] ?>"
+        <a href="<?= $basePath ?>pages/astrofotografia/galeria/index.php?categoria=<?= $cat['slug'] ?>"
            class="astro-menu-row d-flex align-items-center gap-3 text-decoration-none px-4 py-3
                   <?= $i < count($categorias) - 1 ? 'border-bottom' : '' ?>"
            id="cat-<?= $cat['slug'] ?>">

@@ -2,16 +2,18 @@
 $pageTitle       = 'Diplomados — Sociedad Astronomica de Zacatecas';
 $pageDescription = 'Diplomados en astronomia y ciencias afines ofrecidos por la SAZ.';
 $basePath        = '../../';
-$actividadTitulo = 'Diplomados';
-$actividadIcono  = 'bi bi-mortarboard';
-$actividadDesc   = 'Programas academicos de mayor profundidad y duracion, con reconocimiento institucional, dirigidos a profesionales y docentes.';
-$actividadImagenesDir = 'assets/img/actividades/diplomados/';
-$actividadItems  = [
-    ['titulo' => 'Diplomado en astronomia general', 'descripcion' => 'Programa de 6 meses que abarca fundamentos de astrofisica, instrumentacion y divulgacion cientifica.'],
-    ['titulo' => 'Diplomado en didactica de la astronomia', 'descripcion' => 'Orientado a docentes. Estrategias y recursos para ensenar astronomia en el aula.'],
-    ['titulo' => 'Certificacion en observacion astronomica', 'descripcion' => 'Programa intensivo con evaluacion practica en manejo de telescopios y tecnicas observacionales.'],
-    ['titulo' => 'Proximos diplomados', 'descripcion' => 'La SAZ esta desarrollando nuevos programas en colaboracion con universidades de la region. Consulta esta pagina para actualizaciones.'],
-];
+require_once __DIR__ . '/../../config.php';
+require_once __DIR__ . '/../../includes/db.php';
+require_once __DIR__ . '/../../includes/repositories/actividades.php';
+
+$actividad = get_actividad_por_slug('diplomados');
+
+$actividadTitulo      = $actividad['titulo'];
+$actividadIcono       = $actividad['icono'];
+$actividadDesc        = $actividad['descripcion'];
+$actividadItems       = $actividad['items'];
+$actividadImagenesDir = null;
+$imagenes             = $actividad['imagenes'];
 
 ob_start();
 include __DIR__ . '/../../templates/actividad.php';

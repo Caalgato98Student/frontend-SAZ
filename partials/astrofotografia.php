@@ -4,25 +4,17 @@
  * Muestra las 3 astrofotografías más recientes en la página de inicio.
  * Incluye fecha, descripción y crédito/fuente.
  * Click → lightbox (modal Bootstrap).
- * Lee contenido desde content/astrofotografia/*.json
+ * Lee contenido desde la base de datos vía repositorio.
  */
 
-$astrofotos = [];
-$dirAstro = __DIR__ . '/../content/astrofotografia/';
-if (is_dir($dirAstro)) {
-    foreach (glob($dirAstro . '*.json') as $archivo) {
-        $datos = json_decode(file_get_contents($archivo), true);
-        if ($datos) {
-            if (empty($datos['id'])) {
-                $datos['id'] = basename($archivo, '.json');
-            }
-            $astrofotos[] = $datos;
-        }
-    }
-    usort($astrofotos, fn($a, $b) => strtotime($b['fecha']) - strtotime($a['fecha']));
-}
+require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/../includes/db.php';
+require_once __DIR__ . '/../includes/repositories/astrofotografia.php';
+$astroTres = get_astrofotos_home(3);
 
-$astroTres = array_slice($astrofotos, 0, 3);
+if (!isset($basePath)) {
+    $basePath = '../'; // Fallback por si se accede al partial directamente
+}
 ?>
 
 <section id="astrofotografia" class="py-5 section-alt">

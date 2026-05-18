@@ -7,6 +7,11 @@ $pageTitle       = 'Directorio — Sociedad Astronomica de Zacatecas';
 $pageDescription = 'Directorio de miembros de la Sociedad Astronomica de Zacatecas.';
 $basePath        = '../../';
 
+require_once __DIR__ . '/../../config.php';
+require_once __DIR__ . '/../../includes/db.php';
+require_once __DIR__ . '/../../includes/repositories/miembros.php';
+$miembros = get_miembros_directorio();
+
 ob_start();
 ?>
 
@@ -26,13 +31,14 @@ ob_start();
           </tr>
         </thead>
         <tbody>
-          <tr><td>M.C. Iván Santamaría Najar</td><td>Presidente</td><td>Maestro en Ciencias</td><td>sazac2010@gmail.com</td></tr>
-          <tr><td>M.C. Ciro Robles Berumen</td><td>Secretario</td><td>Maestro en Ciencias</td><td>cirorobles2405@gmail.com</td></tr>
-          <tr><td>L.E. Armando García Castillo</td><td>Tesorero</td><td>Licenciado en Economía</td><td>garcia.a.castillo@gmail.com</td></tr>
-          <tr><td>Dr. Alejandro González Sánchez</td><td>Consejo Consultivo</td><td>Doctor en Astronomía</td><td>alejandro.gonzalez@uaz.edu.mx</td></tr>
-          <tr><td>Berenice Gómez Martínez</td><td>Consejo Consultivo</td><td>Divulgadora</td><td>Berebankrobber@gmail.com</td></tr>
-          <tr><td>Ing. Víctor Alejandro Rafael Muñoz Suárez</td><td>Consejo Consultiva</td><td>Ingeniero </td><td>geovector2010@gmail.com</td></tr>
-          <tr><td>M.L.M. Corina Bobadilla Larios</td><td>Consejo de Vigilancia</td><td>Maestro en Lengua Materna</td><td>sazac2010@gmail.com</td></tr>
+          <?php foreach ($miembros as $m): ?>
+          <tr>
+            <td><?= htmlspecialchars($m['nombre']) ?></td>
+            <td><?= htmlspecialchars($m['cargo'] ?? '—') ?></td>
+            <td><?= htmlspecialchars($m['especialidad'] ?? '—') ?></td>
+            <td><?= htmlspecialchars($m['correo'] ?? '—') ?></td>
+          </tr>
+          <?php endforeach; ?>
         </tbody>
       </table>
     </div>

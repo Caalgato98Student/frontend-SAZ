@@ -7,17 +7,10 @@ $pageTitle       = 'Mesa directiva — Sociedad Astronomica de Zacatecas';
 $pageDescription = 'Conoce la mesa directiva actual de la Sociedad Astronomica de Zacatecas.';
 $basePath        = '../../';
 
-$fotosMesa = [
-  'presidencia' => 'ivan-santamaria.png',
-  'secretaria' => 'ciro-robles.png',
-  'tesoreria' => 'armando-garcia.png'
-];
-
-$fotosMesa = [
-  'presidencia' => 'ivan-santamaria.png',
-  'secretaria' => 'ciro-robles.png',
-  'tesoreria' => 'armando-garcia.png'
-];
+require_once __DIR__ . '/../../config.php';
+require_once __DIR__ . '/../../includes/db.php';
+require_once __DIR__ . '/../../includes/repositories/miembros.php';
+$miembrosMesa = get_mesa_directiva();
 
 ob_start();
 ?>
@@ -27,79 +20,26 @@ ob_start();
     <h1 class="section-title mb-4">Mesa directiva</h1>
     <p class="mb-4">Periodo 2024–2026</p>
 
-
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
-
-      <!-- Presidencia -->
-
-      <!-- Presidencia -->
+      <?php foreach ($miembrosMesa as $m): ?>
       <div class="col">
         <div class="surface-card h-100 text-center p-4 shadow-sm">
           <div class="mx-auto mb-3">
-            <?php 
-            $fotoPath = 'assets/img/miembros/' . $fotosMesa['presidencia'];
-            if (file_exists($basePath . $fotoPath)): ?>
-              <img src="<?= $basePath . $fotoPath ?>" 
-                   alt="M.C. Iván Santamaría Najar" 
+            <?php if ($m['imagen'] && file_exists($basePath . 'assets/img/miembros/' . $m['imagen'])): ?>
+              <img src="<?= $basePath ?>assets/img/miembros/<?= htmlspecialchars($m['imagen']) ?>"
+                   alt="<?= htmlspecialchars($m['nombre']) ?>"
                    class="member-photo-img-sm shadow-sm"
                    style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%;">
             <?php else: ?>
               <i class="bi bi-person-circle text-primary" style="font-size: 4rem;"></i>
             <?php endif; ?>
           </div>
-          <h2 class="h6 mb-1">Presidencia</h2>
-          <p class="mb-1 fw-semibold">M.C. Iván Santamaría Najar</p>
-          <p class="text-muted small mb-0">Maestría en Ciencias</p>
+          <h2 class="h6 mb-1"><?= htmlspecialchars($m['cargo'] ?? '') ?></h2>
+          <p class="mb-1 fw-semibold"><?= htmlspecialchars($m['nombre']) ?></p>
+          <p class="text-muted small mb-0"><?= htmlspecialchars($m['especialidad'] ?? '') ?></p>
         </div>
       </div>
-
-      <!-- Secretaría -->
-
-      <!-- Secretaría -->
-      <div class="col">
-        <div class="surface-card h-100 text-center p-4 shadow-sm">
-          <div class="mx-auto mb-3">
-            <?php 
-            $fotoPath = 'assets/img/miembros/' . $fotosMesa['secretaria'];
-            if (file_exists($basePath . $fotoPath)): ?>
-              <img src="<?= $basePath . $fotoPath ?>" 
-                   alt="M.C. Ciro Robles Berumen" 
-                   class="member-photo-img-sm shadow-sm"
-                   style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%;">
-            <?php else: ?>
-              <i class="bi bi-person-circle text-primary" style="font-size: 4rem;"></i>
-            <?php endif; ?>
-          </div>
-          <h2 class="h6 mb-1">Secretaría</h2>
-          <p class="mb-1 fw-semibold">M.C. Ciro Robles Berumen</p>
-          <p class="text-muted small mb-0">Maestro en Ciencias</p>
-        </div>
-      </div>
-
-      <!-- Tesorería -->
-
-      <!-- Tesorería -->
-      <div class="col">
-        <div class="surface-card h-100 text-center p-4 shadow-sm">
-          <div class="mx-auto mb-3">
-            <?php 
-            $fotoPath = 'assets/img/miembros/' . $fotosMesa['tesoreria'];
-            if (file_exists($basePath . $fotoPath)): ?>
-              <img src="<?= $basePath . $fotoPath ?>" 
-                   alt="L.E. Armando García Castillo" 
-                   class="member-photo-img-sm shadow-sm"
-                   style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%;">
-            <?php else: ?>
-              <i class="bi bi-person-circle text-primary" style="font-size: 4rem;"></i>
-            <?php endif; ?>
-          </div>
-          <h2 class="h6 mb-1">Tesorería</h2>
-          <p class="mb-1 fw-semibold">L.E. Armando García Castillo</p>
-          <p class="text-muted small mb-0">Licenciado en Economía</p>
-        </div>
-      </div>
-
-
+      <?php endforeach; ?>
     </div>
   </div>
 </section>

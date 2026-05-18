@@ -19,8 +19,25 @@ if (!function_exists('generate_csrf_token')) {
     require_once __DIR__ . '/../../includes/security.php';
 }
 
-// ── Flag: formulario activo (false = sin backend conectado aún) ─
-$formActivo = false;
+// ── Conexión a la base de datos (si config.php ya existe) ───────
+$dbDisponible = false;
+if (file_exists(__DIR__ . '/../../config.php')) {
+    require_once __DIR__ . '/../../config.php';
+    require_once __DIR__ . '/../../includes/db.php';
+    require_once __DIR__ . '/../../includes/repositories/configuracion.php';
+    $dbDisponible = true;
+}
+
+// ── Datos de contacto y redes desde configuracion ────────────────
+$contactoEmail     = $dbDisponible ? (get_config('contacto_email')     ?? 'sazac2010@gmail.com') : 'sazac2010@gmail.com';
+$contactoTelefono  = $dbDisponible ? (get_config('contacto_telefono')  ?? '492 123 16 39')       : '492 123 16 39';
+$contactoDireccion = $dbDisponible ? (get_config('contacto_direccion') ?? 'Zacatecas, Zacatecas, México') : 'Zacatecas, Zacatecas, México';
+$socialFacebook    = $dbDisponible ? (get_config('social_facebook')    ?? 'https://www.facebook.com/SAZacatecas')  : 'https://www.facebook.com/SAZacatecas';
+$socialInstagram   = $dbDisponible ? (get_config('social_instagram')   ?? 'https://www.instagram.com/sazacatecas/') : 'https://www.instagram.com/sazacatecas/';
+$socialX           = $dbDisponible ? (get_config('social_x')           ?? 'https://x.com/ndezacmx')              : 'https://x.com/ndezacmx';
+
+// ── Flag: formulario activo cuando la DB está configurada ───────
+$formActivo = $dbDisponible;
 
 // ── Variables de estado del formulario ──────────────────────────
 $success  = false;
@@ -75,11 +92,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ];
 
             if (empty($errors)) {
-                // ── TODO: Conectar con backend / enviar email ──────────────
-                // Cuando el backend esté listo, descomentar y conectar:
-                // enviar_email_contacto($nombre, $correo, $asunto, $mensaje);
-                // $success = true;
-                // $formData = array_fill_keys(array_keys($formData), '');
+                try {
+                    $pdo  = get_pdo();
+                    $stmt = $pdo->prepare(
+                        'INSERT INTO mensajes_contacto
+                         (nombre, correo, asunto, mensaje)
+                         VALUES (?, ?, ?, ?)'
+                    );
+                    $stmt->execute([
+                        $nombre,
+                        $correo,
+                        $asunto  ?: null,
+                        $mensaje,
+                    ]);
+                    $success  = true;
+                    $formData = array_fill_keys(array_keys($formData), '');
+                } catch (\PDOException $e) {
+                    $errors[] = 'Ocurrió un error al enviar tu mensaje. Por favor intenta de nuevo.';
+                }
             }
         }
     }
@@ -125,6 +155,17 @@ ob_start();
               <li><?= $err ?></li>
               <?php endforeach; ?>
             </ul>
+          </div>
+          <?php endif; ?>
+
+          <!-- Confirmación de éxito -->
+          <?php if ($success): ?>
+          <div class="alert alert-success d-flex align-items-center gap-2 mb-4" role="alert" id="ct-alerta-exito">
+            <i class="bi bi-check-circle-fill flex-shrink-0" aria-hidden="true"></i>
+            <div>
+              <strong>¡Mensaje enviado!</strong> Hemos recibido tu mensaje y te responderemos pronto
+              a <strong><?= htmlspecialchars($formData['correo'] ?? '') ?></strong>.
+            </div>
           </div>
           <?php endif; ?>
 
@@ -217,21 +258,21 @@ ob_start();
       <div class="col-lg-5">
         <div class="surface-card mb-4">
           <h2 class="h5 mb-3"><i class="bi bi-info-circle me-2"></i>Información de contacto</h2>
-          <p class="mb-2"><i class="bi bi-envelope me-2"></i><strong>Correo:</strong> sazac2010@gmail.com</p>
-          <p class="mb-2"><i class="bi bi-telephone me-2"></i><strong>Teléfono:</strong> 492 123 16 39</p>
-          <p class="mb-0"><i class="bi bi-geo-alt me-2"></i><strong>Dirección:</strong> Zacatecas, Zacatecas, México</p>
+          <p class="mb-2"><i class="bi bi-envelope me-2"></i><strong>Correo:</strong> <?= htmlspecialchars($contactoEmail) ?></p>
+          <p class="mb-2"><i class="bi bi-telephone me-2"></i><strong>Teléfono:</strong> <?= htmlspecialchars($contactoTelefono) ?></p>
+          <p class="mb-0"><i class="bi bi-geo-alt me-2"></i><strong>Dirección:</strong> <?= htmlspecialchars($contactoDireccion) ?></p>
         </div>
 
         <div class="surface-card mb-4">
           <h2 class="h5 mb-3"><i class="bi bi-share me-2" aria-hidden="true"></i>Redes sociales</h2>
           <div class="d-flex flex-wrap gap-3">
-            <a href="https://www.facebook.com/SAZacatecas" class="btn btn-outline-primary" target="_blank" rel="noopener noreferrer" aria-label="Visitar el Facebook de la Sociedad Astronómica de Zacatecas">
+            <a href="<?= htmlspecialchars($socialFacebook) ?>" class="btn btn-outline-primary" target="_blank" rel="noopener noreferrer" aria-label="Visitar el Facebook de la Sociedad Astronómica de Zacatecas">
               <i class="bi bi-facebook me-1" aria-hidden="true"></i>Facebook
             </a>
-            <a href="https://www.instagram.com/sazacatecas/" class="btn btn-outline-danger" target="_blank" rel="noopener noreferrer" aria-label="Visitar el Instagram de la Sociedad Astronómica de Zacatecas">
+            <a href="<?= htmlspecialchars($socialInstagram) ?>" class="btn btn-outline-danger" target="_blank" rel="noopener noreferrer" aria-label="Visitar el Instagram de la Sociedad Astronómica de Zacatecas">
               <i class="bi bi-instagram me-1" aria-hidden="true"></i>Instagram
             </a>
-            <a href="https://x.com/ndezacmx" class="btn btn-outline-dark" target="_blank" rel="noopener noreferrer" aria-label="Visitar el perfil de X de la Sociedad Astronómica de Zacatecas">
+            <a href="<?= htmlspecialchars($socialX) ?>" class="btn btn-outline-dark" target="_blank" rel="noopener noreferrer" aria-label="Visitar el perfil de X de la Sociedad Astronómica de Zacatecas">
               <i class="bi bi-twitter-x me-1" aria-hidden="true"></i>X
             </a>
           </div>
