@@ -2,17 +2,17 @@
 /**
  * templates/evento.php
  * Template reutilizable para páginas de eventos.
- * Lee datos desde un archivo JSON en content/eventos/.
+ * Lee datos desde la base de datos mediante el repositorio de eventos.
  *
  * Variables requeridas antes de incluir:
- *   $eventoSlug — nombre del archivo JSON (sin extensión)
+ *   $eventoSlug — slug del evento (columna `slug` en la tabla `eventos`)
  *   $basePath   — ruta relativa a la raíz del proyecto
  */
 
-$eventoFile = __DIR__ . '/../content/eventos/' . $eventoSlug . '.json';
-$evento = file_exists($eventoFile)
-    ? json_decode(file_get_contents($eventoFile), true)
-    : null;
+require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/../includes/db.php';
+require_once __DIR__ . '/../includes/repositories/eventos.php';
+$evento = get_evento_completo($eventoSlug);
 
 if (!$evento) {
     echo '<section class="py-5"><div class="container"><div class="alert alert-warning">No se encontro informacion del evento.</div></div></section>';
