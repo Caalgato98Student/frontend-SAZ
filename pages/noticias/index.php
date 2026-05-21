@@ -2,7 +2,7 @@
 /**
  * pages/noticias/index.php
  * Archivo de noticias con grid 3×3 y paginación (9 por página).
- * Lee contenido desde content/noticias/*.json
+ * Lee contenido desde la base de datos mediante repositorio.
  */
 $pageTitle       = 'Archivo de noticias — Sociedad Astronomica de Zacatecas';
 $pageDescription = 'Todas las noticias publicadas por la Sociedad Astronomica de Zacatecas.';

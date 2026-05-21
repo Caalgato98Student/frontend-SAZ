@@ -1,3 +1,25 @@
+<?php
+if (!function_exists('get_actividades_activas')) {
+    require_once __DIR__ . '/../config.php';
+    require_once __DIR__ . '/../includes/db.php';
+    require_once __DIR__ . '/../includes/repositories/actividades.php';
+}
+if (!function_exists('get_observaciones_activas')) {
+    require_once __DIR__ . '/../includes/repositories/observaciones.php';
+}
+if (!function_exists('get_eventos_activos')) {
+    require_once __DIR__ . '/../includes/repositories/eventos.php';
+}
+if (!function_exists('get_config')) {
+    require_once __DIR__ . '/../includes/repositories/configuracion.php';
+}
+$_navActividades   = get_actividades_activas();
+$_navObservaciones = get_observaciones_activas();
+$_navEventos       = get_eventos_activos();
+$_sitioNombre      = get_config('sitio_nombre')    ?? 'Sociedad Astronómica de Zacatecas';
+$_lavnetUrl        = get_config('footer_lavnet_url')    ?? 'http://gipimo.ddns.net:8000/lavnet-zac/';
+$_lavnetNombre     = get_config('footer_lavnet_nombre') ?? 'LavNet-Zac-Mx';
+?>
 <!-- ============================================================
      partials/header.php
      Topbar con accesos rápidos + Navbar principal con dropdowns.
@@ -10,13 +32,13 @@
     <div class="container d-flex flex-wrap align-items-center justify-content-between">
       <a class="navbar-brand fw-bold d-inline-flex align-items-center gap-2 mb-0" href="<?= $basePath ?>index.php">
         <img src="<?= $basePath ?>assets/img/logo-SAZ.png" alt="Logo SAZ" height="40">
-        Sociedad Astronómica de Zacatecas
+        <?= htmlspecialchars($_sitioNombre) ?>
       </a>
       <div class="d-flex flex-wrap gap-3">
         <a href="<?= $basePath ?>pages/quienes-somos/index.php" class="topbar-link">Quienes somos</a>
         <a href="<?= $basePath ?>pages/suscribirse/index.php" class="topbar-link">Suscribirse</a>
         <a href="<?= $basePath ?>pages/contacto/index.php" class="topbar-link">Contacto</a>
-        <a href="http://gipimo.ddns.net:8000/lavnet-zac/" class="topbar-link" target="_blank" rel="noopener noreferrer">LavNet-Zac-Mx</a>
+        <a href="<?= htmlspecialchars($_lavnetUrl) ?>" class="topbar-link" target="_blank" rel="noopener noreferrer"><?= htmlspecialchars($_lavnetNombre) ?></a>
       </div>
     </div>
   </div>
@@ -53,12 +75,14 @@
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
               aria-expanded="false">Eventos</a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="<?= $basePath ?>pages/eventos/semanadelaastronomia.php">Semana de la Astronomía</a></li>
-              <li><a class="dropdown-item" href="<?= $basePath ?>pages/eventos/noche-estrellas.php">Noche de las Estrellas</a></li>
-              <li><a class="dropdown-item" href="<?= $basePath ?>pages/eventos/semana-espacio.php">Semana Mundial del Espacio</a></li>
-              <li><a class="dropdown-item" href="<?= $basePath ?>pages/eventos/maraton-messier.php">Maraton Messier</a></li>
-              <li><a class="dropdown-item" href="<?= $basePath ?>pages/eventos/equinoccio.php">Equinoccio de Primavera</a></li>
-              <li><a class="dropdown-item" href="<?= $basePath ?>pages/eventos/olimpiadas.php">Olimpiadas de Astronomía</a></li>
+              <?php foreach ($_navEventos as $_ev): ?>
+              <li>
+                <a class="dropdown-item"
+                   href="<?= $basePath ?>pages/eventos/ver.php?slug=<?= urlencode($_ev['slug']) ?>">
+                  <?= htmlspecialchars($_ev['titulo']) ?>
+                </a>
+              </li>
+              <?php endforeach; ?>
             </ul>
           </li>
 
@@ -67,11 +91,14 @@
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
               aria-expanded="false">Actividades</a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="<?= $basePath ?>pages/actividades/conferencias.php">Conferencias</a></li>
-              <li><a class="dropdown-item" href="<?= $basePath ?>pages/actividades/charlas.php">Charlas</a></li>
-              <li><a class="dropdown-item" href="<?= $basePath ?>pages/actividades/talleres.php">Talleres</a></li>
-              <li><a class="dropdown-item" href="<?= $basePath ?>pages/actividades/cursos.php">Cursos</a></li>
-              <li><a class="dropdown-item" href="<?= $basePath ?>pages/actividades/diplomados.php">Diplomados</a></li>
+              <?php foreach ($_navActividades as $_act): ?>
+              <li>
+                <a class="dropdown-item"
+                   href="<?= $basePath ?>pages/actividades/ver.php?slug=<?= urlencode($_act['slug']) ?>">
+                  <?= htmlspecialchars($_act['titulo']) ?>
+                </a>
+              </li>
+              <?php endforeach; ?>
             </ul>
           </li>
 
@@ -80,9 +107,14 @@
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
               aria-expanded="false">Observaciones</a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="<?= $basePath ?>pages/observaciones/solar.php">Solar</a></li>
-              <li><a class="dropdown-item" href="<?= $basePath ?>pages/observaciones/diurna.php">Diurna</a></li>
-              <li><a class="dropdown-item" href="<?= $basePath ?>pages/observaciones/nocturna.php">Nocturna</a></li>
+              <?php foreach ($_navObservaciones as $_obs): ?>
+              <li>
+                <a class="dropdown-item"
+                   href="<?= $basePath ?>pages/observaciones/ver.php?slug=<?= urlencode($_obs['slug']) ?>">
+                  <?= htmlspecialchars($_obs['titulo']) ?>
+                </a>
+              </li>
+              <?php endforeach; ?>
             </ul>
           </li>
 

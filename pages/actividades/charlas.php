@@ -1,21 +1,3 @@
 <?php
-$pageTitle       = 'Charlas — Sociedad Astronomica de Zacatecas';
-$pageDescription = 'Charlas informales y sesiones de preguntas sobre astronomia.';
-$basePath        = '../../';
-require_once __DIR__ . '/../../config.php';
-require_once __DIR__ . '/../../includes/db.php';
-require_once __DIR__ . '/../../includes/repositories/actividades.php';
-
-$actividad = get_actividad_por_slug('charlas');
-
-$actividadTitulo      = $actividad['titulo'];
-$actividadIcono       = $actividad['icono'];
-$actividadDesc        = $actividad['descripcion'];
-$actividadItems       = $actividad['items'];
-$actividadImagenesDir = null;   // ya no se escanea el filesystem
-$imagenes             = $actividad['imagenes'];
-
-ob_start();
-include __DIR__ . '/../../templates/actividad.php';
-$content = ob_get_clean();
-include __DIR__ . '/../../base.php';
+$actividadSlug = 'charlas';
+require __DIR__ . '/ver.php';

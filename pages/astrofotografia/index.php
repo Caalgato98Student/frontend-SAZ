@@ -13,41 +13,16 @@ require_once __DIR__ . '/../../config.php';
 require_once __DIR__ . '/../../includes/db.php';
 require_once __DIR__ . '/../../includes/repositories/astrofotografia.php';
 
-$conteos = [
-    'sol'      => count(get_astrofotos_por_categoria('sol')),
-    'luna'     => count(get_astrofotos_por_categoria('luna')),
-    'profundo' => count(get_astrofotos_por_categoria('espacio_profundo')),
-];
-
-$categorias = [
-    [
-        'slug'      => 'sol',
-        'titulo'    => 'Sol',
-        'subtitulo' => 'Fotografia solar, manchas y prominencias',
-        'icon_bi'   => 'bi-sun-fill',
-        'color'     => '#f59e0b',
-        'bg'        => 'rgba(245,158,11,0.12)',
-        'count'     => $conteos['sol'],
-    ],
-    [
-        'slug'      => 'luna',
-        'titulo'    => 'Luna',
-        'subtitulo' => 'Fases lunares, cráteres y mares',
-        'icon_bi'   => 'bi-moon-stars-fill',
-        'color'     => '#7dd3fc',
-        'bg'        => 'rgba(125,211,252,0.12)',
-        'count'     => $conteos['luna'],
-    ],
-    [
-        'slug'      => 'profundo',
-        'titulo'    => 'Espacio Profundo',
-        'subtitulo' => 'Nebulosas, galaxias y cúmulos estelares',
-        'icon_bi'   => 'bi-stars',
-        'color'     => '#a78bfa',
-        'bg'        => 'rgba(167,139,250,0.12)',
-        'count'     => $conteos['profundo'],
-    ],
-];
+$cats = get_astrofoto_categorias();
+$categorias = array_map(fn($c) => [
+    'slug'      => $c['slug'],
+    'titulo'    => $c['nombre'],
+    'subtitulo' => $c['descripcion'] ?? '',
+    'icon_bi'   => $c['icono'],
+    'color'     => $c['color'],
+    'bg'        => $c['color'] . '1f',
+    'count'     => count(get_astrofotos_por_categoria($c['slug'])),
+], $cats);
 
 ob_start();
 ?>

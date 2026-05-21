@@ -30,9 +30,11 @@ ob_start();
               <div>
                 <h3 class="h6 mb-1"><?= htmlspecialchars($col['nombre']) ?></h3>
                 <p class="text-muted small mb-1"><?= htmlspecialchars($col['profesion']) ?></p>
-                <a href="<?= htmlspecialchars($col['red']) ?>" class="link-accent small" target="_blank" rel="noopener noreferrer">
-                  <i class="bi bi-link-45deg me-1"></i><?= htmlspecialchars($col['red_nombre']) ?>
+                <?php foreach ($col['redes'] as $red): ?>
+                <a href="<?= htmlspecialchars($red['url']) ?>" class="link-accent small d-block" target="_blank" rel="noopener noreferrer">
+                  <i class="bi bi-link-45deg me-1"></i><?= htmlspecialchars($red['nombre']) ?>
                 </a>
+                <?php endforeach; ?>
               </div>
             </div>
           </div>

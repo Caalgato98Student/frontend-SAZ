@@ -9,8 +9,11 @@ $basePath        = '../../';
 
 require_once __DIR__ . '/../../config.php';
 require_once __DIR__ . '/../../includes/db.php';
+require_once __DIR__ . '/../../includes/repositories/configuracion.php';
 require_once __DIR__ . '/../../includes/repositories/miembros.php';
-$miembrosMesa = get_mesa_directiva();
+
+$mesaDirectivaPeriodo = get_config('mesa_directiva_periodo') ?? '2024–2026';
+$miembrosMesa         = get_mesa_directiva();
 
 ob_start();
 ?>
@@ -18,7 +21,7 @@ ob_start();
 <section class="py-5">
   <div class="container">
     <h1 class="section-title mb-4">Mesa directiva</h1>
-    <p class="mb-4">Periodo 2024–2026</p>
+    <p class="mb-4">Periodo <?= htmlspecialchars($mesaDirectivaPeriodo) ?></p>
 
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
       <?php foreach ($miembrosMesa as $m): ?>

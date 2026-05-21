@@ -3,7 +3,7 @@
  * pages/noticias/noticia.php
  * Vista individual de una noticia.
  * Acceso: noticia.php?id=noticia-001
- * Lee contenido desde content/noticias/[id].json
+ * Lee contenido desde la base de datos mediante repositorio.
  */
 $basePath = '../../';
 $id = $_GET['id'] ?? '';

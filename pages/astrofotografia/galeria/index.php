@@ -7,19 +7,15 @@
  * Filtrado opcional por categoría: ?categoria=sol|luna|profundo
  */
 
-// ── 1. Parámetros de entrada ─────────────────────────────────
-$categoriaSlug = $_GET['categoria'] ?? 'todas';
-$categoriaSlug = preg_replace('/[^a-z\-]/', '', strtolower($categoriaSlug));
+// ── 1. Bootstrap: dependencias necesarias antes de todo ───────
+$basePath = '../../../';
+require_once __DIR__ . '/../../../config.php';
+require_once __DIR__ . '/../../../includes/db.php';
+require_once __DIR__ . '/../../../includes/repositories/astrofotografia.php';
 
-$categoriasValidas = ['todas', 'sol', 'luna', 'profundo'];
-if (!in_array($categoriaSlug, $categoriasValidas, true)) {
-    $categoriaSlug = 'todas';
-}
+// ── 2. Construir configuración visual desde la DB ─────────────
+$dbCats = get_astrofoto_categorias();
 
-$FOTOS_POR_PAGINA = 12;
-$paginaActual = max(1, (int)($_GET['page'] ?? 1));
-
-// ── 2. Configuración visual por categoría ─────────────────────
 $config = [
     'todas' => [
         'titulo'      => 'Astrofotografía',
@@ -27,46 +23,43 @@ $config = [
         'color'       => '#818cf8',
         'descripcion' => 'Toda la colección fotográfica de la Sociedad Astronómica de Zacatecas',
     ],
-    'sol' => [
-        'titulo'      => 'Sol',
-        'icon_bi'     => 'bi-sun-fill',
-        'color'       => '#f59e0b',
-        'descripcion' => 'Fotografía solar, manchas, fáculas y prominencias',
-    ],
-    'luna' => [
-        'titulo'      => 'Luna',
-        'icon_bi'     => 'bi-moon-stars-fill',
-        'color'       => '#7dd3fc',
-        'descripcion' => 'Fases lunares, cráteres, mares y formaciones',
-    ],
-    'profundo' => [
-        'titulo'      => 'Espacio Profundo',
-        'icon_bi'     => 'bi-stars',
-        'color'       => '#a78bfa',
-        'descripcion' => 'Nebulosas, galaxias, cúmulos estelares y objetos del catálogo Messier',
-    ],
 ];
+$etiquetaCat = [];
+foreach ($dbCats as $cat) {
+    $config[$cat['slug']] = [
+        'titulo'      => $cat['nombre'],
+        'icon_bi'     => $cat['icono'],
+        'color'       => $cat['color'],
+        'descripcion' => $cat['descripcion'] ?? '',
+    ];
+    $etiquetaCat[$cat['slug']] = [
+        'label' => $cat['nombre'],
+        'icon'  => $cat['icono'],
+        'color' => $cat['color'],
+    ];
+}
+
+// ── 3. Parámetros de entrada ──────────────────────────────────
+$categoriaSlug = $_GET['categoria'] ?? 'todas';
+$categoriaSlug = preg_replace('/[^a-z0-9\-]/', '', strtolower($categoriaSlug));
+
+$categoriasValidas = array_merge(['todas'], array_column($dbCats, 'slug'));
+if (!in_array($categoriaSlug, $categoriasValidas, true)) {
+    $categoriaSlug = 'todas';
+}
+
+$FOTOS_POR_PAGINA = 12;
+$paginaActual = max(1, (int)($_GET['page'] ?? 1));
+
 $catConfig = $config[$categoriaSlug];
 
 $pageTitle       = $catConfig['titulo'] . ' — Astrofotografía SAZ';
 $pageDescription = $catConfig['descripcion'] . '. Galería de la Sociedad Astronómica de Zacatecas.';
-$basePath        = '../../../';
 
-// ── 3. Leer fotos desde la base de datos ─────────────────────
-require_once __DIR__ . '/../../../config.php';
-require_once __DIR__ . '/../../../includes/db.php';
-require_once __DIR__ . '/../../../includes/repositories/astrofotografia.php';
-
-// Mapeo slug → ENUM de la DB
-$categoriaDB = match($categoriaSlug) {
-    'profundo' => 'espacio_profundo',
-    'todas'    => null,
-    default    => $categoriaSlug,
-};
-
-$fotos = ($categoriaDB === null)
+// ── 4. Leer fotos desde la base de datos ─────────────────────
+$fotos = ($categoriaSlug === 'todas')
     ? get_todas_astrofotos()
-    : get_astrofotos_por_categoria($categoriaDB);
+    : get_astrofotos_por_categoria($categoriaSlug);
 
 // ── 4. Paginación ─────────────────────────────────────────────
 $totalFotos   = count($fotos);
@@ -79,13 +72,6 @@ $fotosPagina  = array_slice($fotos, $offset, $FOTOS_POR_PAGINA);
 function urlPagina(string $slug, int $page): string {
     return '?categoria=' . urlencode($slug) . '&page=' . $page;
 }
-
-// Etiquetas de categoría para las tarjetas (solo en vista "todas")
-$etiquetaCat = [
-    'sol'            => ['label' => 'Sol',            'icon' => 'bi-sun-fill',       'color' => '#f59e0b'],
-    'luna'           => ['label' => 'Luna',           'icon' => 'bi-moon-stars-fill', 'color' => '#7dd3fc'],
-    'espacio_profundo'=> ['label' => 'Esp. Profundo', 'icon' => 'bi-stars',          'color' => '#a78bfa'],
-];
 
 ob_start();
 ?>
@@ -147,10 +133,9 @@ ob_start();
         <?php foreach ($fotosPagina as $foto):
             $modalId  = 'modal-' . preg_replace('/[^a-z0-9]/', '', strtolower($foto['id']));
             $tieneImg = !empty($foto['imagen']);
-            $cat      = $foto['categoria'] ?? 'sol';
-            $badge    = $etiquetaCat[$cat] ?? $etiquetaCat['sol'];
-            // Color de acento para esta foto
-            $accentColor = $config[($cat === 'espacio_profundo' ? 'profundo' : $cat)]['color'] ?? $catConfig['color'];
+            $cat      = $foto['categoria'] ?? '';   // slug desde el JOIN
+            $badge    = $etiquetaCat[$cat] ?? reset($etiquetaCat);
+            $accentColor = $config[$cat]['color'] ?? $catConfig['color'];
         ?>
 
           <!-- Tarjeta -->
@@ -170,7 +155,7 @@ ob_start();
               <?php else: ?>
                 <div class="astro-placeholder-img d-flex flex-column align-items-center justify-content-center"
                      style="border-bottom: 3px solid <?= $accentColor ?>44;">
-                  <i class="bi <?= $config[($cat === 'espacio_profundo' ? 'profundo' : $cat)]['icon_bi'] ?? 'bi-camera' ?>"
+                  <i class="bi <?= $config[$cat]['icon_bi'] ?? 'bi-camera' ?>"
                      style="color: <?= $accentColor ?>; font-size: 2.5rem;"></i>
                   <span class="small text-muted mt-2">Imagen pendiente</span>
                 </div>
@@ -205,7 +190,7 @@ ob_start();
                 <!-- Header del modal -->
                 <div class="modal-header astro-modal-header" style="border-bottom: 2px solid <?= $accentColor ?>44;">
                   <div class="d-flex align-items-center gap-2">
-                    <i class="bi <?= $config[($cat === 'espacio_profundo' ? 'profundo' : $cat)]['icon_bi'] ?? 'bi-camera' ?>"
+                    <i class="bi <?= $config[$cat]['icon_bi'] ?? 'bi-camera' ?>"
                        style="color:<?= $accentColor ?>; font-size: 1.3rem;"></i>
                     <h5 class="modal-title fw-bold mb-0" id="<?= $modalId ?>-label">
                       <?= htmlspecialchars($foto['titulo'] ?? $foto['id']) ?>

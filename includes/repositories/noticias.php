@@ -24,7 +24,7 @@ function get_noticias_home(): array
 
     $sql = "SELECT n.*, n.slug AS id, c.nombre AS categoria
             FROM noticias n
-            LEFT JOIN categorias c ON n.categoria_id = c.id
+            LEFT JOIN categorias_noticias c ON n.categoria_id = c.id
             WHERE n.estado = 'publicado' AND n.visible_en_principal = 1
             ORDER BY n.fijado DESC, n.fecha DESC
             LIMIT ?";
@@ -55,7 +55,7 @@ function get_noticias_archivo(int $pagina, int $porPagina = 9): array
     // Noticias de esta página
     $sql = "SELECT n.*, n.slug AS id, c.nombre AS categoria
             FROM noticias n
-            LEFT JOIN categorias c ON n.categoria_id = c.id
+            LEFT JOIN categorias_noticias c ON n.categoria_id = c.id
             WHERE n.estado = 'publicado'
             ORDER BY n.fecha DESC
             LIMIT ? OFFSET ?";
@@ -77,7 +77,7 @@ function get_noticia_por_slug(string $slug): ?array
     $pdo = get_pdo();
     $sql = "SELECT n.*, n.slug AS id, c.nombre AS categoria
             FROM noticias n
-            LEFT JOIN categorias c ON n.categoria_id = c.id
+            LEFT JOIN categorias_noticias c ON n.categoria_id = c.id
             WHERE n.slug = ?
             LIMIT 1";
     $stmt = $pdo->prepare($sql);
