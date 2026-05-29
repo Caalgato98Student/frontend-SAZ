@@ -14,8 +14,9 @@ ob_start(); ?>
 
 <?php if($msg==='editado'): ?><div class="alert-adm alert-adm-success"><i class="bi bi-check-circle-fill"></i> Actividad actualizada.</div><?php endif; ?>
 
-<div class="d-flex align-items-center justify-content-between mb-3">
+<div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
   <h1 class="h4 fw-bold mb-0">Actividades</h1>
+  <a href="crear.php" class="btn-adm-primary btn"><i class="bi bi-plus-lg me-1"></i> Nueva actividad</a>
 </div>
 
 <div class="adm-card mb-3" style="font-size:.85rem;color:var(--adm-muted)">
@@ -37,7 +38,15 @@ ob_start(); ?>
               <td style="color:var(--adm-muted);font-size:.85rem"><?=$a['orden']?></td>
               <td><?=$a['activo']?'<i class="bi bi-check-circle-fill" style="color:#4ade80"></i>':'<i class="bi bi-dash-circle" style="color:var(--adm-border)"></i>'?></td>
               <td>
-                <a href="editar.php?id=<?=$a['id']?>" class="btn btn-sm" style="background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.3);color:#60a5fa;border-radius:6px;padding:.25rem .65rem"><i class="bi bi-pencil"></i> Editar</a>
+                <div class="d-flex gap-2">
+                  <a href="editar.php?id=<?=$a['id']?>" class="btn btn-sm" style="background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.3);color:#60a5fa;border-radius:6px;padding:.25rem .65rem"><i class="bi bi-pencil"></i> Editar</a>
+                  <form method="POST" action="eliminar.php" style="display:inline">
+                    <input type="hidden" name="csrf_token" value="<?=generate_csrf_token()?>">
+                    <input type="hidden" name="id" value="<?=$a['id']?>">
+                    <button type="submit" class="btn btn-sm btn-adm-danger btn-delete-confirm" style="padding:.25rem .65rem"
+                            data-confirm="¿Desactivar «<?=htmlspecialchars($a['titulo'],ENT_QUOTES)?>»?"><i class="bi bi-eye-slash"></i></button>
+                  </form>
+                </div>
               </td>
             </tr>
           <?php endforeach; ?>

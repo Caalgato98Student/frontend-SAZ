@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require_once __DIR__ . '/../../includes/security.php';
 require_once __DIR__ . '/../auth.php';
 require_admin_auth();
@@ -43,7 +43,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         $titulo2 = sanitize_text($_POST['item_titulo']??'', 255);
         $desc2   = trim($_POST['item_desc']??'');
         $icono2  = sanitize_text($_POST['item_icono']??'', 100);
-        $orden2  = (int) $pdo->query("SELECT COALESCE(MAX(orden),0)+1 FROM observacion_items WHERE observacion_id={$id}")->fetchColumn();
+        $stmtMax = $pdo->prepare("SELECT COALESCE(MAX(orden),0)+1 FROM observacion_items WHERE observacion_id = ?");
+        $stmtMax->execute([$id]);
+        $orden2 = (int) $stmtMax->fetchColumn();
         $pdo->prepare("INSERT INTO observacion_items (observacion_id,titulo,descripcion,icono,orden) VALUES(?,?,?,?,?)")
             ->execute([$id,$titulo2,$desc2,$icono2,$orden2]);
         header("Location: editar.php?id={$id}&msgitem=added"); exit;

@@ -21,7 +21,7 @@ function admin_nav_active(string $section): string {
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="icon" type="image/png" href="<?= $basePath ?? '../' ?>assets/img/logo-SAZ.png">
+  <link rel="icon" type="image/png" href="/assets/img/logo-SAZ.png">
   <style>
     :root {
       --adm-dark:    #0d1117;
@@ -288,41 +288,44 @@ function admin_nav_active(string $section): string {
 
 <!-- ── Sidebar ── -->
 <aside class="adm-sidebar" id="adminSidebar">
-  <a href="../admin/index.php" class="adm-sidebar-brand">
-    <img src="<?= $basePath ?? '../' ?>assets/img/logo-SAZ.png" alt="SAZ">
+  <a href="/admin/index.php" class="adm-sidebar-brand">
+    <img src="/assets/img/logo-SAZ.png" alt="SAZ">
     <span>SAZ CMS<small>Panel de administración</small></span>
   </a>
 
   <nav class="adm-nav">
-    <a href="../admin/index.php" class="<?= admin_nav_active('index') ?>">
+    <a href="/admin/index.php" class="<?= admin_nav_active('index') ?>">
       <i class="bi bi-speedometer2"></i> Dashboard
     </a>
 
     <div class="adm-nav-section">Contenido</div>
-    <a href="../admin/noticias/index.php" class="<?= admin_nav_active('noticias') ?>">
+    <a href="/admin/noticias/index.php" class="<?= admin_nav_active('noticias') ?>">
       <i class="bi bi-newspaper"></i> Noticias
     </a>
-    <a href="../admin/actividades/index.php" class="<?= admin_nav_active('actividades') ?>">
+    <a href="/admin/actividades/index.php" class="<?= admin_nav_active('actividades') ?>">
       <i class="bi bi-calendar-event"></i> Actividades
     </a>
-    <a href="../admin/astrofotografia/index.php" class="<?= admin_nav_active('astrofotografia') ?>">
+    <a href="/admin/astrofotografia/index.php" class="<?= admin_nav_active('astrofotografia') ?>">
       <i class="bi bi-camera-fill"></i> Astrofotografía
     </a>
-    <a href="../admin/convocatorias/index.php" class="<?= admin_nav_active('convocatorias') ?>">
+    <a href="/admin/convocatorias/index.php" class="<?= admin_nav_active('convocatorias') ?>">
       <i class="bi bi-megaphone-fill"></i> Convocatorias
     </a>
-    <a href="../admin/eventos/index.php" class="<?= admin_nav_active('eventos') ?>">
+    <a href="/admin/eventos/index.php" class="<?= admin_nav_active('eventos') ?>">
       <i class="bi bi-stars"></i> Eventos
     </a>
-    <a href="../admin/observaciones/index.php" class="<?= admin_nav_active('observaciones') ?>">
+    <a href="/admin/observaciones/index.php" class="<?= admin_nav_active('observaciones') ?>">
       <i class="bi bi-telescope-fill"></i> Observaciones
     </a>
-    <a href="../admin/colaboradores/index.php" class="<?= admin_nav_active('colaboradores') ?>">
+    <a href="/admin/miembros/index.php" class="<?= admin_nav_active('miembros') ?>">
+      <i class="bi bi-person-badge-fill"></i> Miembros
+    </a>
+    <a href="/admin/colaboradores/index.php" class="<?= admin_nav_active('colaboradores') ?>">
       <i class="bi bi-people-fill"></i> Colaboradores
     </a>
 
     <div class="adm-nav-section">Sitio</div>
-    <a href="../index.php" target="_blank">
+    <a href="/index.php" target="_blank">
       <i class="bi bi-box-arrow-up-right"></i> Ver sitio
     </a>
   </nav>
@@ -330,7 +333,7 @@ function admin_nav_active(string $section): string {
   <div class="adm-sidebar-footer">
     <div class="admin-name"><?= $adminNombre ?></div>
     <div class="admin-role">Administrador</div>
-    <a href="../admin/logout.php" class="btn-logout">
+    <a href="/admin/logout.php" class="btn-logout">
       <i class="bi bi-box-arrow-left"></i> Cerrar sesión
     </a>
   </div>
