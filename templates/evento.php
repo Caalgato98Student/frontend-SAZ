@@ -9,13 +9,15 @@
  *   $basePath   — ruta relativa a la raíz del proyecto
  */
 
-require_once __DIR__ . '/../config.php';
-require_once __DIR__ . '/../includes/db.php';
-require_once __DIR__ . '/../includes/repositories/eventos.php';
-$evento = get_evento_completo($eventoSlug);
+if (!isset($evento)) {
+    require_once __DIR__ . '/../config.php';
+    require_once __DIR__ . '/../includes/db.php';
+    require_once __DIR__ . '/../includes/repositories/eventos.php';
+    $evento = get_evento_completo($eventoSlug);
+}
 
 if (!$evento) {
-    echo '<section class="py-5"><div class="container"><div class="alert alert-warning">No se encontro informacion del evento.</div></div></section>';
+    echo '<section class="py-5"><div class="container"><div class="alert alert-warning">No se encontró información del evento.</div></div></section>';
     return;
 }
 ?>
@@ -30,7 +32,9 @@ if (!$evento) {
     </nav>
 
     <h1 class="section-title mb-3"><?= htmlspecialchars($evento['titulo']) ?></h1>
-    <p class="lead mb-4"><?= htmlspecialchars($evento['descripcion']) ?></p>
+    <?php if (!empty($evento['descripcion'])): ?>
+    <div class="lead mb-4"><?= $evento['descripcion'] ?></div>
+    <?php endif; ?>
 
     <?php if (!empty($evento['imagen_principal'])): ?>
       <img src="<?= $basePath ?>assets/img/eventos/<?= htmlspecialchars($evento['imagen_principal']) ?>"
@@ -61,7 +65,9 @@ if (!$evento) {
                   <i class="bi bi-geo-alt me-1"></i><?= htmlspecialchars($ed['lugar']) ?>
                 </p>
               <?php endif; ?>
-              <p class="mb-0"><?= htmlspecialchars($ed['resumen']) ?></p>
+              <?php if (!empty($ed['resumen'])): ?>
+              <div class="mt-2 evento-resumen"><?= $ed['resumen'] ?></div>
+              <?php endif; ?>
 
               <?php if (!empty($ed['pdf'])): ?>
                 <div class="mt-4">

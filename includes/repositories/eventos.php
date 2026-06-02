@@ -74,13 +74,8 @@ function get_ediciones(int $eventoId): array
  */
 function get_imagenes_edicion(int $edicionId): array
 {
-    $pdo  = get_pdo();
-    $stmt = $pdo->prepare(
-        "SELECT ruta AS archivo, alt_texto AS label, orden
-         FROM edicion_imagenes
-         WHERE edicion_id = ?
-         ORDER BY orden"
-    );
+    $pdo = get_pdo();
+    $stmt = $pdo->prepare("SELECT ruta AS archivo, alt_texto AS label, orden FROM evento_edicion_imagenes WHERE edicion_id = ? ORDER BY orden");
     $stmt->execute([$edicionId]);
     return $stmt->fetchAll();
 }

@@ -2,7 +2,7 @@
 /**
  * partials/astrofotografia.php
  * Muestra las 3 astrofotografías más recientes en la página de inicio.
- * Incluye fecha, descripción y crédito/fuente.
+ * Incluye fecha, descripción, crédito y coordenadas RA/Dec.
  * Click → lightbox (modal Bootstrap).
  * Lee contenido desde la base de datos vía repositorio.
  */
@@ -44,8 +44,8 @@ if (!isset($basePath)) {
                 <p class="mb-1"><?= htmlspecialchars($foto['descripcion']) ?></p>
                 <p class="text-muted small mb-0">
                   <i class="bi bi-camera me-1"></i><?= htmlspecialchars($foto['fotografo'] ?? $foto['colaborador'] ?? 'Miembro SAZ') ?>
-                  <?php if (!empty($foto['fuente'])): ?>
-                    · <i class="bi bi-geo-alt me-1"></i><?= htmlspecialchars($foto['fuente']) ?>
+                  <?php if (!empty($foto['coordenadas'])): ?>
+                    · <i class="bi bi-geo-alt me-1"></i><?= htmlspecialchars($foto['coordenadas']) ?>
                   <?php endif; ?>
                 </p>
               </div>

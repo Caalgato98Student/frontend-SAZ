@@ -35,6 +35,7 @@ $contactoDireccion = $dbDisponible ? (get_config('contacto_direccion') ?? 'Zacat
 $socialFacebook    = $dbDisponible ? (get_config('social_facebook')    ?? 'https://www.facebook.com/SAZacatecas')  : 'https://www.facebook.com/SAZacatecas';
 $socialInstagram   = $dbDisponible ? (get_config('social_instagram')   ?? 'https://www.instagram.com/sazacatecas/') : 'https://www.instagram.com/sazacatecas/';
 $socialX           = $dbDisponible ? (get_config('social_x')           ?? 'https://x.com/ndezacmx')              : 'https://x.com/ndezacmx';
+$mapaEmbed         = $dbDisponible ? (get_config('contacto_mapa_embed') ?? '') : '';
 
 // ── Flag: formulario activo cuando la DB está configurada ───────
 $formActivo = $dbDisponible;
@@ -278,16 +279,18 @@ ob_start();
           </div>
         </div>
 
+        <?php if (!empty($mapaEmbed)): ?>
         <div class="surface-card">
           <h2 class="h5 mb-3"><i class="bi bi-geo-alt me-2"></i>Ubicación</h2>
           <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d29068.03782367076!2d-102.58324!3d22.7711!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x86824ebbf47eaaa5%3A0x2c96536bfa1fe2ec!2sZacatecas%2C%20Zac.%2C%20Mexico!5e0!3m2!1ses!2smx!4v1680000000000!5m2!1ses!2smx"
+            src="<?= htmlspecialchars($mapaEmbed) ?>"
             width="100%" height="250" style="border:0; border-radius: 0.75rem;"
             allowfullscreen="" loading="lazy"
             referrerpolicy="no-referrer-when-downgrade"
             title="Ubicación de la SAZ en Zacatecas">
           </iframe>
         </div>
+        <?php endif; ?>
       </div>
 
     </div>

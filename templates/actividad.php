@@ -18,6 +18,11 @@
 
 $actividadImagenesDir = $actividadImagenesDir ?? null;
 
+if (!function_exists('get_config')) {
+    require_once __DIR__ . '/../includes/repositories/configuracion.php';
+}
+$_actividadInfoNota = get_config('actividades_info_nota') ?? 'Esta sección será actualizada conforme se programen nuevas sesiones. Para más detalles, contacta a la SAZ a través de la página de contacto.';
+
 if (!isset($imagenes) || empty($imagenes)) {
     $imagenes = [];
 
@@ -150,8 +155,8 @@ $totalImagenes      = count($imagenes);
     <?php endif; ?>
 
     <div class="surface-card mt-5">
-      <h2 class="h5 mb-3"><i class="bi bi-info-circle me-2"></i>Informacion</h2>
-      <p class="mb-0 text-muted">Esta seccion sera actualizada conforme se programen nuevas sesiones. Para mas detalles, contacta a la SAZ a traves de la pagina de <a href="<?= $basePath ?>pages/contacto/index.php" class="link-accent">contacto</a>.</p>
+      <h2 class="h5 mb-3"><i class="bi bi-info-circle me-2"></i>Información</h2>
+      <p class="mb-0 text-muted"><?= htmlspecialchars($_actividadInfoNota) ?></p>
     </div>
   </div>
 </section>

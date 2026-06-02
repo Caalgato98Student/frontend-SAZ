@@ -3,7 +3,7 @@
  * pages/convocatorias/index.php
  * Todas las convocatorias: activas primero con estilo prominente,
  * inactivas después con texto tenue.
- * Lee contenido desde content/convocatorias/*.json
+ * Lee contenido desde la base de datos mediante repositorio.
  */
 $pageTitle       = 'Convocatorias — Sociedad Astronomica de Zacatecas';
 $pageDescription = 'Convocatorias abiertas y cerradas de la Sociedad Astronomica de Zacatecas.';

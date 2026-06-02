@@ -31,6 +31,18 @@ if (file_exists(__DIR__ . '/../../config.php')) {
 // ── Flag: formulario activo cuando la DB está configurada ───────
 $formActivo = $dbDisponible;
 
+// ── Áreas de interés y configuración desde la DB ────────────────
+$intereses = [];
+$_suscribirseDesc = 'Únete a la SAZ y recibe información sobre eventos, actividades y oportunidades de colaboración.';
+if ($dbDisponible) {
+    require_once __DIR__ . '/../../includes/repositories/configuracion.php';
+    $pdo = get_pdo();
+    $stmtI = $pdo->query("SELECT id, nombre, slug FROM intereses_suscripcion ORDER BY nombre");
+    $intereses = $stmtI->fetchAll();
+    $_suscribirseDesc = get_config('suscribirse_descripcion') ?? $_suscribirseDesc;
+}
+$interesesSlugs = array_column($intereses, 'slug');
+
 // ── Variables de estado del formulario ──────────────────────────
 $success  = false;
 $errors   = [];
@@ -41,8 +53,6 @@ $formData = [
     'interes'  => '',
     'mensaje'  => '',
 ];
-
-$interesesValidos = ['Divulgacion', 'Astrofotografia', 'Observacion', 'Investigacion', 'Educacion'];
 
 // ── Procesamiento del POST ───────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -75,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($correo === false) {
                 $errors[] = 'El correo electrónico no es válido.';
             }
-            if ($interesRaw !== '' && !in_array($interesRaw, $interesesValidos, true)) {
+            if ($interesRaw !== '' && !in_array($interesRaw, $interesesSlugs, true)) {
                 $errors[] = 'El área de interés seleccionada no es válida.';
             }
 
@@ -90,18 +100,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if (empty($errors)) {
                 try {
-                    $pdo  = get_pdo();
+                    $pdo = get_pdo();
+
+                    // Resolver interes_id a partir del slug seleccionado
+                    $interesId = null;
+                    if ($interesRaw !== '') {
+                        foreach ($intereses as $int) {
+                            if ($int['slug'] === $interesRaw) {
+                                $interesId = $int['id'];
+                                break;
+                            }
+                        }
+                    }
+
                     $stmt = $pdo->prepare(
                         'INSERT IGNORE INTO suscriptores
-                         (nombre, correo, telefono, interes, mensaje)
+                         (nombre, correo, telefono, interes_id, mensaje)
                          VALUES (?, ?, ?, ?, ?)'
                     );
                     $stmt->execute([
                         $nombre,
                         $correo,
                         $telefono ?: null,
-                        $interesRaw ?: null,
-                        $mensaje    ?: null,
+                        $interesId,
+                        $mensaje   ?: null,
                     ]);
 
                     if ($stmt->rowCount() === 0) {
@@ -135,7 +157,7 @@ ob_start();
       <div class="text-center mb-5">
         <i class="bi bi-envelope-plus text-primary" style="font-size: 3rem;"></i>
         <h1 class="section-title mt-3">Suscribirse</h1>
-        <p class="lead">Únete a la SAZ y recibe información sobre eventos, actividades y oportunidades de colaboración.</p>
+        <p class="lead"><?= htmlspecialchars($_suscribirseDesc) ?></p>
       </div>
 
       <!-- Aviso: formulario próximamente disponible -->
@@ -238,10 +260,10 @@ ob_start();
             <label for="sub-interes" class="form-label">Área de interés</label>
             <select id="sub-interes" name="interes" class="form-select">
               <option value="" <?= $formData['interes'] === '' ? 'selected' : '' ?> disabled>Selecciona una opción</option>
-              <?php foreach ($interesesValidos as $opcion): ?>
-              <option value="<?= htmlspecialchars($opcion) ?>"
-                <?= $formData['interes'] === $opcion ? 'selected' : '' ?>>
-                <?= htmlspecialchars($opcion) ?>
+              <?php foreach ($intereses as $int): ?>
+              <option value="<?= htmlspecialchars($int['slug']) ?>"
+                <?= $formData['interes'] === $int['slug'] ? 'selected' : '' ?>>
+                <?= htmlspecialchars($int['nombre']) ?>
               </option>
               <?php endforeach; ?>
             </select>
