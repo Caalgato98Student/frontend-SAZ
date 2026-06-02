@@ -99,10 +99,6 @@ ob_start(); ?>
                          name="<?= htmlspecialchars($c['clave']) ?>" 
                          value="<?= htmlspecialchars($c['valor'] ?? '') ?>">
                 <?php endif; ?>
-                
-                <small style="color:var(--adm-muted);font-size:.72rem;display:block;margin-top:.2rem">
-                  Clave interna: <code><?= htmlspecialchars($c['clave']) ?></code>
-                </small>
               </div>
             <?php endforeach; ?>
           </div>
