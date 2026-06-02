@@ -44,6 +44,8 @@ $stats = [
     'miembros'       => 0,
     'formacion'      => 0,
     'divulgacion'    => 0,
+    'colaboradores'  => 0,
+    'col_redes'      => 0,
     'admin'          => 0,
     'saltados'       => 0,
 ];
@@ -643,6 +645,57 @@ echo "\n";
 
 
 // ════════════════════════════════════════════════════════════════
+// 12. COLABORADORES
+// ════════════════════════════════════════════════════════════════
+echo "12. Colaboradores\n";
+
+$colaboradoresData = [
+    [
+        'nombre'    => 'Dr. José María',
+        'profesion' => 'Astrónomo Observacional',
+        'redes'     => [
+            ['LinkedIn', 'https://linkedin.com']
+        ]
+    ],
+    [
+        'nombre'    => 'M. en C. Sofía Ruiz',
+        'profesion' => 'Divulgadora Científica',
+        'redes'     => [
+            ['ResearchGate', 'https://researchgate.net']
+        ]
+    ]
+];
+
+$stmtColChk = $pdo->prepare("SELECT id FROM colaboradores WHERE nombre = ? LIMIT 1");
+$stmtColIns = $pdo->prepare("INSERT INTO colaboradores (nombre, profesion, imagen, activo, orden) VALUES (?, ?, NULL, 1, ?)");
+$stmtRedIns = $pdo->prepare("INSERT INTO colaborador_redes (colaborador_id, nombre, url, orden) VALUES (?, ?, ?, ?)");
+
+$colOrden = 1;
+foreach ($colaboradoresData as $col) {
+    $stmtColChk->execute([$col['nombre']]);
+    $existingId = $stmtColChk->fetchColumn();
+    
+    if ($existingId) {
+        echo "  ⏭ Ya existe colaborador: {$col['nombre']}\n";
+        $stats['saltados']++;
+        continue;
+    }
+    
+    $stmtColIns->execute([$col['nombre'], $col['profesion'], $colOrden++]);
+    $colId = (int)$pdo->lastInsertId();
+    echo "  ✅ Colaborador: {$col['nombre']}\n";
+    $stats['colaboradores']++;
+    
+    $redOrden = 1;
+    foreach ($col['redes'] as [$redNombre, $redUrl]) {
+        $stmtRedIns->execute([$colId, $redNombre, $redUrl, $redOrden++]);
+        $stats['col_redes']++;
+    }
+}
+echo "\n";
+
+
+// ════════════════════════════════════════════════════════════════
 // RESUMEN
 // ════════════════════════════════════════════════════════════════
 echo "╔══════════════════════════════════════════════════════╗\n";
@@ -656,5 +709,6 @@ printf("║  Eventos:           %3d (%d ediciones)               ║\n", $stats[
 printf("║  Convocatorias:     %3d                              ║\n", $stats['convocatorias']);
 printf("║  Astrofotografía:   %3d                              ║\n", $stats['astrofotografia']);
 printf("║  Miembros:          %3d                              ║\n", $stats['miembros']);
+printf("║  Colaboradores:     %3d (%d redes)                  ║\n", $stats['colaboradores'], $stats['col_redes']);
 printf("║  Saltados:          %3d                              ║\n", $stats['saltados']);
 echo "╚══════════════════════════════════════════════════════╝\n";
