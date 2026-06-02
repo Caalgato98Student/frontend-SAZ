@@ -41,9 +41,14 @@ ob_start(); ?>
 
 <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
   <h1 class="h4 fw-bold mb-0">Noticias</h1>
-  <a href="crear.php" class="btn-adm-primary btn">
-    <i class="bi bi-plus-lg me-1"></i> Nueva noticia
-  </a>
+  <div class="d-flex gap-2">
+    <a href="../categorias/index.php" class="btn" style="background:rgba(255,255,255,.05);border:1px solid var(--adm-border);color:var(--adm-text);border-radius:8px">
+      <i class="bi bi-tags me-1"></i> Categorías
+    </a>
+    <a href="crear.php" class="btn-adm-primary btn">
+      <i class="bi bi-plus-lg me-1"></i> Nueva noticia
+    </a>
+  </div>
 </div>
 
 <!-- Filtros -->

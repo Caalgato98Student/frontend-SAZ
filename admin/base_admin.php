@@ -323,9 +323,6 @@ function admin_nav_active(string $section): string {
     <a href="/admin/colaboradores/index.php" class="<?= admin_nav_active('colaboradores') ?>">
       <i class="bi bi-people-fill"></i> Colaboradores
     </a>
-    <a href="/admin/categorias/index.php" class="<?= admin_nav_active('categorias') ?>">
-      <i class="bi bi-tags-fill"></i> Categorías
-    </a>
     <a href="/admin/instituciones/index.php" class="<?= admin_nav_active('instituciones') ?>">
       <i class="bi bi-building-fill"></i> Instituciones
     </a>

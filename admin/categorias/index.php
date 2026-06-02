@@ -55,6 +55,12 @@ ob_start(); ?>
   <div class="alert-adm alert-adm-danger"><i class="bi bi-exclamation-triangle-fill"></i> <?= htmlspecialchars($e) ?></div>
 <?php endforeach; ?>
 
+<div class="d-flex align-items-center gap-2 mb-3">
+  <a href="../noticias/index.php" style="color:var(--adm-muted);text-decoration:none;font-size:.9rem"><i class="bi bi-chevron-left"></i> Noticias</a>
+  <span style="color:var(--adm-border)">/</span><span style="font-size:.9rem">Categorías</span>
+</div>
+<h1 class="h4 fw-bold mb-4">Categorías de Noticias</h1>
+
 <div class="row g-3">
   <!-- Listado -->
   <div class="col-lg-8">
