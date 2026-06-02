@@ -15,7 +15,7 @@ $errors    = [];
 $msg       = $_GET['msg'] ?? '';
 
 // Cargar todas las configuraciones
-$configuraciones = $pdo->query("SELECT * FROM configuracion ORDER BY categoria, clave")->fetchAll();
+$configuraciones = $pdo->query("SELECT * FROM configuracion ORDER BY grupo, clave")->fetchAll();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     verify_csrf_token($_POST['csrf_token'] ?? '');
@@ -48,10 +48,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $csrf = generate_csrf_token();
 
-// Agrupar por categoría
+// Agrupar por grupo (categoría)
 $categorias = [];
 foreach ($configuraciones as $conf) {
-    $categorias[$conf['categoria']][] = $conf;
+    $categorias[$conf['grupo']][] = $conf;
 }
 
 ob_start(); ?>
