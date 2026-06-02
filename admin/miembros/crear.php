@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * admin/miembros/crear.php — Crear nuevo miembro.
  */
@@ -7,12 +7,16 @@ require_once __DIR__ . '/../auth.php';
 require_admin_auth();
 require_once __DIR__ . '/../../config.php';
 require_once __DIR__ . '/../../includes/db.php';
+require_once __DIR__ . '/../../includes/repositories/miembros.php';
 
 $pageTitle = 'Nuevo miembro';
 $basePath  = '../../';
 $pdo       = get_pdo();
 $errors    = [];
-$vals      = ['nombre'=>'','especialidad'=>'','cargo'=>'','correo'=>'','ubicacion'=>'',
+
+$cargos = get_cargos();
+
+$vals      = ['nombre'=>'','especialidad'=>'','cargo_id'=>'','correo'=>'','ubicacion'=>'',
                'distincion'=>'','generalidades'=>'','activo'=>1,'orden'=>0,
                'en_mesa_directiva'=>0];
 
@@ -21,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $nombre     = sanitize_text($_POST['nombre'] ?? '', 255);
     $especialidad = sanitize_text($_POST['especialidad'] ?? '', 255);
-    $cargo      = sanitize_text($_POST['cargo'] ?? '', 255);
+    $cargoId    = intval($_POST['cargo_id'] ?? 0) ?: null;
     $correo     = sanitize_text($_POST['correo'] ?? '', 255);
     $ubicacion  = sanitize_text($_POST['ubicacion'] ?? '', 255);
     $distincion = sanitize_text($_POST['distincion'] ?? '', 255);
@@ -31,6 +35,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $orden      = intval($_POST['orden'] ?? 0);
 
     if (!$nombre) $errors[] = 'El nombre es obligatorio.';
+
+    // Validar cargo si se especificó
+    if ($cargoId !== null) {
+        $validCargo = false;
+        foreach ($cargos as $cg) {
+            if ($cg['id'] == $cargoId) {
+                $validCargo = true;
+                break;
+            }
+        }
+        if (!$validCargo) $errors[] = 'El cargo seleccionado no es válido.';
+    }
 
     if (!$errors) {
         $slug = strtolower(preg_replace('/[^a-z0-9]+/', '-', iconv('UTF-8','ASCII//TRANSLIT', $nombre)));
@@ -57,21 +73,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
                 $stmt = $pdo->prepare(
                     "INSERT INTO miembros
-                     (slug,nombre,especialidad,cargo,correo,ubicacion,distincion,imagen,generalidades,activo,en_mesa_directiva,orden)
+                     (slug,nombre,especialidad,cargo_id,correo,ubicacion,distincion,imagen,generalidades,activo,en_mesa_directiva,orden)
                      VALUES (?,?,?,?,?,?,?,?,?,?,?,?)"
                 );
-                $stmt->execute([$slug,$nombre,$especialidad,$cargo,$correo,$ubicacion,$distincion,$imagen,$generalidades,$activo,$mesa,$orden]);
+                $stmt->execute([$slug,$nombre,$especialidad,$cargoId,$correo,$ubicacion,$distincion,$imagen,$generalidades,$activo,$mesa,$orden]);
                 $nuevoId = $pdo->lastInsertId();
 
                 // Formación (líneas separadas por \n)
                 $formacion = array_filter(array_map('trim', explode("\n", $_POST['formacion'] ?? '')));
+                $idx = 0;
                 foreach ($formacion as $item) {
-                    $pdo->prepare("INSERT INTO miembro_formacion (miembro_id,descripcion) VALUES (?,?)")->execute([$nuevoId, $item]);
+                    $pdo->prepare("INSERT INTO miembro_formacion (miembro_id,descripcion,orden) VALUES (?,?,?)")->execute([$nuevoId, $item, $idx++]);
                 }
                 // Divulgación
                 $divulgacion = array_filter(array_map('trim', explode("\n", $_POST['divulgacion'] ?? '')));
+                $idx = 0;
                 foreach ($divulgacion as $item) {
-                    $pdo->prepare("INSERT INTO miembro_divulgacion (miembro_id,descripcion) VALUES (?,?)")->execute([$nuevoId, $item]);
+                    $pdo->prepare("INSERT INTO miembro_divulgacion (miembro_id,descripcion,orden) VALUES (?,?,?)")->execute([$nuevoId, $item, $idx++]);
                 }
 
                 header('Location: index.php?msg=creado'); exit;
@@ -80,6 +98,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
     }
+
+    // Re-poblar en caso de error
+    $vals = [
+        'nombre' => $nombre,
+        'especialidad' => $especialidad,
+        'cargo_id' => $cargoId,
+        'correo' => $correo,
+        'ubicacion' => $ubicacion,
+        'distincion' => $distincion,
+        'generalidades' => $generalidades,
+        'activo' => $activo,
+        'en_mesa_directiva' => $mesa,
+        'orden' => $orden
+    ];
 }
 
 $csrf = generate_csrf_token();
@@ -115,9 +147,13 @@ ob_start(); ?>
                    value="<?=htmlspecialchars($vals['especialidad'])?>" placeholder="Ej: Astrofísica teórica">
           </div>
           <div class="col-md-6 mb-3">
-            <label class="form-label" for="cargo">Cargo en la SAZ</label>
-            <input type="text" class="form-control" id="cargo" name="cargo"
-                   value="<?=htmlspecialchars($vals['cargo'])?>" placeholder="Ej: Presidente">
+            <label class="form-label" for="cargo_id">Cargo en la SAZ</label>
+            <select class="form-select" id="cargo_id" name="cargo_id">
+              <option value="">— Sin cargo —</option>
+              <?php foreach ($cargos as $cg): ?>
+                <option value="<?= $cg['id'] ?>" <?= $vals['cargo_id'] == $cg['id'] ? 'selected' : '' ?>><?= htmlspecialchars($cg['nombre']) ?></option>
+              <?php endforeach; ?>
+            </select>
           </div>
           <div class="col-md-6 mb-3">
             <label class="form-label" for="correo">Correo electrónico</label>
@@ -147,13 +183,13 @@ ob_start(); ?>
       <div class="adm-card mb-3">
         <h2 class="adm-card-title">Formación académica</h2>
         <p style="font-size:.83rem;color:var(--adm-muted)">Escribe un ítem por línea. Ej: <em>Doctorado en Astrofísica, UAZ, 2010</em></p>
-        <textarea class="form-control" name="formacion" rows="4" placeholder="Doctorado en Astrofísica, UAZ, 2010&#10;Maestría en Física, UNAM, 2006"></textarea>
+        <textarea class="form-control" name="formacion" rows="4" placeholder="Doctorado en Astrofísica, UAZ, 2010&#10;Maestría en Física, UNAM, 2006"><?=isset($_POST['formacion']) ? htmlspecialchars($_POST['formacion']) : ''?></textarea>
       </div>
 
       <div class="adm-card mb-3">
         <h2 class="adm-card-title">Divulgación científica</h2>
         <p style="font-size:.83rem;color:var(--adm-muted)">Escribe un ítem por línea.</p>
-        <textarea class="form-control" name="divulgacion" rows="4" placeholder="Conferencia: El universo en expansión, 2023&#10;Artículo en Astronomía Magazine, 2022"></textarea>
+        <textarea class="form-control" name="divulgacion" rows="4" placeholder="Conferencia: El universo en expansión, 2023&#10;Artículo en Astronomía Magazine, 2022"><?=isset($_POST['divulgacion']) ? htmlspecialchars($_POST['divulgacion']) : ''?></textarea>
       </div>
 
       <div class="adm-card">
@@ -168,14 +204,14 @@ ob_start(); ?>
         <h2 class="adm-card-title">Configuración</h2>
         <div class="mb-3">
           <label class="form-label" for="orden">Orden de aparición</label>
-          <input type="number" class="form-control" id="orden" name="orden" value="0" min="0">
+          <input type="number" class="form-control" id="orden" name="orden" value="<?=htmlspecialchars($vals['orden'])?>" min="0">
         </div>
         <div class="form-check mb-2">
-          <input class="form-check-input" type="checkbox" id="activo" name="activo" checked>
+          <input class="form-check-input" type="checkbox" id="activo" name="activo" <?=$vals['activo']?'checked':''?>>
           <label class="form-check-label" for="activo" style="color:var(--adm-text);font-size:.875rem">Miembro activo</label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" id="en_mesa_directiva" name="en_mesa_directiva">
+          <input class="form-check-input" type="checkbox" id="en_mesa_directiva" name="en_mesa_directiva" <?=$vals['en_mesa_directiva']?'checked':''?>>
           <label class="form-check-label" for="en_mesa_directiva" style="color:var(--adm-text);font-size:.875rem">
             En mesa directiva <i class="bi bi-star-fill" style="color:#f59e0b;font-size:.8rem"></i>
           </label>

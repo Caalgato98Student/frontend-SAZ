@@ -14,7 +14,7 @@ $basePath  = '../../';
 $pdo       = get_pdo();
 
 // Categorías disponibles
-$categorias = $pdo->query("SELECT id, nombre FROM categorias ORDER BY nombre")->fetchAll();
+$categorias = $pdo->query("SELECT id, nombre FROM categorias_noticias ORDER BY nombre")->fetchAll();
 
 $errors = [];
 $vals   = ['titulo'=>'','resumen'=>'','contenido'=>'','autor'=>'','fecha'=>date('Y-m-d'),

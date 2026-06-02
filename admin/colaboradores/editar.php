@@ -11,6 +11,12 @@ $item = $pdo->prepare("SELECT * FROM colaboradores WHERE id=? LIMIT 1");
 $item->execute([$id]); $item=$item->fetch();
 if (!$item) { header('Location: index.php'); exit; }
 
+$stmtRed = $pdo->prepare("SELECT nombre, url FROM colaborador_redes WHERE colaborador_id = ? ORDER BY orden LIMIT 1");
+$stmtRed->execute([$id]);
+$red = $stmtRed->fetch();
+$item['red_nombre'] = $red['nombre'] ?? '';
+$item['url_red'] = $red['url'] ?? '';
+
 $pageTitle = 'Editar colaborador';
 $basePath  = '../../';
 $errors    = [];
@@ -37,11 +43,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['eliminar_imagen']) && $imagen) { @unlink(__DIR__.'/../../assets/img/colaboradores/'.$imagen); $imagen=null; }
 
     if (!$errors) {
-        $pdo->prepare("UPDATE colaboradores SET nombre=?,profesion=?,red_nombre=?,url_red=?,imagen=?,activo=?,orden=? WHERE id=?")
-            ->execute([$nombre,$profesion,$redNombre,$urlRed,$imagen,$activo,$orden,$id]);
+        $pdo->prepare("UPDATE colaboradores SET nombre=?,profesion=?,imagen=?,activo=?,orden=? WHERE id=?")
+            ->execute([$nombre,$profesion,$imagen,$activo,$orden,$id]);
+        
+        $pdo->prepare("DELETE FROM colaborador_redes WHERE colaborador_id = ?")->execute([$id]);
+        if (!empty($redNombre) && !empty($urlRed)) {
+            $pdo->prepare("INSERT INTO colaborador_redes (colaborador_id, nombre, url, orden) VALUES (?,?,?,0)")
+                ->execute([$id, $redNombre, $urlRed]);
+        }
         header('Location: index.php?msg=editado'); exit;
     }
-    $item=array_merge($item,compact('nombre','profesion','redNombre','urlRed','orden','activo'));
+    $item=array_merge($item, [
+        'nombre' => $nombre,
+        'profesion' => $profesion,
+        'red_nombre' => $redNombre,
+        'url_red' => $urlRed,
+        'orden' => $orden,
+        'activo' => $activo
+    ]);
     $item['imagen']=$imagen;
 }
 

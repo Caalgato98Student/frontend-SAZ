@@ -22,7 +22,7 @@ $noticias = $pdo->query(
     "SELECT n.id, n.slug, n.titulo, n.fecha, n.estado, n.fijado, n.visible_en_principal,
             c.nombre AS categoria
      FROM noticias n
-     LEFT JOIN categorias c ON n.categoria_id = c.id
+     LEFT JOIN categorias_noticias c ON n.categoria_id = c.id
      {$where}
      ORDER BY n.fecha DESC"
 )->fetchAll();

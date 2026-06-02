@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * admin/miembros/editar.php — Editar miembro existente.
  */
@@ -7,6 +7,7 @@ require_once __DIR__ . '/../auth.php';
 require_admin_auth();
 require_once __DIR__ . '/../../config.php';
 require_once __DIR__ . '/../../includes/db.php';
+require_once __DIR__ . '/../../includes/repositories/miembros.php';
 
 $pdo = get_pdo();
 $id  = intval($_GET['id'] ?? 0);
@@ -20,11 +21,13 @@ $basePath  = '../../';
 $errors    = [];
 $msgItem   = $_GET['msgitem'] ?? '';
 
-$stmtF = $pdo->prepare("SELECT id, descripcion FROM miembro_formacion WHERE miembro_id = ? ORDER BY id");
+$cargos = get_cargos();
+
+$stmtF = $pdo->prepare("SELECT id, descripcion FROM miembro_formacion WHERE miembro_id = ? ORDER BY orden, id");
 $stmtF->execute([$id]);
 $formacion = $stmtF->fetchAll();
 
-$stmtD = $pdo->prepare("SELECT id, descripcion FROM miembro_divulgacion WHERE miembro_id = ? ORDER BY id");
+$stmtD = $pdo->prepare("SELECT id, descripcion FROM miembro_divulgacion WHERE miembro_id = ? ORDER BY orden, id");
 $stmtD->execute([$id]);
 $divulgacion = $stmtD->fetchAll();
 
@@ -35,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     if ($action === 'save_miembro') {
         $nombre       = sanitize_text($_POST['nombre'] ?? '', 255);
         $especialidad = sanitize_text($_POST['especialidad'] ?? '', 255);
-        $cargo        = sanitize_text($_POST['cargo'] ?? '', 255);
+        $cargoId      = intval($_POST['cargo_id'] ?? 0) ?: null;
         $correo       = sanitize_text($_POST['correo'] ?? '', 255);
         $ubicacion    = sanitize_text($_POST['ubicacion'] ?? '', 255);
         $distincion   = sanitize_text($_POST['distincion'] ?? '', 255);
@@ -43,7 +46,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         $activo       = isset($_POST['activo']) ? 1 : 0;
         $mesa         = isset($_POST['en_mesa_directiva']) ? 1 : 0;
         $orden        = intval($_POST['orden'] ?? 0);
+
         if (!$nombre) $errors[] = 'El nombre es obligatorio.';
+
+        // Validar cargo si se especificó
+        if ($cargoId !== null) {
+            $validCargo = false;
+            foreach ($cargos as $cg) {
+                if ($cg['id'] == $cargoId) {
+                    $validCargo = true;
+                    break;
+                }
+            }
+            if (!$validCargo) $errors[] = 'El cargo seleccionado no es válido.';
+        }
 
         $imagen = $m['imagen'];
         if (!empty($_FILES['imagen']['tmp_name'])) {
@@ -63,15 +79,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
         if (!$errors) {
             $pdo->prepare(
-                "UPDATE miembros SET nombre=?,especialidad=?,cargo=?,correo=?,ubicacion=?,
+                "UPDATE miembros SET nombre=?,especialidad=?,cargo_id=?,correo=?,ubicacion=?,
                  distincion=?,imagen=?,generalidades=?,activo=?,en_mesa_directiva=?,orden=?
                  WHERE id=?"
-            )->execute([$nombre,$especialidad,$cargo,$correo,$ubicacion,$distincion,$imagen,$generalidades,$activo,$mesa,$orden,$id]);
+            )->execute([$nombre,$especialidad,$cargoId,$correo,$ubicacion,$distincion,$imagen,$generalidades,$activo,$mesa,$orden,$id]);
             header("Location: editar.php?id={$id}&msg=editado"); exit;
         }
     } elseif ($action === 'add_formacion') {
         $desc = trim($_POST['descripcion'] ?? '');
-        if ($desc) $pdo->prepare("INSERT INTO miembro_formacion (miembro_id,descripcion) VALUES (?,?)")->execute([$id,$desc]);
+        if ($desc) {
+            $stmtMax = $pdo->prepare("SELECT MAX(orden) FROM miembro_formacion WHERE miembro_id = ?");
+            $stmtMax->execute([$id]);
+            $maxOrd = intval($stmtMax->fetchColumn()) + 1;
+            
+            $pdo->prepare("INSERT INTO miembro_formacion (miembro_id,descripcion,orden) VALUES (?,?,?)")->execute([$id,$desc,$maxOrd]);
+        }
         header("Location: editar.php?id={$id}&msgitem=added"); exit;
     } elseif ($action === 'del_formacion') {
         $itemId = intval($_POST['item_id'] ?? 0);
@@ -79,7 +101,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         header("Location: editar.php?id={$id}&msgitem=deleted"); exit;
     } elseif ($action === 'add_divulgacion') {
         $desc = trim($_POST['descripcion'] ?? '');
-        if ($desc) $pdo->prepare("INSERT INTO miembro_divulgacion (miembro_id,descripcion) VALUES (?,?)")->execute([$id,$desc]);
+        if ($desc) {
+            $stmtMax = $pdo->prepare("SELECT MAX(orden) FROM miembro_divulgacion WHERE miembro_id = ?");
+            $stmtMax->execute([$id]);
+            $maxOrd = intval($stmtMax->fetchColumn()) + 1;
+            
+            $pdo->prepare("INSERT INTO miembro_divulgacion (miembro_id,descripcion,orden) VALUES (?,?,?)")->execute([$id,$desc,$maxOrd]);
+        }
         header("Location: editar.php?id={$id}&msgitem=added"); exit;
     } elseif ($action === 'del_divulgacion') {
         $itemId = intval($_POST['item_id'] ?? 0);
@@ -119,8 +147,15 @@ ob_start();
         <div class="mb-3"><label class="form-label" for="nombre">Nombre *</label>
           <input type="text" class="form-control" id="nombre" name="nombre" value="<?= htmlspecialchars($m['nombre']) ?>" required></div>
         <div class="row g-2 mb-3">
-          <div class="col-6"><label class="form-label" for="cargo">Cargo</label>
-            <input type="text" class="form-control" id="cargo" name="cargo" value="<?= htmlspecialchars($m['cargo'] ?? '') ?>"></div>
+          <div class="col-6">
+            <label class="form-label" for="cargo_id">Cargo</label>
+            <select class="form-select" id="cargo_id" name="cargo_id">
+              <option value="">— Sin cargo —</option>
+              <?php foreach ($cargos as $cg): ?>
+                <option value="<?= $cg['id'] ?>" <?= $m['cargo_id'] == $cg['id'] ? 'selected' : '' ?>><?= htmlspecialchars($cg['nombre']) ?></option>
+              <?php endforeach; ?>
+            </select>
+          </div>
           <div class="col-6"><label class="form-label" for="especialidad">Especialidad</label>
             <input type="text" class="form-control" id="especialidad" name="especialidad" value="<?= htmlspecialchars($m['especialidad'] ?? '') ?>"></div>
         </div>

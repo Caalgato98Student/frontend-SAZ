@@ -37,8 +37,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $imagen = $slug.'.'.$ext;
             move_uploaded_file($_FILES['imagen']['tmp_name'], $dir.$imagen);
         }
-        $pdo->prepare("INSERT INTO colaboradores (nombre,profesion,red_nombre,url_red,imagen,activo,orden) VALUES(?,?,?,?,?,?,?)")
-            ->execute([$nombre,$profesion,$redNombre,$urlRed,$imagen,$activo,$orden]);
+        $pdo->prepare("INSERT INTO colaboradores (nombre,profesion,imagen,activo,orden) VALUES(?,?,?,?,?)")
+            ->execute([$nombre,$profesion,$imagen,$activo,$orden]);
+        $nuevoId = $pdo->lastInsertId();
+
+        if (!empty($redNombre) && !empty($urlRed)) {
+            $pdo->prepare("INSERT INTO colaborador_redes (colaborador_id, nombre, url, orden) VALUES (?,?,?,0)")
+                ->execute([$nuevoId, $redNombre, $urlRed]);
+        }
         header('Location: index.php?msg=creado'); exit;
     }
 }

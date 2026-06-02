@@ -4,13 +4,17 @@ require_once __DIR__ . '/../auth.php';
 require_admin_auth();
 require_once __DIR__ . '/../../config.php';
 require_once __DIR__ . '/../../includes/db.php';
+require_once __DIR__ . '/../../includes/repositories/astrofotografia.php';
 
 $pageTitle = 'Nueva fotografía';
 $basePath  = '../../';
 $pdo       = get_pdo();
 $errors    = [];
-$vals = ['titulo'=>'','fotografo'=>'','lugar'=>'','fecha'=>date('Y-m-d'),'descripcion'=>'','fuente'=>'',
-         'categoria'=>'espacio_profundo','telescopio'=>'','montura'=>'','camara'=>'',
+
+$categorias = get_astrofoto_categorias();
+
+$vals = ['titulo'=>'','fotografo'=>'','lugar'=>'','fecha'=>date('Y-m-d'),'descripcion'=>'','coordenadas'=>'',
+         'categoria_id'=>'','telescopio'=>'','montura'=>'','camara'=>'',
          'integracion'=>'','iso_gain'=>'','filtros'=>'','post_procesamiento'=>'','visible'=>1,'destacada'=>0];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -19,12 +23,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $fotografo = sanitize_text($_POST['fotografo'] ?? '', 150);
     $titulo    = sanitize_text($_POST['titulo'] ?? '', 255);
     $fecha     = $_POST['fecha'] ?? '';
-    $categoria = in_array($_POST['categoria']??'', ['sol','luna','espacio_profundo']) ? $_POST['categoria'] : 'espacio_profundo';
+    $catId     = intval($_POST['categoria_id'] ?? 0);
     $visible   = isset($_POST['visible']) ? 1 : 0;
     $destacada = isset($_POST['destacada']) ? 1 : 0;
 
     if (!$fotografo) $errors[] = 'El fotógrafo es obligatorio.';
     if (!$fecha)     $errors[] = 'La fecha es obligatoria.';
+
+    // Validar categoría
+    $validCat = false;
+    foreach ($categorias as $c) {
+        if ($c['id'] == $catId) {
+            $validCat = true;
+            break;
+        }
+    }
+    if (!$validCat) $errors[] = 'La categoría seleccionada no es válida.';
 
     if (!$errors) {
         // Generar slug
@@ -50,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!$errors) {
             $pdo->prepare(
                 "INSERT INTO astrofotografia
-                 (slug,titulo,fotografo,lugar,fecha,descripcion,fuente,imagen,categoria,
+                 (slug,titulo,fotografo,lugar,fecha,descripcion,coordenadas,imagen,categoria_id,
                   telescopio,montura,camara,integracion,iso_gain,filtros,post_procesamiento,visible,destacada)
                  VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
             )->execute([
@@ -58,8 +72,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 sanitize_text($_POST['lugar']??'',255),
                 $fecha,
                 trim($_POST['descripcion']??''),
-                sanitize_text($_POST['fuente']??'',255),
-                $imagen, $categoria,
+                sanitize_text($_POST['coordenadas']??'',255),
+                $imagen, $catId,
                 sanitize_text($_POST['telescopio']??'',255),
                 sanitize_text($_POST['montura']??'',255),
                 sanitize_text($_POST['camara']??'',255),
@@ -72,6 +86,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header('Location: index.php?msg=creado'); exit;
         }
     }
+
+    // Re-poblar en caso de error
+    $vals = [
+        'titulo' => $titulo,
+        'fotografo' => $fotografo,
+        'lugar' => sanitize_text($_POST['lugar']??'',255),
+        'fecha' => $fecha,
+        'descripcion' => trim($_POST['descripcion']??''),
+        'coordenadas' => sanitize_text($_POST['coordenadas']??'',255),
+        'categoria_id' => $catId,
+        'telescopio' => sanitize_text($_POST['telescopio']??'',255),
+        'montura' => sanitize_text($_POST['montura']??'',255),
+        'camara' => sanitize_text($_POST['camara']??'',255),
+        'integracion' => sanitize_text($_POST['integracion']??'',255),
+        'iso_gain' => sanitize_text($_POST['iso_gain']??'',100),
+        'filtros' => sanitize_text($_POST['filtros']??'',255),
+        'post_procesamiento' => sanitize_text($_POST['post_procesamiento']??'',500),
+        'visible' => $visible,
+        'destacada' => $destacada
+    ];
 }
 
 $csrf = generate_csrf_token();
@@ -100,11 +134,11 @@ ob_start(); ?>
             <input type="text" class="form-control" id="titulo" name="titulo" value="<?=htmlspecialchars($vals['titulo'])?>" placeholder="Ej: Luna llena de octubre 2024">
           </div>
           <div class="col-md-4">
-            <label class="form-label" for="categoria">Categoría *</label>
-            <select class="form-select" id="categoria" name="categoria">
-              <option value="sol" <?=$vals['categoria']==='sol'?'selected':''?>>Sol</option>
-              <option value="luna" <?=$vals['categoria']==='luna'?'selected':''?>>Luna</option>
-              <option value="espacio_profundo" <?=$vals['categoria']==='espacio_profundo'?'selected':''?>>Espacio profundo</option>
+            <label class="form-label" for="categoria_id">Categoría *</label>
+            <select class="form-select" id="categoria_id" name="categoria_id">
+              <?php foreach ($categorias as $cat): ?>
+                <option value="<?= $cat['id'] ?>" <?=$vals['categoria_id'] == $cat['id'] ? 'selected' : ''?>><?=htmlspecialchars($cat['nombre'])?></option>
+              <?php endforeach; ?>
             </select>
           </div>
           <div class="col-md-6">
@@ -132,7 +166,7 @@ ob_start(); ?>
           <?php
           $campos = ['telescopio'=>'Telescopio','montura'=>'Montura','camara'=>'Cámara',
                      'integracion'=>'Integración total','iso_gain'=>'ISO / Ganancia',
-                     'filtros'=>'Filtros','fuente'=>'Coordenadas (RA/Dec)'];
+                     'filtros'=>'Filtros','coordenadas'=>'Coordenadas (RA/Dec)'];
           foreach($campos as $k=>$l): ?>
             <div class="col-md-6">
               <label class="form-label" for="<?=$k?>"><?=$l?></label>
