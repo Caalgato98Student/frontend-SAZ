@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 require_once __DIR__ . '/../../includes/security.php';
 require_once __DIR__ . '/../auth.php';
 require_admin_auth();
@@ -8,7 +8,12 @@ require_once __DIR__ . '/../../includes/db.php';
 $pageTitle = 'Miembros';
 $basePath  = '../../';
 $pdo       = get_pdo();
-$items     = $pdo->query("SELECT id,nombre,cargo,especialidad,activo,orden FROM miembros ORDER BY orden,nombre")->fetchAll();
+$items     = $pdo->query("
+    SELECT m.id, m.nombre, c.nombre AS cargo, m.especialidad, m.imagen, m.activo, m.orden 
+    FROM miembros m 
+    LEFT JOIN cargos c ON m.cargo_id = c.id 
+    ORDER BY m.orden, m.nombre
+")->fetchAll();
 $msg       = $_GET['msg'] ?? '';
 ob_start(); ?>
 
@@ -31,7 +36,11 @@ ob_start(); ?>
         <?php foreach($items as $m): ?>
           <tr>
             <td style="width:50px">
-              <div style="width:40px;height:40px;background:var(--adm-dark);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--adm-border)"><i class="bi bi-person"></i></div>
+              <?php if ($m['imagen'] && file_exists(__DIR__ . '/../../assets/img/miembros/' . $m['imagen'])): ?>
+                <img src="../../assets/img/miembros/<?= htmlspecialchars($m['imagen']) ?>" alt="<?= htmlspecialchars($m['nombre']) ?>" style="width:40px;height:40px;object-fit:cover;border-radius:50%">
+              <?php else: ?>
+                <div style="width:40px;height:40px;background:var(--adm-dark);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--adm-border)"><i class="bi bi-person"></i></div>
+              <?php endif; ?>
             </td>
             <td style="font-weight:600"><?=htmlspecialchars($m['nombre'])?></td>
             <td style="color:var(--adm-muted);font-size:.8rem"><?=htmlspecialchars($m['cargo']??'—')?></td>
