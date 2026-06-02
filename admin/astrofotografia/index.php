@@ -10,12 +10,16 @@ $basePath  = '../../';
 $pdo       = get_pdo();
 
 $filtro = $_GET['cat'] ?? '';
-$where  = $filtro ? "WHERE categoria = " . $pdo->quote($filtro) : '';
+$where  = $filtro ? "WHERE c.slug = " . $pdo->quote($filtro) : '';
 $fotos  = $pdo->query(
-    "SELECT id, slug, titulo, fotografo, fecha, categoria, visible, destacada
-     FROM astrofotografia {$where}
-     ORDER BY fecha DESC"
+    "SELECT a.id, a.slug, a.titulo, a.fotografo, a.fecha, c.nombre AS categoria, a.visible, a.destacada
+     FROM astrofotografia a
+     JOIN astrofoto_categorias c ON a.categoria_id = c.id
+     {$where}
+     ORDER BY a.fecha DESC"
 )->fetchAll();
+
+$categoriasFiltro = $pdo->query("SELECT nombre, slug FROM astrofoto_categorias ORDER BY nombre")->fetchAll();
 
 $msg = $_GET['msg'] ?? '';
 ob_start(); ?>
@@ -35,12 +39,18 @@ ob_start(); ?>
 
 <div class="adm-card mb-3">
   <div class="d-flex gap-2 flex-wrap">
-    <?php foreach ([''=> 'Todas','sol'=>'Sol','luna'=>'Luna','espacio_profundo'=>'Espacio profundo'] as $v=>$l): ?>
-      <a href="?cat=<?=$v?>" class="btn btn-sm" style="border-radius:20px;font-size:.8rem;
-         background:<?=$filtro===$v?'rgba(59,130,246,.25)':'rgba(255,255,255,.05)'?>;
-         border:1px solid <?=$filtro===$v?'rgba(59,130,246,.5)':'var(--adm-border)'?>;
-         color:<?=$filtro===$v?'#60a5fa':'var(--adm-muted)'?>">
-        <?=$l?>
+    <a href="?" class="btn btn-sm" style="border-radius:20px;font-size:.8rem;
+       background:<?=$filtro===''?'rgba(59,130,246,.25)':'rgba(255,255,255,.05)'?>;
+       border:1px solid <?=$filtro===''?'rgba(59,130,246,.5)':'var(--adm-border)'?>;
+       color:<?=$filtro===''?'#60a5fa':'var(--adm-muted)'?>">
+      Todas
+    </a>
+    <?php foreach ($categoriasFiltro as $c): ?>
+      <a href="?cat=<?=$c['slug']?>" class="btn btn-sm" style="border-radius:20px;font-size:.8rem;
+         background:<?=$filtro===$c['slug']?'rgba(59,130,246,.25)':'rgba(255,255,255,.05)'?>;
+         border:1px solid <?=$filtro===$c['slug']?'rgba(59,130,246,.5)':'var(--adm-border)'?>;
+         color:<?=$filtro===$c['slug']?'#60a5fa':'var(--adm-muted)'?>">
+        <?=htmlspecialchars($c['nombre'])?>
       </a>
     <?php endforeach; ?>
   </div>
@@ -68,7 +78,7 @@ ob_start(); ?>
               <div style="font-weight:500"><?=htmlspecialchars($f['titulo']??'Sin título')?></div>
               <div style="font-size:.78rem;color:var(--adm-muted)"><?=htmlspecialchars($f['fotografo'])?></div>
             </td>
-            <td><span style="font-size:.8rem;color:var(--adm-muted)"><?=ucfirst(str_replace('_',' ',$f['categoria']))?></span></td>
+            <td><span style="font-size:.8rem;color:var(--adm-muted)"><?=htmlspecialchars($f['categoria'])?></span></td>
             <td style="color:var(--adm-muted);font-size:.8rem"><?=$f['fecha']?></td>
             <td><?=$f['visible']?'<i class="bi bi-check-circle-fill" style="color:#4ade80"></i>':'<i class="bi bi-dash-circle" style="color:var(--adm-border)"></i>'?></td>
             <td>
