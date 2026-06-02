@@ -323,6 +323,20 @@ function admin_nav_active(string $section): string {
     <a href="/admin/colaboradores/index.php" class="<?= admin_nav_active('colaboradores') ?>">
       <i class="bi bi-people-fill"></i> Colaboradores
     </a>
+    <a href="/admin/categorias/index.php" class="<?= admin_nav_active('categorias') ?>">
+      <i class="bi bi-tags-fill"></i> Categorías
+    </a>
+    <a href="/admin/instituciones/index.php" class="<?= admin_nav_active('instituciones') ?>">
+      <i class="bi bi-building-fill"></i> Instituciones
+    </a>
+
+    <div class="adm-nav-section">Administración</div>
+    <a href="/admin/mensajes/index.php" class="<?= admin_nav_active('mensajes') ?>">
+      <i class="bi bi-envelope-fill"></i> Mensajes
+    </a>
+    <a href="/admin/configuracion.php" class="<?= admin_nav_active('configuracion') ?>">
+      <i class="bi bi-gear-fill"></i> Ajustes
+    </a>
 
     <div class="adm-nav-section">Sitio</div>
     <a href="/index.php" target="_blank">

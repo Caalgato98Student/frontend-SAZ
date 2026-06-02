@@ -32,7 +32,7 @@ function get_evento_por_slug(string $slug): ?array
 {
     $pdo  = get_pdo();
     $stmt = $pdo->prepare(
-        "SELECT *, slug AS id FROM eventos WHERE slug = ? LIMIT 1"
+        "SELECT *, id AS id_num, slug AS id FROM eventos WHERE slug = ? LIMIT 1"
     );
     $stmt->execute([$slug]);
     $evento = $stmt->fetch();
@@ -92,17 +92,7 @@ function get_evento_completo(string $slug): ?array
     $evento = get_evento_por_slug($slug);
     if (!$evento) return null;
 
-    $evento['ediciones'] = get_ediciones((int) $evento['id_num'] ?? (int) $evento['id']);
-
-    // Resolver el ID numérico real (no el alias slug AS id)
-    $pdo  = get_pdo();
-    $stmt = $pdo->prepare("SELECT id FROM eventos WHERE slug = ? LIMIT 1");
-    $stmt->execute([$slug]);
-    $row  = $stmt->fetch();
-    if ($row) {
-        $evento['ediciones'] = get_ediciones((int) $row['id']);
-    }
-
+    $evento['ediciones'] = get_ediciones((int) $evento['id_num']);
     return $evento;
 }
 
