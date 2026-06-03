@@ -89,7 +89,7 @@ ob_start(); ?>
         </div>
         <div>
           <label class="form-label" for="contenido">Bases y requisitos</label>
-          <textarea class="form-control" id="contenido" name="contenido" rows="10" placeholder="Detalla los requisitos, bases y condiciones..."><?=htmlspecialchars($vals['contenido'])?></textarea>
+          <textarea class="form-control tinymce-editor" id="contenido" name="contenido" rows="10" placeholder="Detalla los requisitos, bases y condiciones..."><?=htmlspecialchars($vals['contenido'])?></textarea>
         </div>
       </div>
       <div class="adm-card mb-3">

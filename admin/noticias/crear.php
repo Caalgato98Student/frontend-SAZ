@@ -114,7 +114,7 @@ ob_start(); ?>
         </div>
         <div class="mb-0">
           <label class="form-label" for="contenido">Contenido completo</label>
-          <textarea class="form-control" id="contenido" name="contenido" rows="10"
+          <textarea class="form-control tinymce-editor" id="contenido" name="contenido" rows="10"
                     placeholder="Cuerpo completo del artículo..."><?= htmlspecialchars($vals['contenido']) ?></textarea>
         </div>
       </div>

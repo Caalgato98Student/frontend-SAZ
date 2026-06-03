@@ -68,7 +68,7 @@ ob_start(); ?>
         </div>
         <div>
           <label class="form-label" for="descripcion">Descripción general</label>
-          <textarea class="form-control" id="descripcion" name="descripcion" rows="8"
+          <textarea class="form-control tinymce-editor" id="descripcion" name="descripcion" rows="8"
                     placeholder="Descripción del programa, qué es, objetivos..."><?=htmlspecialchars($vals['descripcion'])?></textarea>
         </div>
       </div>

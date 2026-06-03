@@ -70,7 +70,7 @@ ob_start(); ?>
         <div class="mb-3"><label class="form-label" for="titulo">Nombre *</label>
           <input type="text" class="form-control" id="titulo" name="titulo" value="<?=htmlspecialchars($ev['titulo'])?>" required></div>
         <div><label class="form-label" for="descripcion">Descripción</label>
-          <textarea class="form-control" id="descripcion" name="descripcion" rows="8"><?=htmlspecialchars($ev['descripcion']??'')?></textarea></div>
+          <textarea class="form-control tinymce-editor" id="descripcion" name="descripcion" rows="8"><?=htmlspecialchars($ev['descripcion']??'')?></textarea></div>
       </div>
       <div class="adm-card">
         <h2 class="adm-card-title">Imagen principal</h2>

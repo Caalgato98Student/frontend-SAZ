@@ -80,7 +80,7 @@ ob_start(); ?>
                 </label>
                 
                 <?php if ($c['tipo'] === 'textarea' || $c['tipo'] === 'html'): ?>
-                  <textarea class="form-control" 
+                  <textarea class="form-control <?= $c['tipo'] === 'html' ? 'tinymce-editor' : '' ?>" 
                             id="<?= htmlspecialchars($c['clave']) ?>" 
                             name="<?= htmlspecialchars($c['clave']) ?>" 
                             rows="4"><?= htmlspecialchars($c['valor'] ?? '') ?></textarea>

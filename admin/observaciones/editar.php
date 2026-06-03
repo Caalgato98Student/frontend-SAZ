@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 require_once __DIR__ . '/../../includes/security.php';
 require_once __DIR__ . '/../auth.php';
 require_admin_auth();
@@ -85,7 +85,7 @@ ob_start(); ?>
         <div class="mb-3"><label class="form-label" for="descripcion_intro">Descripción introductoria</label>
           <textarea class="form-control" id="descripcion_intro" name="descripcion_intro" rows="4"><?=htmlspecialchars($obs['descripcion_intro']??'')?></textarea></div>
         <div class="mb-3"><label class="form-label" for="recomendaciones">Recomendaciones al pie</label>
-          <textarea class="form-control" id="recomendaciones" name="recomendaciones" rows="4"><?=htmlspecialchars($obs['recomendaciones']??'')?></textarea></div>
+          <textarea class="form-control tinymce-editor" id="recomendaciones" name="recomendaciones" rows="4"><?=htmlspecialchars($obs['recomendaciones']??'')?></textarea></div>
         <div class="mb-3"><label class="form-label" for="icono">Clase Bootstrap Icons</label>
           <div class="input-group">
             <span class="input-group-text" style="background:var(--adm-dark);border:1px solid var(--adm-border);border-right:none">

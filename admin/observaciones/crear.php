@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * admin/observaciones/crear.php — Crear nueva sesión de observación.
  */
@@ -94,7 +94,7 @@ ob_start(); ?>
                     placeholder="Descripción de este tipo de observación..."><?=htmlspecialchars($vals['descripcion_intro']??'')?></textarea></div>
         <div class="mb-0"><label class="form-label" for="recomendaciones">Recomendaciones al pie
             <small style="color:var(--adm-muted)">(HTML básico: &lt;ul&gt;, &lt;li&gt;, &lt;strong&gt;)</small></label>
-          <textarea class="form-control" id="recomendaciones" name="recomendaciones" rows="4"
+          <textarea class="form-control tinymce-editor" id="recomendaciones" name="recomendaciones" rows="4"
                     placeholder="Recomendaciones para los asistentes..."><?=htmlspecialchars($vals['recomendaciones']??'')?></textarea></div>
       </div>
     </div>

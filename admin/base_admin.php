@@ -395,6 +395,32 @@ function admin_nav_active(string $section): string {
       setTimeout(() => el.remove(), 500);
     });
   }, 4000);
+
+  // Carga e inicialización dinámica de TinyMCE
+  if (document.querySelector('.tinymce-editor')) {
+    const tinymceScript = document.createElement('script');
+    tinymceScript.src = 'https://cdn.jsdelivr.net/npm/tinymce@6.8.2/tinymce.min.js';
+    tinymceScript.referrerPolicy = 'origin';
+    tinymceScript.onload = () => {
+      tinymce.init({
+        selector: '.tinymce-editor',
+        skin: 'oxide-dark',
+        content_css: 'dark',
+        height: 400,
+        menubar: false,
+        plugins: 'lists link code table wordcount',
+        toolbar: 'undo redo | blocks | bold italic underline | bullist numlist | link table code | removeformat',
+        branding: false,
+        promotion: false,
+        setup: function (editor) {
+          editor.on('change', function () {
+            editor.save(); // Sincroniza con el textarea original
+          });
+        }
+      });
+    };
+    document.head.appendChild(tinymceScript);
+  }
 </script>
 <?php if (!empty($extraScripts)) echo $extraScripts; ?>
 </body>
