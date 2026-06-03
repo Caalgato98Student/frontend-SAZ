@@ -318,7 +318,7 @@ function admin_nav_active(string $section): string {
       <i class="bi bi-telescope-fill"></i> Observaciones
     </a>
     <a href="/admin/miembros/index.php" class="<?= admin_nav_active('miembros') ?>">
-      <i class="bi bi-person-badge-fill"></i> Miembros
+      <i class="bi bi-person-badge-fill"></i> Miembros / Directorio
     </a>
     <a href="/admin/colaboradores/index.php" class="<?= admin_nav_active('colaboradores') ?>">
       <i class="bi bi-people-fill"></i> Colaboradores

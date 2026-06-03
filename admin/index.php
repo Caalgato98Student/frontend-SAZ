@@ -27,6 +27,7 @@ $stats = [
     'convocatorias'  => count_table($pdo, 'convocatorias', "estado = 'publicada'"),
     'eventos'        => count_table($pdo, 'eventos', 'activo = 1'),
     'colaboradores'  => count_table($pdo, 'colaboradores', 'activo = 1'),
+    'miembros'       => count_table($pdo, 'miembros', 'activo = 1'),
     'actividades'    => count_table($pdo, 'actividades', 'activo = 1'),
     'observaciones'  => count_table($pdo, 'observaciones', 'activo = 1'),
 ];
@@ -42,15 +43,17 @@ ob_start(); ?>
   <!-- Tarjetas de estadísticas -->
   <?php
   $cards = [
-    ['icon'=>'bi-newspaper',      'label'=>'Noticias publicadas', 'value'=>$stats['noticias_pub'],   'sub'=>"de {$stats['noticias_total']} totales",  'url'=>'noticias/index.php',       'color'=>'#3b82f6'],
-    ['icon'=>'bi-camera-fill',    'label'=>'Fotos activas',       'value'=>$stats['astro'],           'sub'=>'en galería',                              'url'=>'astrofotografia/index.php', 'color'=>'#8b5cf6'],
-    ['icon'=>'bi-megaphone-fill', 'label'=>'Convocatorias',       'value'=>$stats['convocatorias'],   'sub'=>'publicadas',                              'url'=>'convocatorias/index.php',  'color'=>'#f59e0b'],
-    ['icon'=>'bi-stars',          'label'=>'Eventos activos',     'value'=>$stats['eventos'],         'sub'=>'programas',                               'url'=>'eventos/index.php',        'color'=>'#22c55e'],
-    ['icon'=>'bi-people-fill',    'label'=>'Colaboradores',       'value'=>$stats['colaboradores'],   'sub'=>'activos',                                 'url'=>'colaboradores/index.php',  'color'=>'#06b6d4'],
-    ['icon'=>'bi-calendar-event', 'label'=>'Actividades',         'value'=>$stats['actividades'],     'sub'=>'activas',                                 'url'=>'actividades/index.php',    'color'=>'#ec4899'],
+    ['icon'=>'bi-newspaper',        'label'=>'Noticias publicadas', 'value'=>$stats['noticias_pub'],   'sub'=>"de {$stats['noticias_total']} totales",  'url'=>'noticias/index.php',       'color'=>'#3b82f6'],
+    ['icon'=>'bi-camera-fill',      'label'=>'Fotos activas',       'value'=>$stats['astro'],           'sub'=>'en galería',                              'url'=>'astrofotografia/index.php', 'color'=>'#8b5cf6'],
+    ['icon'=>'bi-megaphone-fill',   'label'=>'Convocatorias',       'value'=>$stats['convocatorias'],   'sub'=>'publicadas',                              'url'=>'convocatorias/index.php',  'color'=>'#f59e0b'],
+    ['icon'=>'bi-stars',            'label'=>'Eventos activos',     'value'=>$stats['eventos'],         'sub'=>'programas',                               'url'=>'eventos/index.php',        'color'=>'#22c55e'],
+    ['icon'=>'bi-person-badge-fill','label'=>'Miembros / Directorio','value'=>$stats['miembros'],      'sub'=>'miembros activos',                        'url'=>'miembros/index.php',       'color'=>'#f43f5e'],
+    ['icon'=>'bi-people-fill',      'label'=>'Colaboradores',       'value'=>$stats['colaboradores'],   'sub'=>'activos',                                 'url'=>'colaboradores/index.php',  'color'=>'#06b6d4'],
+    ['icon'=>'bi-calendar-event',   'label'=>'Actividades',         'value'=>$stats['actividades'],     'sub'=>'activas',                                 'url'=>'actividades/index.php',    'color'=>'#ec4899'],
+    ['icon'=>'bi-telescope-fill',   'label'=>'Observaciones',       'value'=>$stats['observaciones'],   'sub'=>'activas',                                 'url'=>'observaciones/index.php',  'color'=>'#14b8a6'],
   ];
   foreach ($cards as $c): ?>
-    <div class="col-6 col-lg-4">
+    <div class="col-6 col-md-4 col-lg-3">
       <a href="<?= $c['url'] ?>" class="text-decoration-none">
         <div class="adm-card h-100" style="border-color:<?= $c['color'] ?>22;transition:transform .2s;cursor:pointer"
              onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform=''">
@@ -123,6 +126,10 @@ ob_start(); ?>
         <a href="astrofotografia/crear.php" class="btn d-flex align-items-center gap-2"
            style="background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.3);color:#a78bfa;border-radius:8px;text-align:left">
           <i class="bi bi-plus-circle"></i> Subir fotografía
+        </a>
+        <a href="miembros/crear.php" class="btn d-flex align-items-center gap-2"
+           style="background:rgba(244,63,94,.1);border:1px solid rgba(244,63,94,.3);color:#fb7185;border-radius:8px;text-align:left">
+          <i class="bi bi-plus-circle"></i> Nuevo miembro (Directorio)
         </a>
         <a href="convocatorias/crear.php" class="btn d-flex align-items-center gap-2"
            style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);color:#fbbf24;border-radius:8px;text-align:left">
