@@ -50,7 +50,7 @@ ob_start(); ?>
     ['icon'=>'bi-person-badge-fill','label'=>'Miembros / Directorio','value'=>$stats['miembros'],      'sub'=>'miembros activos',                        'url'=>'miembros/index.php',       'color'=>'#f43f5e'],
     ['icon'=>'bi-people-fill',      'label'=>'Colaboradores',       'value'=>$stats['colaboradores'],   'sub'=>'activos',                                 'url'=>'colaboradores/index.php',  'color'=>'#06b6d4'],
     ['icon'=>'bi-calendar-event',   'label'=>'Actividades',         'value'=>$stats['actividades'],     'sub'=>'activas',                                 'url'=>'actividades/index.php',    'color'=>'#ec4899'],
-    ['icon'=>'bi-telescope-fill',   'label'=>'Observaciones',       'value'=>$stats['observaciones'],   'sub'=>'activas',                                 'url'=>'observaciones/index.php',  'color'=>'#14b8a6'],
+    ['icon'=>'bi-telescope',        'label'=>'Observaciones',       'value'=>$stats['observaciones'],   'sub'=>'activas',                                 'url'=>'observaciones/index.php',  'color'=>'#14b8a6'],
   ];
   foreach ($cards as $c): ?>
     <div class="col-6 col-md-4 col-lg-3">
