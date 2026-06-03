@@ -172,9 +172,7 @@ ob_start(); ?>
           </div>
         </div>
         <div class="mb-3">
-          <label class="form-label" for="generalidades">Generalidades
-            <small style="color:var(--adm-muted)">(HTML básico permitido: &lt;p&gt;, &lt;strong&gt;, &lt;ul&gt;, &lt;li&gt;)</small>
-          </label>
+          <label class="form-label" for="generalidades">Generalidades</label>
           <textarea class="form-control tinymce-editor" id="generalidades" name="generalidades" rows="5"
                     placeholder="Descripción general del miembro..."><?=htmlspecialchars($vals['generalidades'])?></textarea>
         </div>
