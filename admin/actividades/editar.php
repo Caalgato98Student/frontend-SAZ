@@ -53,6 +53,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         $pdo->prepare("DELETE FROM actividad_items WHERE id=? AND actividad_id=?")->execute([$itemId,$id]);
         header("Location: editar.php?id={$id}&msgitem=deleted"); exit;
     }
+    elseif ($action === 'edit_item') {
+        $itemId = intval($_POST['item_id']??0);
+        $tItem  = sanitize_text($_POST['item_titulo']??'', 255);
+        $dItem  = trim($_POST['item_desc']??'');
+        if ($tItem) {
+            $pdo->prepare("UPDATE actividad_items SET titulo=?, descripcion=? WHERE id=? AND actividad_id=?")
+                ->execute([$tItem, $dItem, $itemId, $id]);
+            header("Location: editar.php?id={$id}&msgitem=edited"); exit;
+        }
+    }
     elseif ($action === 'add_imagen') {
         if (!empty($_FILES['imagen']['tmp_name'])) {
             $ext = strtolower(pathinfo($_FILES['imagen']['name'], PATHINFO_EXTENSION));
@@ -110,6 +120,7 @@ ob_start(); ?>
   <div class="alert-adm alert-adm-success"><i class="bi bi-check-circle-fill"></i> Actividad actualizada.</div>
 <?php endif; ?>
 <?php if($msgItem==='added'): ?><div class="alert-adm alert-adm-success"><i class="bi bi-check-circle-fill"></i> Ítem agregado.</div>
+<?php elseif($msgItem==='edited'): ?><div class="alert-adm alert-adm-success"><i class="bi bi-check-circle-fill"></i> Ítem actualizado.</div>
 <?php elseif($msgItem==='deleted'): ?><div class="alert-adm alert-adm-success"><i class="bi bi-check-circle-fill"></i> Ítem eliminado.</div>
 <?php elseif($msgItem==='img_added'): ?><div class="alert-adm alert-adm-success"><i class="bi bi-check-circle-fill"></i> Imagen de carrusel agregada.</div>
 <?php elseif($msgItem==='img_deleted'): ?><div class="alert-adm alert-adm-success"><i class="bi bi-check-circle-fill"></i> Imagen de carrusel eliminada.</div>
@@ -166,13 +177,22 @@ ob_start(); ?>
                 <div style="font-size:.8rem;color:var(--adm-muted)"><?=htmlspecialchars(mb_substr($item['descripcion'],0,80)).'...'?></div>
               <?php endif; ?>
             </div>
-            <form method="POST" style="flex-shrink:0">
-              <input type="hidden" name="csrf_token" value="<?=generate_csrf_token()?>">
-              <input type="hidden" name="action" value="delete_item">
-              <input type="hidden" name="item_id" value="<?=$item['id']?>">
-              <button type="submit" class="btn btn-sm btn-adm-danger btn-delete-confirm"
-                      style="padding:.2rem .55rem" data-confirm="¿Eliminar este ítem?"><i class="bi bi-trash"></i></button>
-            </form>
+            <div class="d-flex gap-1" style="flex-shrink:0">
+              <button type="button" class="btn btn-sm btn-edit-item" 
+                      style="background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.3);color:#60a5fa;border-radius:6px;padding:.2rem .55rem"
+                      data-id="<?=$item['id']?>" 
+                      data-titulo="<?=htmlspecialchars($item['titulo'], ENT_QUOTES)?>" 
+                      data-desc="<?=htmlspecialchars($item['descripcion']??'', ENT_QUOTES)?>">
+                <i class="bi bi-pencil"></i>
+              </button>
+              <form method="POST" style="display:inline">
+                <input type="hidden" name="csrf_token" value="<?=generate_csrf_token()?>">
+                <input type="hidden" name="action" value="delete_item">
+                <input type="hidden" name="item_id" value="<?=$item['id']?>">
+                <button type="submit" class="btn btn-sm btn-adm-danger btn-delete-confirm"
+                        style="padding:.2rem .55rem" data-confirm="¿Eliminar este ítem?"><i class="bi bi-trash"></i></button>
+              </form>
+            </div>
           </div>
         <?php endforeach; ?>
       <?php else: ?>
@@ -227,4 +247,50 @@ ob_start(); ?>
   </div>
 </div>
 
-<?php $content=ob_get_clean(); include __DIR__.'/../base_admin.php';
+<!-- Modal para Editar Ítem -->
+<div class="modal fade" id="editItemModal" tabindex="-1" aria-labelledby="editItemModalLabel" aria-hidden="true" style="color: var(--adm-text);">
+  <div class="modal-dialog">
+    <div class="modal-content" style="background: var(--adm-card); border: 1px solid var(--adm-border); border-radius: 12px;">
+      <div class="modal-header" style="border-bottom: 1px solid var(--adm-border);">
+        <h5 class="modal-title fw-bold" id="editItemModalLabel">Editar Ítem Descriptivo</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form method="POST">
+        <div class="modal-body">
+          <input type="hidden" name="csrf_token" value="<?= generate_csrf_token() ?>">
+          <input type="hidden" name="action" value="edit_item">
+          <input type="hidden" name="item_id" id="edit_item_id">
+          
+          <div class="mb-3">
+            <label class="form-label" for="edit_item_titulo">Título del ítem</label>
+            <input type="text" class="form-control" id="edit_item_titulo" name="item_titulo" required>
+          </div>
+          <div class="mb-0">
+            <label class="form-label" for="edit_item_desc">Descripción</label>
+            <textarea class="form-control" id="edit_item_desc" name="item_desc" rows="4"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer" style="border-top: 1px solid var(--adm-border);">
+          <button type="button" class="btn" style="background:rgba(255,255,255,.05);border:1px solid var(--adm-border);color:var(--adm-muted);border-radius:8px" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn-adm-primary btn"><i class="bi bi-save me-1"></i> Guardar cambios</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<?php 
+$extraScripts = '
+<script>
+  const editModal = new bootstrap.Modal(document.getElementById("editItemModal"));
+  document.querySelectorAll(".btn-edit-item").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.getElementById("edit_item_id").value = btn.dataset.id;
+      document.getElementById("edit_item_titulo").value = btn.dataset.titulo;
+      document.getElementById("edit_item_desc").value = btn.dataset.desc;
+      editModal.show();
+    });
+  });
+</script>
+';
+$content=ob_get_clean(); include __DIR__.'/../base_admin.php';
