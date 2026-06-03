@@ -167,7 +167,7 @@ ob_start();
           <input type="text" class="form-control" id="distincion" name="distincion" value="<?= htmlspecialchars($m['distincion'] ?? '') ?>"></div>
         <div class="mb-3"><label class="form-label" for="generalidades">Generalidades
             <small style="color:var(--adm-muted)">(HTML: &lt;p&gt;, &lt;strong&gt;, &lt;ul&gt;, &lt;li&gt;)</small></label>
-          <textarea class="form-control" id="generalidades" name="generalidades" rows="5"><?= htmlspecialchars($m['generalidades'] ?? '') ?></textarea></div>
+          <textarea class="form-control tinymce-editor" id="generalidades" name="generalidades" rows="5"><?= htmlspecialchars($m['generalidades'] ?? '') ?></textarea></div>
         <div class="mb-3"><label class="form-label" for="imagen">Cambiar foto</label>
           <input type="file" class="form-control" id="imagen" name="imagen" accept="image/jpeg,image/png,image/webp">
           <small style="color:var(--adm-muted);font-size:.78rem">Dejar vacio para conservar la foto actual</small></div>
