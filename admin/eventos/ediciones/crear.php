@@ -92,7 +92,7 @@ ob_start(); ?>
           <div class="col-md-6"><label class="form-label" for="fecha_fin">Fecha fin</label>
             <input type="date" class="form-control" id="fecha_fin" name="fecha_fin"></div>
           <div class="col-12"><label class="form-label" for="resumen">Descripción de esta edición</label>
-            <textarea class="form-control" id="resumen" name="resumen" rows="6"></textarea></div>
+            <textarea class="form-control tinymce-editor" id="resumen" name="resumen" rows="10"></textarea></div>
         </div>
       </div>
       <div class="adm-card">

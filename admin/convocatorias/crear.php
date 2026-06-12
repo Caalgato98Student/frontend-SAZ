@@ -1,4 +1,7 @@
 <?php
+/**
+ * admin/convocatorias/crear.php — Crear nueva .
+ */
 require_once __DIR__ . '/../../includes/security.php';
 require_once __DIR__ . '/../auth.php';
 require_admin_auth();
@@ -14,6 +17,7 @@ $vals = ['titulo'=>'','resumen'=>'','contenido'=>'','fecha_publicacion'=>date('Y
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     verify_csrf_token($_POST['csrf_token'] ?? '');
+
     $titulo    = sanitize_text($_POST['titulo']??'', 255);
     $resumen   = trim($_POST['resumen']??'');
     $contenido = trim($_POST['contenido']??'');
@@ -94,13 +98,11 @@ ob_start(); ?>
       </div>
       <div class="adm-card mb-3">
         <h2 class="adm-card-title">Archivos</h2>
-        <div class="mb-3">
-          <label class="form-label">Imagen de portada</label>
+        <div class="mb-3"><label class="form-label">Imagen de portada</label>
           <input type="file" class="form-control" name="imagen" accept="image/jpeg,image/png,image/webp">
           <small style="color:var(--adm-muted);font-size:.78rem">JPG, PNG o WebP · máx. 5 MB</small>
         </div>
-        <div>
-          <label class="form-label">PDF de bases (opcional)</label>
+        <div><label class="form-label">PDF de bases (opcional)</label>
           <input type="file" class="form-control" name="pdf" accept="application/pdf">
           <small style="color:var(--adm-muted);font-size:.78rem">PDF · máx. 20 MB</small>
         </div>
